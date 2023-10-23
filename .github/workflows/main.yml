@@ -11,7 +11,7 @@ jobs:
   build_job:
     # The host should always be linux
     runs-on: ubuntu-22.04
-    name: Build on ubuntu22.04 (aarch64)
+    name: Build on ubuntu20.04 (aarch64)
     steps:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
@@ -19,7 +19,7 @@ jobs:
         id: build
         with:
           arch: aarch64
-          distro: ubuntu22.04
+          distro: ubuntu20.04
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -47,12 +47,13 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -q -y git gcc make build-essential pkgconf libtalloc-dev curl gdb lcov libarchive-dev sloccount strace swig uthash-dev python3-dev lzop
+            apt-get install -q -y git gcc clang-tools-6.0 make build-essential pkgconf libtalloc-dev curl gdb lcov libarchive-dev sloccount strace swig uthash-dev python3-dev lzop
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
             git clone https://gitlab.com/proot/proot/
             cd proot
+            sloccount --details .
             make -C src loader.elf loader-m32.elf build.h
             make -C src proot care
             make -C test

@@ -53,7 +53,8 @@ jobs:
           run: |
             git clone https://gitlab.com/proot/proot/
             cd proot
-            LDFLAGS="${LDFLAGS} -static" make -C src proot GIT=false
+            export LDFLAGS="${LDFLAGS} -static"
+            make -C src proot GIT=false
             mkdir -p dist
             cp src/proot dist/
             cd dist

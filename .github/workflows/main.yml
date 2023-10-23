@@ -50,7 +50,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -q -y git apt-get install -qq clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
+            apt-get install -qq git clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
 
           # Produce a binary artifact and place it in the mounted volume
           run: |

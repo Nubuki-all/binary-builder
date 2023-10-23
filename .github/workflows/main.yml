@@ -47,11 +47,11 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -q -y git gcc make proot build-essential pkgconf libtalloc-dev
+            apt-get install -q -y git gcc make build-essential pkgconf libtalloc-dev clang-tools-6.0 curl gdb lcov libarchive-dev sloccount strace swig uthash-dev python3-dev lzop
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://github.com/proot-me/proot
+            git clone https://gitlab.com/proot/proot/
             cd proot
             make -C src loader.elf loader-m32.elf build.h
             make -C src proot care

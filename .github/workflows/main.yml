@@ -65,15 +65,15 @@ jobs:
             sha256sum ./proot > proot.sha256sum
             md5sum ./proot > proot.md5sum
             cd ..
-            cp dist/* "/artifacts/${artifact_name}"
-            echo "Produced artifact at /artifacts/${artifact_name}"
+            cp dist/* "/artifacts/
+            echo "Copied to /artifacts"
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
         # ${PWD}/artifacts on the host.
         run: |
-          ls -al "${PWD}/artifacts/*"
+          ls -al "${PWD}/artifacts"
       - uses: actions/upload-artifact@v3
         with:
           name: proot
-          path: artifacts/git-proot
+          path: artifacts

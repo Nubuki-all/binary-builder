@@ -50,11 +50,13 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -q -y git clang-tools-6.0 make build-essential pkgconf libtalloc-dev curl gdb lcov libarchive-dev sloccount strace swig uthash-dev python3-dev lzop
+            apt-get install -q -y git apt-get install -qq clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
             git clone https://gitlab.com/proot/proot/
+            apt purge git -y
+            apt autoremove -y
             cd proot
             LDFLAGS=" -static" make -C src proot GIT=false
             mkdir -p dist

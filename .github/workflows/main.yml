@@ -47,7 +47,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -q -y git gcc make proot
+            apt-get install -q -y git gcc make proot build-essential pkgconf
 
           # Produce a binary artifact and place it in the mounted volume
           run: |

@@ -34,7 +34,7 @@ jobs:
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
-            artifact_name: git-${{ matrix.distro }}_${{ matrix.arch }}
+            artifact_name: git-proot
 
           # The shell to run commands with in the container
           shell: /bin/sh
@@ -53,21 +53,22 @@ jobs:
           run: |
             git clone https://gitlab.com/proot/proot/
             cd proot
-            sloccount --details .
-            make -C src loader.elf loader-m32.elf build.h
-            make -C src proot care
-            make -C test
-            touch proot.tar.gz
-            tar -czvf proot.tar.gz --exclude=proot.tar.gz .
-            cp proot.tar.gz "/artifacts/${artifact_name}"
+            LDFLAGS="${LDFLAGS} -static" make -C src proot GIT=false
+            mkdir -p dist
+            cp src/proot dist/
+            cd dist
+            sha256sum ./proot > proot.sha256sum
+            md5sum ./proot > proot.md5sum
+            cd ..
+            cp dist/* "/artifacts/${artifact_name}"
             echo "Produced artifact at /artifacts/${artifact_name}"
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
         # ${PWD}/artifacts on the host.
         run: |
-          ls -al "${PWD}/artifacts"
+          ls -al "${PWD}/artifacts/*"
       - uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
-          path: artifacts
+          name: proot
+          path: artifacts/git-proot

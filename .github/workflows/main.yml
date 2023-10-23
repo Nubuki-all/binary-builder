@@ -65,7 +65,7 @@ jobs:
             sha256sum ./proot > proot.sha256sum
             md5sum ./proot > proot.md5sum
             cd ..
-            cp dist/* "/artifacts/
+            cp dist/* /artifacts/
             echo "Copied to /artifacts"
 
       - name: Show the artifact

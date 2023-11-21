@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: --platform=linux/arm64/v8 gcc:7.4.0
+          base_image: --platform=linux/arm64/v8 ubuntu:20.04
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -50,22 +50,18 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -qq git clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
+            sudo apt-get update
+            apt-get install autoconf automake autopoint appstream build-essential cmake git libass-dev libbz2-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libogg-dev libopus-dev libsamplerate-dev libspeex-dev libtheora-dev libtool libtool-bin libturbojpeg0-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev m4 make meson nasm ninja-build patch pkg-config tar zlib1g-dev clang
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://gitlab.com/proot/proot/
-            apt purge git -y
+            git clone https://github.com/HandBrake/HandBrake.git && cd HandBrake
             apt autoremove -y
-            cd proot
-            LDFLAGS=" -static" make -C src proot GIT=false
-            mkdir -p dist
-            cp src/proot dist/
-            cd dist
-            sha256sum ./proot > proot.sha256sum
-            md5sum ./proot > proot.md5sum
-            cd ..
-            cp dist/* /artifacts/
+            git tag --list | grep ^1\.6\.
+            git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
+
+            ./configure --launch-jobs=$(nproc) --launch --disable-gtk -enable-fdk --enable-x265
+            cp build/* /artifacts/
             echo "Copied to /artifacts"
 
       - name: Show the artifact

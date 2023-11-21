@@ -62,7 +62,11 @@ jobs:
             git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
             ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265
-            cp build/* /artifacts/
+            cd build
+            ls
+            cp HandBrakeCLI /artifacts/
+            sha256sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.sha256sum
+            md5sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.md5sum
             echo "Copied to /artifacts"
 
       - name: Show the artifact

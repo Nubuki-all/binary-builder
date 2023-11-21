@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - 'main'
+      - 'handbrake-cli'
 
 #on: [push, pull_request]
 

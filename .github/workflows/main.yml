@@ -61,7 +61,7 @@ jobs:
             git tag --list | grep ^1\.6\.
             git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
-            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265
+            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265 >/dev/null 2>&1
             cd build
             apt install binutils patchelf python3-pip -y
             pip3 install staticx

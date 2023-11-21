@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - 'handbrake-cli'
+      - 'handbrake-cli-x86-64'
 
 #on: [push, pull_request]
 
@@ -11,7 +11,7 @@ jobs:
   build_job:
     # The host should always be linux
     runs-on: ubuntu-22.04
-    name: Build on ubuntu20.04 (aarch64)
+    name: Build on ubuntu20.04 (x86-64)
     steps:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: --platform=linux/arm64/v8 ubuntu:20.04
+          base_image: ubuntu:20.04
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -37,7 +37,7 @@ jobs:
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
-            artifact_name: git-proot
+            artifact_name: handbrake-cli-x86-64
 
           # The shell to run commands with in the container
           shell: /bin/sh
@@ -55,7 +55,8 @@ jobs:
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://github.com/HandBrake/HandBrake.git && cd HandBrake
+            git clone https://github.com/HandBrake/HandBrake.git
+            cd HandBrake
             apt autoremove -y
             git tag --list | grep ^1\.6\.
             git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)

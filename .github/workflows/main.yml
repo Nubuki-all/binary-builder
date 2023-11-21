@@ -76,5 +76,5 @@ jobs:
           ls -al "${PWD}/artifacts"
       - uses: actions/upload-artifact@v3
         with:
-          name: proot
+          name: HandBrakeCLI_x86-64
           path: artifacts

@@ -66,6 +66,7 @@ jobs:
             apt install binutils patchelf python3-pip -y
             pip3 install staticx
             staticx HandBrakeCLI handbrake-cli
+            chmod 777 handbrake-cli
             cp handbrake-cli /artifacts/HandBrakeCLI
             sha256sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.sha256sum
             md5sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.md5sum

@@ -37,7 +37,7 @@ jobs:
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
-            artifact_name: git-proot
+            artifact_name: handbrake-cli-arm64
 
           # The shell to run commands with in the container
           shell: /bin/sh
@@ -61,7 +61,11 @@ jobs:
             git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
             ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265
-            cp build/* /artifacts/
+            cd build
+            ls
+            cp HandBrakeCLI /artifacts/
+            sha256sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.sha256sum
+            md5sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.md5sum
             echo "Copied to /artifacts"
 
       - name: Show the artifact
@@ -71,5 +75,5 @@ jobs:
           ls -al "${PWD}/artifacts"
       - uses: actions/upload-artifact@v3
         with:
-          name: proot
+          name: HandBrakeCLI_arm64
           path: artifacts

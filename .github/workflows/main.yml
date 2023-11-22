@@ -68,7 +68,7 @@ jobs:
             git tag --list | grep ^1\.6\.
             git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
-            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265 LDFLAGS="-static"
+            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
             cd build
             cp HandBrakeCLI handbrake-cli
             #apt install binutils patchelf python3-pip -y
@@ -87,7 +87,18 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
+          cp "${PWD}/artifacts/logs.txt" "${PWD}/"
       - uses: actions/upload-artifact@v3
         with:
           name: HandBrakeCLI_x86-64
           path: artifacts
+      # commit logs
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        if: always()
+        with:
+          commit_message: 'logging...'
+          commit_options: '--no-verify'
+          repository: .
+          commit_user_name: Nubuki-all
+          commit_user_email: 121189493+Nubuki-all@users.noreply.github.com
+          commit_author: Nubuki-all <121189493+Nubuki-all@users.noreply.github.com>

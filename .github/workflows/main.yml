@@ -89,10 +89,10 @@ jobs:
           name: HandBrakeCLI_x86-64
           path: artifacts
 
-      - name: remove artifacts 
+      - name: cleanup
         if: always()
         run: |
-          rm -rf "${PWD}/artifacts/"
+          rm -rf "${PWD}/artifacts/" "${PWD}/HandBrake/" 
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         name: commit logs

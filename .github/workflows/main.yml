@@ -78,13 +78,19 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
+
+      - name: move logs
+        if: always()
+        run: |
           cp "${PWD}/artifacts/logs.txt" "${PWD}/"
+
       - uses: actions/upload-artifact@v3
         with:
           name: HandBrakeCLI_x86-64
           path: artifacts
-      # commit logs
+
       - uses: stefanzweifel/git-auto-commit-action@v4
+        name: commit logs
         if: always()
         with:
           commit_message: 'logging...'

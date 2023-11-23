@@ -1,29 +1,29 @@
 Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [142 B]
 Hit:2 http://azure.archive.ubuntu.com/ubuntu jammy InRelease
-Get:6 https://packages.microsoft.com/ubuntu/22.04/prod jammy InRelease [3631 B]
 Get:3 http://azure.archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
 Hit:4 http://azure.archive.ubuntu.com/ubuntu jammy-backports InRelease
 Get:5 http://azure.archive.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
-Get:7 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main arm64 Packages [28.4 kB]
-Get:8 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main amd64 Packages [116 kB]
-Get:9 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main all Packages [1036 B]
-Get:10 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main armhf Packages [10.3 kB]
-Get:11 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [1196 kB]
-Get:12 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [252 kB]
-Get:13 http://azure.archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [1159 kB]
-Get:14 http://azure.archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [188 kB]
-Get:15 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1003 kB]
-Get:16 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe Translation-en [221 kB]
-Get:17 http://azure.archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [41.6 kB]
-Get:18 http://azure.archive.ubuntu.com/ubuntu jammy-security/main amd64 Packages [985 kB]
-Get:19 http://azure.archive.ubuntu.com/ubuntu jammy-security/main Translation-en [192 kB]
-Get:20 http://azure.archive.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [1134 kB]
-Get:21 http://azure.archive.ubuntu.com/ubuntu jammy-security/restricted Translation-en [185 kB]
-Get:22 http://azure.archive.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [799 kB]
-Get:23 http://azure.archive.ubuntu.com/ubuntu jammy-security/universe Translation-en [148 kB]
-Get:24 http://azure.archive.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [36.5 kB]
+Get:6 https://packages.microsoft.com/ubuntu/22.04/prod jammy InRelease [3631 B]
+Get:7 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [1196 kB]
+Get:8 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [252 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [1159 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [188 kB]
+Get:11 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1003 kB]
+Get:12 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe Translation-en [221 kB]
+Get:13 http://azure.archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [41.6 kB]
+Get:14 http://azure.archive.ubuntu.com/ubuntu jammy-security/main amd64 Packages [985 kB]
+Get:15 http://azure.archive.ubuntu.com/ubuntu jammy-security/main Translation-en [192 kB]
+Get:16 http://azure.archive.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [1134 kB]
+Get:17 http://azure.archive.ubuntu.com/ubuntu jammy-security/restricted Translation-en [185 kB]
+Get:18 http://azure.archive.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [799 kB]
+Get:19 http://azure.archive.ubuntu.com/ubuntu jammy-security/universe Translation-en [148 kB]
+Get:20 http://azure.archive.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [36.5 kB]
+Get:21 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main amd64 Packages [116 kB]
+Get:22 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main armhf Packages [10.3 kB]
+Get:23 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main all Packages [1036 B]
+Get:24 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main arm64 Packages [28.4 kB]
 Hit:25 https://ppa.launchpadcontent.net/ubuntu-toolchain-r/test/ubuntu jammy InRelease
-Fetched 7927 kB in 1s (6377 kB/s)
+Fetched 7927 kB in 1s (6821 kB/s)
 Reading package lists...
 Selecting previously unselected package qemu.
 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 276153 files and directories currently installed.)
@@ -50,14 +50,13 @@ latest: Pulling from multiarch/qemu-user-static
 30c9c93f40b9: Waiting
 816739e52091: Verifying Checksum
 816739e52091: Download complete
-30abb83a18eb: Verifying Checksum
-30abb83a18eb: Download complete
 205dae5015e7: Verifying Checksum
 205dae5015e7: Download complete
+30abb83a18eb: Download complete
 205dae5015e7: Pull complete
+816739e52091: Pull complete
 0657daef200b: Verifying Checksum
 0657daef200b: Download complete
-816739e52091: Pull complete
 30abb83a18eb: Pull complete
 0657daef200b: Pull complete
 30c9c93f40b9: Verifying Checksum

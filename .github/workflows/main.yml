@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: ubuntu:20.04
+          base_image: fedora:37
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -30,10 +30,12 @@ jobs:
           # Create an artifacts directory
           setup: |
             mkdir -p "${PWD}/artifacts"
+            mkdir -p "/tmp/build"
 
           # Mount the artifacts directory as /artifacts in the container
           dockerRunArgs: |
             --volume "${PWD}/artifacts:/artifacts"
+            --volume "/tmp/build:/build"
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
@@ -49,23 +51,24 @@ jobs:
           # publicly in your project's package repository, so it is vital that
           # no secrets are present in the container state or logs.
           install: |
-            apt-get update -q -y
-            apt-get install libfdk-aac-dev -y
-            apt-get install -q -y autoconf automake autopoint appstream build-essential cmake git libass-dev libbz2-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libogg-dev libopus-dev libsamplerate-dev libspeex-dev libtheora-dev libtool libtool-bin libturbojpeg0-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev m4 make meson nasm ninja-build patch pkg-config tar zlib1g-dev clang
-
+            dnf update -y -qq 
+            dnf groupinstall "Development Tools" "C Development Tools and Libraries" -y -qq 
+            dnf install -y -qq bzip2-devel cmake fontconfig-devel freetype-devel fribidi-devel gcc-c++ git harfbuzz-devel jansson-devel lame-devel lbzip2 libass-devel libogg-devel libsamplerate-devel libtheora-devel libtool libvorbis-devel libxml2-devel libvpx-devel m4 make meson nasm ninja-build numactl-devel opus-devel patch python speex-devel tar turbojpeg-devel xz-devel zlib-devel
+ 
           # Produce a binary artifact and place it in the mounted volume
           run: |
+            cd /build
             git clone https://github.com/HandBrake/HandBrake.git
             cd HandBrake
-            apt autoremove -y
-            git tag --list | grep ^1\.6\.
-            git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
+            #git tag --list | grep ^1\.6\.
+            #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
-            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265 >/dev/null 2>&1
+            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
             cd build
-            apt install binutils patchelf python3-pip -y
-            pip3 install staticx
-            staticx --debug HandBrakeCLI handbrake-cli
+            cp HandBrakeCLI handbrake-cli
+            #apt install binutils patchelf python3-pip -y
+            #pip3 install staticx
+            #staticx HandBrakeCLI handbrake-cli
             chmod +x handbrake-cli
             ./handbrake-cli --version
             chmod 777 handbrake-cli
@@ -79,7 +82,30 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
+
+      - name: move logs
+        if: always()
+        run: |
+          cp "${PWD}/artifacts/logs.txt" "${PWD}/"
+
       - uses: actions/upload-artifact@v3
         with:
-          name: HandBrakeCLI_debug
+          name: HandBrakeCLI_x86-64
           path: artifacts
+
+      - name: cleanup
+        if: always()
+        run: |
+          rm -rf "${PWD}/artifacts/" "${PWD}/HandBrake/"
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        name: commit logs
+        if: always()
+        with:
+          commit_message: 'logging...'
+          commit_options: '--no-verify'
+          repository: .
+          commit_user_name: Nubuki-all
+          commit_user_email: 121189493+Nubuki-all@users.noreply.github.com
+          commit_author: Nubuki-all <121189493+Nubuki-all@users.noreply.github.com>
+          

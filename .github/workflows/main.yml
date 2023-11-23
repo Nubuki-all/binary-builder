@@ -11,7 +11,7 @@ jobs:
   build_job:
     # The host should always be linux
     runs-on: ubuntu-22.04
-    name: Build on ubuntu20.04 (x86-64)
+    name: Build on fedora 36 (x86-64)
     steps:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: fedora:37
+          base_image: fedora:36
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}

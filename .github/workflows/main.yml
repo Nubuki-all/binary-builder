@@ -53,7 +53,7 @@ jobs:
           install: |
             dnf update -y -qq 
             dnf groupinstall "Development Tools" "C Development Tools and Libraries" -y -qq 
-            dnf install -y -qq bzip2-devel cmake fontconfig-devel freetype-devel fribidi-devel gcc git harfbuzz-devel jansson-devel lame-devel lbzip2 libass-devel libogg-devel libsamplerate-devel libtheora-devel libtool libvorbis-devel libxml2-devel libvpx-devel m4 make meson nasm ninja-build numactl-devel opus-devel patch python speex-devel tar turbojpeg-devel xz-devel zlib-devel
+            dnf install -y -qq bzip2-devel cmake fontconfig-devel freetype-devel fribidi-devel gcc-c++ git harfbuzz-devel jansson-devel lame-devel lbzip2 libass-devel libogg-devel libsamplerate-devel libtheora-devel libtool libvorbis-devel libxml2-devel libvpx-devel m4 make meson nasm ninja-build numactl-devel opus-devel patch python speex-devel tar turbojpeg-devel xz-devel zlib-devel
  
           # Produce a binary artifact and place it in the mounted volume
           run: |
@@ -63,7 +63,8 @@ jobs:
             #git tag --list | grep ^1\.6\.
             #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
-            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
+            ./configure --launch-jobs=$(nproc) --launch --disable-gtk 
+            #--enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
             cd build
             cp HandBrakeCLI handbrake-cli
             #apt install binutils patchelf python3-pip -y

@@ -11,7 +11,7 @@ jobs:
   build_job:
     # The host should always be linux
     runs-on: ubuntu-22.04
-    name: Build on fedora 37 (x86-64)
+    name: Build on arch (x86-64)
     steps:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: fedora:37
+          base_image: arch
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -51,10 +51,7 @@ jobs:
           # publicly in your project's package repository, so it is vital that
           # no secrets are present in the container state or logs.
           install: |
-            dnf update -y -qq 
-            dnf groupinstall "Development Tools" "C Development Tools and Libraries" -y -qq 
-            dnf install -y -qq bzip2-devel cmake fontconfig-devel freetype-devel fribidi-devel gcc-c++ git harfbuzz-devel jansson-devel lame-devel lbzip2 libass-devel libogg-devel libsamplerate-devel libtheora-devel libtool libvorbis-devel libxml2-devel libvpx-devel m4 make meson nasm ninja-build numactl-devel opus-devel patch python speex-devel tar turbojpeg-devel xz-devel zlib-devel
- 
+            pacman -S base-devel cmake flac fontconfig freetype2 fribidi git harfbuzz jansson lame libass libbluray libjpeg-turbo libogg libsamplerate libtheora libvorbis libvpx libxml2 meson nasm ninja numactl opus python2 speex x264 xz 
           # Produce a binary artifact and place it in the mounted volume
           run: |
             cd /build
@@ -63,8 +60,7 @@ jobs:
             #git tag --list | grep ^1\.6\.
             #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
-            ./configure --launch-jobs=$(nproc) --launch --disable-gtk 
-            #--enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
+            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
             cd build
             cp HandBrakeCLI handbrake-cli
             #apt install binutils patchelf python3-pip -y

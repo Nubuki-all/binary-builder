@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: arch
+          base_image: archlinux
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}

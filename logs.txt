@@ -1,0 +1,757 @@
+probe: build tuple...(pass) x86_64-pc-linux-gnu
+find: ar...(pass) /usr/bin/ar
+find: cp...(pass) /usr/bin/cp
+find: gm4...(pass) /usr/bin/m4
+find: mkdir...(pass) /usr/bin/mkdir
+find: gpatch...(pass) /usr/bin/patch
+find: rm...(pass) /usr/bin/rm
+find: ranlib...(pass) /usr/bin/ranlib
+find: strip...(pass) /usr/bin/strip
+find: gtar...(pass) /usr/bin/gtar
+find: python3...(pass) /usr/bin/python3
+find: gcc...(pass) /usr/bin/gcc
+find: gmake...(pass) /usr/bin/gmake
+find: autoconf...(pass) /usr/bin/autoconf
+find: automake...(pass) /usr/bin/automake
+find: libtool...(pass) /usr/bin/libtool
+find: lipo...(fail) not found
+find: pkg-config...(pass) /usr/bin/pkg-config
+find: meson...(pass) /usr/bin/meson
+find: nasm...(pass) /usr/bin/nasm
+find: ninja-build...(pass) /usr/bin/ninja-build
+find: cargo...(fail) not found
+find: cargo-cbuild...(fail) not found
+find: xcodebuild...(fail) not found
+probe: checking for -Oz...(pass) end
+compute: available architectures...(pass) x86_64
+probe: number of CPU cores...(pass) 4
+probe: repo info...(pass) https://github.com/HandBrake/HandBrake.git
+compute: project data...(pass) HandBrake (developer)
+version probe: autoconf 2.69.0...(pass) 2.71
+version probe: automake 1.13.0...(pass) 1.16.5
+version probe: pkg-config 0.27.0...(pass) 1.8.0
+version probe: meson 0.51.0...(pass) 1.0.1
+version probe: nasm 2.13.0...(pass) 2.15.05
+compute: host tuple...(pass) x86_64-pc-linux-gnu
+find: cmake...(pass) /usr/bin/cmake
+version probe: cmake 3.16.3...(pass) 3.27.7
+probe: numa...(pass) 
+probe: strerror_r...(pass) 
+probe: checking for -Wno-format-truncation...(pass) end
+compute: makevar SRC/    = ..
+compute: makevar BUILD/  = .
+compute: makevar PREFIX/ = /usr/local
+mkdir: ./build
+chdir: ./build
+write: GNUmakefile
+mkdir: project
+write: project/handbrake.m4
+write: distfile.cfg
+-------------------------------------------------------------------------------
+Build system:       x86_64-pc-linux-gnu
+Host system:        x86_64-pc-linux-gnu
+Target platform:    linux
+Harden:             True
+Sandbox:            False (not supported on target platform)
+Enable FDK-AAC:     False
+Enable FFmpeg AAC:  True  (required on target platform)
+Enable MediaFound.: False (not supported on target platform)
+Enable NVENC:       True
+Enable NVDEC:       False
+Enable QSV:         False
+Enable VCE:         False
+Enable libdovi:     False
+Enable GTK GUI:     False
+Note: exported variables: LDFLAGS=-static 
+-------------------------------------------------------------------------------
+mkdir: log
+write: log/build.txt
+time begin: Thu Nov 23 15:09:59 2023
+launch: /usr/bin/gmake -j4
+-------------------------------------------------------------------------------
+  : /usr/bin/mkdir -p libhb/handbrake/
+  : /usr/bin/mkdir -p ../download/
+  : /usr/bin/mkdir -p contrib/svt-av1/
+  : /usr/bin/mkdir -p contrib/lib/
+  : /usr/bin/mkdir -p contrib/include/
+  : /usr/bin/mkdir -p contrib/ffmpeg/
+  : /usr/bin/mkdir -p contrib/libdav1d/
+  : /usr/bin/mkdir -p contrib/zimg/
+  : /usr/bin/mkdir -p contrib/nvenc/
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/zimg-3.0.5.tar.gz to ../download/zimg-3.0.5.tar.gz
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     326694 bytes
+  : [Fdownload total:    326694 bytes
+  : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
+  : /usr/bin/mkdir -p contrib/libdvdread/
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/dav1d-1.3.0.tar.bz2 to ../download/dav1d-1.3.0.tar.bz2
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     458752 bytes
+  : [Fdownloading...     524288 bytes
+  : [Fdownloading...     589824 bytes
+  : [Fdownloading...     655360 bytes
+  : [Fdownloading...     720896 bytes
+  : [Fdownloading...     786432 bytes
+  : [Fdownloading...     851968 bytes
+  : [Fdownloading...     917504 bytes
+  : [Fdownloading...     983040 bytes
+  : [Fdownloading...    1033699 bytes
+  : [Fdownload total:   1033699 bytes
+  : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
+  : /usr/bin/mkdir -p contrib/libdvdnav/
+  : /usr/bin/mkdir -p contrib/x265/
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libdvdread-6.1.3.tar.bz2 to ../download/libdvdread-6.1.3.tar.bz2
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     395439 bytes
+  : [Fdownload total:    395439 bytes
+  : sha256 (../download/libdvdread-6.1.3.tar.bz2) = ce35454997a208cbe50e91232f0e73fb1ac3471965813a13b8730a8f18a15369 (pass)
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/nv-codec-headers-12.1.14.0.tar.gz to ../download/nv-codec-headers-12.1.14.0.tar.gz
+  : downloading...      65536 bytes
+  : [Fdownloading...      77418 bytes
+  : [Fdownload total:     77418 bytes
+  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
+  : /usr/bin/mkdir -p contrib/libbluray/
+  : /usr/bin/mkdir -p test/
+  : /usr/bin/m4 -Iproject ../libhb/handbrake/project.h.m4 > libhb/handbrake/project.h
+  : /usr/bin/cp ../libhb/handbrake/audio_remap.h libhb/handbrake/audio_remap.h
+  : /usr/bin/cp ../libhb/handbrake/audio_resample.h libhb/handbrake/audio_resample.h
+  : /usr/bin/cp ../libhb/handbrake/av1_common.h libhb/handbrake/av1_common.h
+  : /usr/bin/cp ../libhb/handbrake/avfilter_priv.h libhb/handbrake/avfilter_priv.h
+  : /usr/bin/cp ../libhb/handbrake/bitstream.h libhb/handbrake/bitstream.h
+  : /usr/bin/cp ../libhb/handbrake/colormap.h libhb/handbrake/colormap.h
+  : /usr/bin/cp ../libhb/handbrake/common.h libhb/handbrake/common.h
+  : /usr/bin/cp ../libhb/handbrake/compat.h libhb/handbrake/compat.h
+  : /usr/bin/cp ../libhb/handbrake/decavsub.h libhb/handbrake/decavsub.h
+  : /usr/bin/cp ../libhb/handbrake/decomb.h libhb/handbrake/decomb.h
+  : /usr/bin/cp ../libhb/handbrake/dovi_common.h libhb/handbrake/dovi_common.h
+  : /usr/bin/cp ../libhb/handbrake/dvd.h libhb/handbrake/dvd.h
+  : /usr/bin/cp ../libhb/handbrake/eedi2.h libhb/handbrake/eedi2.h
+  : /usr/bin/cp ../libhb/handbrake/encx264.h libhb/handbrake/encx264.h
+  : /usr/bin/cp ../libhb/handbrake/h264_common.h libhb/handbrake/h264_common.h
+  : /usr/bin/cp ../libhb/handbrake/h265_common.h libhb/handbrake/h265_common.h
+  : /usr/bin/cp ../libhb/handbrake/handbrake.h libhb/handbrake/handbrake.h
+  : /usr/bin/cp ../libhb/handbrake/hb_dict.h libhb/handbrake/hb_dict.h
+  : /usr/bin/cp ../libhb/handbrake/hb_json.h libhb/handbrake/hb_json.h
+  : /usr/bin/cp ../libhb/handbrake/hbavfilter.h libhb/handbrake/hbavfilter.h
+  : /usr/bin/cp ../libhb/handbrake/hbffmpeg.h libhb/handbrake/hbffmpeg.h
+  : /usr/bin/cp ../libhb/handbrake/hbtypes.h libhb/handbrake/hbtypes.h
+  : /usr/bin/cp ../libhb/handbrake/hdr10plus.h libhb/handbrake/hdr10plus.h
+  : /usr/bin/cp ../libhb/handbrake/hwaccel.h libhb/handbrake/hwaccel.h
+  : /usr/bin/cp ../libhb/handbrake/internal.h libhb/handbrake/internal.h
+  : /usr/bin/cp ../libhb/handbrake/lang.h libhb/handbrake/lang.h
+  : /usr/bin/cp ../libhb/handbrake/nal_units.h libhb/handbrake/nal_units.h
+  : /usr/bin/cp ../libhb/handbrake/nlmeans.h libhb/handbrake/nlmeans.h
+  : /usr/bin/cp ../libhb/handbrake/nvenc_common.h libhb/handbrake/nvenc_common.h
+  : /usr/bin/cp ../libhb/handbrake/param.h libhb/handbrake/param.h
+  : /usr/bin/cp ../libhb/handbrake/plist.h libhb/handbrake/plist.h
+  : /usr/bin/cp ../libhb/handbrake/ports.h libhb/handbrake/ports.h
+  : /usr/bin/cp ../libhb/handbrake/preset.h libhb/handbrake/preset.h
+  : /usr/bin/cp ../libhb/handbrake/preset_builtin.h libhb/handbrake/preset_builtin.h
+  : /usr/bin/cp ../libhb/handbrake/qsv_common.h libhb/handbrake/qsv_common.h
+  : /usr/bin/cp ../libhb/handbrake/qsv_libav.h libhb/handbrake/qsv_libav.h
+  : /usr/bin/cp ../libhb/handbrake/qsv_memory.h libhb/handbrake/qsv_memory.h
+  : /usr/bin/cp ../libhb/handbrake/ssautil.h libhb/handbrake/ssautil.h
+  : /usr/bin/cp ../libhb/handbrake/taskset.h libhb/handbrake/taskset.h
+  : /usr/bin/cp ../libhb/handbrake/vce_common.h libhb/handbrake/vce_common.h
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libbluray-1.3.4.tar.bz2 to ../download/libbluray-1.3.4.tar.bz2
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     458752 bytes
+  : [Fdownloading...     524288 bytes
+  : [Fdownloading...     589824 bytes
+  : [Fdownloading...     655360 bytes
+  : [Fdownloading...     720896 bytes
+  : [Fdownloading...     756323 bytes
+  : [Fdownload total:    756323 bytes
+  : sha256 (../download/libbluray-1.3.4.tar.bz2) = 478ffd68a0f5dde8ef6ca989b7f035b5a0a22c599142e5cd3ff7b03bbebe5f2b (pass)
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libdvdnav-6.1.1.tar.bz2 to ../download/libdvdnav-6.1.1.tar.bz2
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     367606 bytes
+  : [Fdownload total:    367606 bytes
+  : sha256 (../download/libdvdnav-6.1.1.tar.bz2) = c191a7475947d323ff7680cf92c0fb1be8237701885f37656c64d04e98d18d48 (pass)
+  : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
+  : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
+  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
+  : sha256 (../download/libdvdread-6.1.3.tar.bz2) = ce35454997a208cbe50e91232f0e73fb1ac3471965813a13b8730a8f18a15369 (pass)
+  : sha256 (../download/libdvdnav-6.1.1.tar.bz2) = c191a7475947d323ff7680cf92c0fb1be8237701885f37656c64d04e98d18d48 (pass)
+  : touch contrib/x265/.stamp.x265_10.extract
+  : touch contrib/x265/.stamp.x265_12.extract
+  : sha256 (../download/libbluray-1.3.4.tar.bz2) = 478ffd68a0f5dde8ef6ca989b7f035b5a0a22c599142e5cd3ff7b03bbebe5f2b (pass)
+  : /usr/bin/rm -fr ./contrib/libdav1d/dav1d-1.3.0/
+  : /usr/bin/gtar xfC ../download/dav1d-1.3.0.tar.bz2 ./contrib/libdav1d/
+  : touch contrib/libdav1d/.stamp.libdav1d.extract
+  : /usr/bin/rm -fr ./contrib/zimg/zimg-release-3.0.5/
+  : /usr/bin/gtar xfC ../download/zimg-3.0.5.tar.gz ./contrib/zimg/
+  : touch contrib/zimg/.stamp.zimg.extract
+  : /usr/bin/rm -fr ./contrib/nvenc/nv-codec-headers-12.1.14.0/
+  : /usr/bin/gtar xfC ../download/nv-codec-headers-12.1.14.0.tar.gz ./contrib/nvenc/
+  : touch contrib/nvenc/.stamp.nvenc.extract
+  : /usr/bin/rm -fr ./contrib/libdvdread/libdvdread-6.1.3/
+  : /usr/bin/gtar xfC ../download/libdvdread-6.1.3.tar.bz2 ./contrib/libdvdread/
+  : touch contrib/libdvdread/.stamp.libdvdread.extract
+  : /usr/bin/rm -fr ./contrib/libdvdnav/libdvdnav-6.1.1/
+  : /usr/bin/gtar xfC ../download/libdvdnav-6.1.1.tar.bz2 ./contrib/libdvdnav/
+  : touch contrib/libdvdnav/.stamp.libdvdnav.extract
+  : touch contrib/x265/.stamp.x265.extract
+  : touch contrib/x265/.stamp.x265_10.patch
+  : touch contrib/x265/.stamp.x265_12.patch
+  : /usr/bin/rm -fr ./contrib/libbluray/libbluray-1.3.4/
+  : /usr/bin/gtar xfC ../download/libbluray-1.3.4.tar.bz2 ./contrib/libbluray/
+  : touch contrib/libbluray/.stamp.libbluray.extract
+  : /usr/bin/patch -t -N -p1 -d ./contrib/libdav1d/dav1d-1.3.0/ < ../contrib/libdav1d/A99-pkgconfig-location.patch
+  : patching file src/meson.build
+  : Hunk #1 succeeded at 343 (offset 55 lines).
+  : touch contrib/libdav1d/.stamp.libdav1d.patch
+  : touch contrib/zimg/.stamp.zimg.patch
+  : touch contrib/nvenc/.stamp.nvenc.patch
+  : /usr/bin/patch -t -N -p1 -d ./contrib/libdvdread/libdvdread-6.1.3/ < ../contrib/libdvdread/A01-macOS-hardened-runtime-dlopen.patch
+  : patching file src/dvd_input.c
+  : Hunk #1 succeeded at 342 (offset 23 lines).
+  : Hunk #2 succeeded at 354 with fuzz 2 (offset 25 lines).
+  : touch contrib/libdvdread/.stamp.libdvdread.patch
+  : touch contrib/libdvdnav/.stamp.libdvdnav.patch
+  : touch contrib/x265/.stamp.x265.patch
+  : touch contrib/libbluray/.stamp.libbluray.patch
+  : set -e; /usr/bin/mkdir -p ./contrib/libdav1d/dav1d-1.3.0/build/; cd ./contrib/libdav1d/dav1d-1.3.0/build/; /usr/bin/meson setup --prefix=/build/HandBrake/build/contrib/ -Ddefault_library=static --libdir=/build/HandBrake/build/contrib/lib/ -Denable_tools=false -Denable_tests=false --buildtype=release
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/ffmpeg-6.1.tar.bz2 to ../download/ffmpeg-6.1.tar.bz2
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     458752 bytes
+  : [Fdownloading...     524288 bytes
+  : [Fdownloading...     589824 bytes
+  : [Fdownloading...     655360 bytes
+  : [Fdownloading...     720896 bytes
+  : [Fdownloading...     786432 bytes
+  : [Fdownloading...     851968 bytes
+  : [Fdownloading...     917504 bytes
+  : [Fdownloading...     983040 bytes
+  : [Fdownloading...    1048576 bytes
+  : [Fdownloading...    1114112 bytes
+  : [Fdownloading...    1179648 bytes
+  : [Fdownloading...    1245184 bytes
+  : [Fdownloading...    1310720 bytes
+  : [Fdownloading...    1376256 bytes
+  : [Fdownloading...    1441792 bytes
+  : [Fdownloading...    1507328 bytes
+  : [Fdownloading...    1572864 bytes
+  : [Fdownloading...    1638400 bytes
+  : [Fdownloading...    1703936 bytes
+  : [Fdownloading...    1769472 bytes
+  : [Fdownloading...    1835008 bytes
+  : [Fdownloading...    1900544 bytes
+  : [Fdownloading...    1966080 bytes
+  : [Fdownloading...    2031616 bytes
+  : [Fdownloading...    2097152 bytes
+  : [Fdownloading...    2162688 bytes
+  : [Fdownloading...    2228224 bytes
+  : [Fdownloading...    2293760 bytes
+  : [Fdownloading...    2359296 bytes
+  : [Fdownloading...    2424832 bytes
+  : [Fdownloading...    2490368 bytes
+  : [Fdownloading...    2555904 bytes
+  : [Fdownloading...    2621440 bytes
+  : [Fdownloading...    2686976 bytes
+  : [Fdownloading...    2752512 bytes
+  : [Fdownloading...    2818048 bytes
+  : [Fdownloading...    2883584 bytes
+  : [Fdownloading...    2949120 bytes
+  : [Fdownloading...    3014656 bytes
+  : [Fdownloading...    3080192 bytes
+  : [Fdownloading...    3145728 bytes
+  : [Fdownloading...    3211264 bytes
+  : [Fdownloading...    3276800 bytes
+  : [Fdownloading...    3342336 bytes
+  : [Fdownloading...    3407872 bytes
+  : [Fdownloading...    3473408 bytes
+  : [Fdownloading...    3538944 bytes
+  : [Fdownloading...    3604480 bytes
+  : [Fdownloading...    3670016 bytes
+  : [Fdownloading...    3735552 bytes
+  : [Fdownloading...    3801088 bytes
+  : [Fdownloading...    3866624 bytes
+  : [Fdownloading...    3932160 bytes
+  : [Fdownloading...    3997696 bytes
+  : [Fdownloading...    4063232 bytes
+  : [Fdownloading...    4128768 bytes
+  : [Fdownloading...    4194304 bytes
+  : [Fdownloading...    4259840 bytes
+  : [Fdownloading...    4325376 bytes
+  : [Fdownloading...    4390912 bytes
+  : [Fdownloading...    4456448 bytes
+  : [Fdownloading...    4521984 bytes
+  : [Fdownloading...    4587520 bytes
+  : [Fdownloading...    4653056 bytes
+  : [Fdownloading...    4718592 bytes
+  : [Fdownloading...    4784128 bytes
+  : [Fdownloading...    4849664 bytes
+  : [Fdownloading...    4915200 bytes
+  : [Fdownloading...    4980736 bytes
+  : [Fdownloading...    5046272 bytes
+  : [Fdownloading...    5111808 bytes
+  : [Fdownloading...    5177344 bytes
+  : [Fdownloading...    5242880 bytes
+  : [Fdownloading...    5308416 bytes
+  : [Fdownloading...    5373952 bytes
+  : [Fdownloading...    5439488 bytes
+  : [Fdownloading...    5505024 bytes
+  : [Fdownloading...    5570560 bytes
+  : [Fdownloading...    5636096 bytes
+  : [Fdownloading...    5701632 bytes
+  : [Fdownloading...    5767168 bytes
+  : [Fdownloading...    5832704 bytes
+  : [Fdownloading...    5898240 bytes
+  : [Fdownloading...    5963776 bytes
+  : [Fdownloading...    6029312 bytes
+  : [Fdownloading...    6094848 bytes
+  : [Fdownloading...    6160384 bytes
+  : [Fdownloading...    6225920 bytes
+  : [Fdownloading...    6291456 bytes
+  : [Fdownloading...    6356992 bytes
+  : [Fdownloading...    6422528 bytes
+  : [Fdownloading...    6488064 bytes
+  : [Fdownloading...    6553600 bytes
+  : [Fdownloading...    6619136 bytes
+  : [Fdownloading...    6684672 bytes
+  : [Fdownloading...    6750208 bytes
+  : [Fdownloading...    6815744 bytes
+  : [Fdownloading...    6881280 bytes
+  : [Fdownloading...    6946816 bytes
+  : [Fdownloading...    7012352 bytes
+  : [Fdownloading...    7077888 bytes
+  : [Fdownloading...    7143424 bytes
+  : [Fdownloading...    7208960 bytes
+  : [Fdownloading...    7274496 bytes
+  : [Fdownloading...    7340032 bytes
+  : [Fdownloading...    7405568 bytes
+  : [Fdownloading...    7471104 bytes
+  : [Fdownloading...    7536640 bytes
+  : [Fdownloading...    7602176 bytes
+  : [Fdownloading...    7667712 bytes
+  : [Fdownloading...    7733248 bytes
+  : [Fdownloading...    7798784 bytes
+  : [Fdownloading...    7864320 bytes
+  : [Fdownloading...    7929856 bytes
+  : [Fdownloading...    7995392 bytes
+  : [Fdownloading...    8060928 bytes
+  : [Fdownloading...    8126464 bytes
+  : [Fdownloading...    8192000 bytes
+  : [Fdownloading...    8257536 bytes
+  : [Fdownloading...    8323072 bytes
+  : [Fdownloading...    8388608 bytes
+  : [Fdownloading...    8454144 bytes
+  : [Fdownloading...    8519680 bytes
+  : [Fdownloading...    8585216 bytes
+  : [Fdownloading...    8650752 bytes
+  : [Fdownloading...    8716288 bytes
+  : [Fdownloading...    8781824 bytes
+  : [Fdownloading...    8847360 bytes
+  : [Fdownloading...    8912896 bytes
+  : [Fdownloading...    8978432 bytes
+  : [Fdownloading...    9043968 bytes
+  : [Fdownloading...    9109504 bytes
+  : [Fdownloading...    9175040 bytes
+  : [Fdownloading...    9240576 bytes
+  : [Fdownloading...    9306112 bytes
+  : [Fdownloading...    9371648 bytes
+  : [Fdownloading...    9437184 bytes
+  : [Fdownloading...    9502720 bytes
+  : [Fdownloading...    9568256 bytes
+  : [Fdownloading...    9633792 bytes
+  : [Fdownloading...    9699328 bytes
+  : [Fdownloading...    9764864 bytes
+  : [Fdownloading...    9830400 bytes
+  : [Fdownloading...    9895936 bytes
+  : [Fdownloading...    9961472 bytes
+  : [Fdownloading...   10027008 bytes
+  : [Fdownloading...   10092544 bytes
+  : [Fdownloading...   10158080 bytes
+  : [Fdownloading...   10223616 bytes
+  : [Fdownloading...   10289152 bytes
+  : [Fdownloading...   10354688 bytes
+  : [Fdownloading...   10420224 bytes
+  : [Fdownloading...   10485760 bytes
+  : [Fdownloading...   10551296 bytes
+  : [Fdownloading...   10616832 bytes
+  : [Fdownloading...   10682368 bytes
+  : [Fdownloading...   10747904 bytes
+  : [Fdownloading...   10813440 bytes
+  : [Fdownloading...   10878976 bytes
+  : [Fdownloading...   10944512 bytes
+  : [Fdownloading...   11010048 bytes
+  : [Fdownloading...   11075584 bytes
+  : [Fdownloading...   11141120 bytes
+  : [Fdownloading...   11206656 bytes
+  : [Fdownloading...   11272192 bytes
+  : [Fdownloading...   11337728 bytes
+  : [Fdownloading...   11403264 bytes
+  : [Fdownloading...   11468800 bytes
+  : [Fdownloading...   11534336 bytes
+  : [Fdownloading...   11599872 bytes
+  : [Fdownloading...   11665408 bytes
+  : [Fdownloading...   11730944 bytes
+  : [Fdownloading...   11796480 bytes
+  : [Fdownloading...   11862016 bytes
+  : [Fdownloading...   11927552 bytes
+  : [Fdownloading...   11993088 bytes
+  : [Fdownloading...   12058624 bytes
+  : [Fdownloading...   12124160 bytes
+  : [Fdownloading...   12189696 bytes
+  : [Fdownloading...   12255232 bytes
+  : [Fdownloading...   12320768 bytes
+  : [Fdownloading...   12386304 bytes
+  : [Fdownloading...   12451840 bytes
+  : [Fdownloading...   12517376 bytes
+  : [Fdownloading...   12582912 bytes
+  : [Fdownloading...   12637240 bytes
+  : [Fdownload total:  12637240 bytes
+  : sha256 (../download/ffmpeg-6.1.tar.bz2) = eb7da3de7dd3ce48a9946ab447a7346bd11a3a85e6efb8f2c2ce637e7f547611 (pass)
+  : set -e; /usr/bin/mkdir -p ./contrib/zimg/zimg-release-3.0.5/; cd ./contrib/zimg/zimg-release-3.0.5/; rm -fr aclocal.m4 autom4te.cache configure; autoreconf -fiv; CC=/usr/bin/gcc CFLAGS="-I/build/HandBrake/build/contrib/include -std=gnu99 -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CXX=/usr/bin/g++ CXXFLAGS="-I/build/HandBrake/build/contrib/include -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CPPFLAGS="-I/build/HandBrake/build/contrib/include " LDFLAGS="-L/build/HandBrake/build/contrib/lib -static -fstack-protector-strong" PKG_CONFIG_PATH="/build/HandBrake/build/contrib/lib/pkgconfig:" ./configure --prefix=/build/HandBrake/build/contrib/ --disable-dependency-tracking --disable-shared --enable-static --enable-static --disable-shared
+  : autoreconf: export WARNINGS=
+  : autoreconf: Entering directory '.'
+  : autoreconf: configure.ac: not using Gettext
+  : The Meson build system
+  : Version: 1.0.1
+  : Source dir: /build/HandBrake/build/contrib/libdav1d/dav1d-1.3.0
+  : Build dir: /build/HandBrake/build/contrib/libdav1d/dav1d-1.3.0/build
+  : Build type: native build
+  : Project name: dav1d
+  : Project version: 1.3.0
+  : C compiler for the host machine: ccache cc (gcc 12.3.1 "cc (GCC) 12.3.1 20230508 (Red Hat 12.3.1-1)")
+  : C linker for the host machine: cc ld.bfd 2.38-27
+  : Host machine cpu family: x86_64
+  : Host machine cpu: x86_64
+  : Fetching value of define "__ILP32__" :  
+  : Run-time dependency threads found: YES
+  : Checking for function "clock_gettime" : YES 
+  : Checking for function "posix_memalign" : YES 
+  : Library dl found: YES
+  : Checking for function "dlsym" with dependency -ldl: YES 
+  : Library m found: YES
+  : Check usable header "stdatomic.h" : YES 
+  : Check usable header "unistd.h" : YES 
+  : Check usable header "io.h" : NO 
+  : Check usable header "pthread_np.h" : NO 
+  : Checking for function "getopt_long" : YES 
+  : Checking for function "pthread_getaffinity_np" with dependency threads: YES 
+  : Checking for function "pthread_setaffinity_np" with dependency threads: YES 
+  : Checking if "_Generic" compiles: YES 
+  : Compiler for C supports arguments -fvisibility=hidden: YES 
+  : Compiler for C supports arguments -Wundef: YES 
+  : Compiler for C supports arguments -Werror=vla: YES 
+  : Compiler for C supports arguments -Wno-maybe-uninitialized: YES 
+  : Compiler for C supports arguments -Wno-missing-field-initializers: YES 
+  : Compiler for C supports arguments -Wno-unused-parameter: YES 
+  : Compiler for C supports arguments -Wstrict-prototypes: YES 
+  : Compiler for C supports arguments -Werror=missing-prototypes: YES 
+  : Compiler for C supports arguments -Wshorten-64-to-32: NO 
+  : Compiler for C supports arguments -fomit-frame-pointer: YES 
+  : Compiler for C supports arguments -ffast-math: YES 
+  : Fetching value of define "__AVX__" :  
+  : Program nasm found: YES (/usr/bin/nasm)
+  : Configuring config.asm using configuration
+  : Configuring config.h using configuration
+  : Configuring version.h using configuration
+  : Header "xxhash.h" has symbol "XXH3_createState" : NO 
+  : Build targets in project: 8
+  : 
+  : dav1d 1.3.0
+  : 
+  :   User defined options
+  :     buildtype      : release
+  :     default_library: static
+  :     libdir         : /build/HandBrake/build/contrib/lib/
+  :     prefix         : /build/HandBrake/build/contrib/
+  :     enable_tests   : false
+  :     enable_tools   : false
+  : 
+  : Found ninja-1.10.2 at /usr/bin/ninja
+  : touch contrib/libdav1d/.stamp.libdav1d.configure
+  : touch contrib/nvenc/.stamp.nvenc.configure
+  : set -e; /usr/bin/mkdir -p ./contrib/libdvdread/libdvdread-6.1.3/; cd ./contrib/libdvdread/libdvdread-6.1.3/; CC=/usr/bin/gcc CFLAGS="-I/build/HandBrake/build/contrib/include -std=gnu99 -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CXX=/usr/bin/g++ CXXFLAGS="-I/build/HandBrake/build/contrib/include -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CPPFLAGS="-I/build/HandBrake/build/contrib/include " LDFLAGS="-L/build/HandBrake/build/contrib/lib -static -fstack-protector-strong" PKG_CONFIG_PATH="/build/HandBrake/build/contrib/lib/pkgconfig:" ./configure --prefix=/build/HandBrake/build/contrib/ --disable-dependency-tracking --disable-shared --enable-static
+  : checking build system type... x86_64-pc-linux-gnu
+  : checking host system type... x86_64-pc-linux-gnu
+  : checking for a BSD-compatible install... /usr/bin/install -c
+  : checking whether build environment is sane... yes
+  : checking for a race-free mkdir -p... /usr/bin/mkdir -p
+  : checking for gawk... gawk
+  : checking whether make sets $(MAKE)... yes
+  : checking whether make supports nested variables... yes
+  : checking whether to enable maintainer-specific portions of Makefiles... yes
+  : checking whether make supports nested variables... (cached) yes
+  : checking how to print strings... printf
+  : checking whether make supports the include directive... yes (GNU style)
+  : checking for gcc... /usr/bin/gcc
+  : checking whether the C compiler works... no
+  : configure: error: in `/build/HandBrake/build/contrib/libdvdread/libdvdread-6.1.3':
+  : configure: error: C compiler cannot create executables
+  : See `config.log' for more details
+  : gmake: *** [../contrib/libdvdread/module.rules:2: contrib/libdvdread/.stamp.libdvdread.configure] Error 77
+  : gmake: *** Waiting for unfinished jobs....
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/SVT-AV1-v1.7.0.tar.gz to ../download/SVT-AV1-v1.7.0.tar.gz
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     458752 bytes
+  : [Fdownloading...     524288 bytes
+  : [Fdownloading...     589824 bytes
+  : [Fdownloading...     655360 bytes
+  : [Fdownloading...     720896 bytes
+  : [Fdownloading...     786432 bytes
+  : [Fdownloading...     851968 bytes
+  : [Fdownloading...     917504 bytes
+  : [Fdownloading...     983040 bytes
+  : [Fdownloading...    1048576 bytes
+  : [Fdownloading...    1114112 bytes
+  : [Fdownloading...    1179648 bytes
+  : [Fdownloading...    1245184 bytes
+  : [Fdownloading...    1310720 bytes
+  : [Fdownloading...    1376256 bytes
+  : [Fdownloading...    1441792 bytes
+  : [Fdownloading...    1507328 bytes
+  : [Fdownloading...    1572864 bytes
+  : [Fdownloading...    1638400 bytes
+  : [Fdownloading...    1703936 bytes
+  : [Fdownloading...    1769472 bytes
+  : [Fdownloading...    1835008 bytes
+  : [Fdownloading...    1900544 bytes
+  : [Fdownloading...    1966080 bytes
+  : [Fdownloading...    2031616 bytes
+  : [Fdownloading...    2097152 bytes
+  : [Fdownloading...    2162688 bytes
+  : [Fdownloading...    2228224 bytes
+  : [Fdownloading...    2293760 bytes
+  : [Fdownloading...    2359296 bytes
+  : [Fdownloading...    2424832 bytes
+  : [Fdownloading...    2490368 bytes
+  : [Fdownloading...    2555904 bytes
+  : [Fdownloading...    2621440 bytes
+  : [Fdownloading...    2686976 bytes
+  : [Fdownloading...    2752512 bytes
+  : [Fdownloading...    2818048 bytes
+  : [Fdownloading...    2883584 bytes
+  : [Fdownloading...    2949120 bytes
+  : [Fdownloading...    3014656 bytes
+  : [Fdownloading...    3080192 bytes
+  : [Fdownloading...    3145728 bytes
+  : [Fdownloading...    3211264 bytes
+  : [Fdownloading...    3276800 bytes
+  : [Fdownloading...    3342336 bytes
+  : [Fdownloading...    3407872 bytes
+  : [Fdownloading...    3473408 bytes
+  : [Fdownloading...    3538944 bytes
+  : [Fdownloading...    3604480 bytes
+  : [Fdownloading...    3670016 bytes
+  : [Fdownloading...    3735552 bytes
+  : [Fdownloading...    3801088 bytes
+  : [Fdownloading...    3866624 bytes
+  : [Fdownloading...    3932160 bytes
+  : [Fdownloading...    3997696 bytes
+  : [Fdownloading...    4063232 bytes
+  : [Fdownloading...    4128768 bytes
+  : [Fdownloading...    4194304 bytes
+  : [Fdownloading...    4259840 bytes
+  : [Fdownloading...    4325376 bytes
+  : [Fdownloading...    4390912 bytes
+  : [Fdownloading...    4456448 bytes
+  : [Fdownloading...    4521984 bytes
+  : [Fdownloading...    4587520 bytes
+  : [Fdownloading...    4653056 bytes
+  : [Fdownloading...    4718592 bytes
+  : [Fdownloading...    4784128 bytes
+  : [Fdownloading...    4849664 bytes
+  : [Fdownloading...    4915200 bytes
+  : [Fdownloading...    4980736 bytes
+  : [Fdownloading...    5046272 bytes
+  : [Fdownloading...    5111808 bytes
+  : [Fdownloading...    5177344 bytes
+  : [Fdownloading...    5242880 bytes
+  : [Fdownloading...    5308416 bytes
+  : [Fdownloading...    5373952 bytes
+  : [Fdownloading...    5439488 bytes
+  : [Fdownloading...    5505024 bytes
+  : [Fdownloading...    5570560 bytes
+  : [Fdownloading...    5636096 bytes
+  : [Fdownloading...    5701632 bytes
+  : [Fdownloading...    5767168 bytes
+  : [Fdownloading...    5832704 bytes
+  : [Fdownloading...    5898240 bytes
+  : [Fdownloading...    5963776 bytes
+  : [Fdownloading...    6029312 bytes
+  : [Fdownloading...    6094848 bytes
+  : [Fdownloading...    6160384 bytes
+  : [Fdownloading...    6225920 bytes
+  : [Fdownloading...    6291456 bytes
+  : [Fdownloading...    6356992 bytes
+  : [Fdownloading...    6422528 bytes
+  : [Fdownloading...    6488064 bytes
+  : [Fdownloading...    6553600 bytes
+  : [Fdownloading...    6619136 bytes
+  : [Fdownloading...    6684672 bytes
+  : [Fdownloading...    6750208 bytes
+  : [Fdownloading...    6815744 bytes
+  : [Fdownloading...    6881280 bytes
+  : [Fdownloading...    6946816 bytes
+  : [Fdownloading...    7012352 bytes
+  : [Fdownloading...    7077888 bytes
+  : [Fdownloading...    7143424 bytes
+  : [Fdownloading...    7208960 bytes
+  : [Fdownloading...    7274496 bytes
+  : [Fdownloading...    7340032 bytes
+  : [Fdownloading...    7405568 bytes
+  : [Fdownloading...    7471104 bytes
+  : [Fdownloading...    7536640 bytes
+  : [Fdownloading...    7602176 bytes
+  : [Fdownloading...    7667712 bytes
+  : [Fdownloading...    7733248 bytes
+  : [Fdownloading...    7798784 bytes
+  : [Fdownloading...    7864320 bytes
+  : [Fdownloading...    7929856 bytes
+  : [Fdownloading...    7995392 bytes
+  : [Fdownloading...    8060928 bytes
+  : [Fdownloading...    8126464 bytes
+  : [Fdownloading...    8192000 bytes
+  : [Fdownloading...    8257536 bytes
+  : [Fdownloading...    8323072 bytes
+  : [Fdownloading...    8388608 bytes
+  : [Fdownloading...    8454144 bytes
+  : [Fdownloading...    8519680 bytes
+  : [Fdownloading...    8585216 bytes
+  : [Fdownloading...    8650752 bytes
+  : [Fdownloading...    8716288 bytes
+  : [Fdownloading...    8781824 bytes
+  : [Fdownloading...    8847360 bytes
+  : [Fdownloading...    8912896 bytes
+  : [Fdownloading...    8978432 bytes
+  : [Fdownloading...    9043968 bytes
+  : [Fdownloading...    9109504 bytes
+  : [Fdownloading...    9175040 bytes
+  : [Fdownloading...    9240576 bytes
+  : [Fdownloading...    9306112 bytes
+  : [Fdownloading...    9371648 bytes
+  : [Fdownloading...    9437184 bytes
+  : [Fdownloading...    9502720 bytes
+  : [Fdownloading...    9568256 bytes
+  : [Fdownloading...    9633792 bytes
+  : [Fdownloading...    9699328 bytes
+  : [Fdownloading...    9764864 bytes
+  : [Fdownloading...    9830400 bytes
+  : [Fdownloading...    9895936 bytes
+  : [Fdownloading...    9961472 bytes
+  : [Fdownloading...   10027008 bytes
+  : [Fdownloading...   10092544 bytes
+  : [Fdownloading...   10158080 bytes
+  : [Fdownloading...   10164910 bytes
+  : [Fdownload total:  10164910 bytes
+  : sha256 (../download/SVT-AV1-v1.7.0.tar.gz) = ce0973584f1a187aa4abf63f509ff8464397120878e322a3153f87e9c161fc4f (pass)
+  : autoreconf: running: aclocal --force -I m4
+  : autoreconf: configure.ac: tracing
+  : autoreconf: running: libtoolize --copy --force
+  : libtoolize: putting auxiliary files in '.'.
+  : libtoolize: copying file './ltmain.sh'
+  : libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+  : libtoolize: copying file 'm4/libtool.m4'
+  : libtoolize: copying file 'm4/ltoptions.m4'
+  : libtoolize: copying file 'm4/ltsugar.m4'
+  : libtoolize: copying file 'm4/ltversion.m4'
+  : libtoolize: copying file 'm4/lt~obsolete.m4'
+  : autoreconf: configure.ac: not using Intltool
+  : autoreconf: configure.ac: not using Gtkdoc
+  : autoreconf: running: aclocal --force -I m4
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/x265-snapshot-20230403-12776.tar.gz to ../download/x265-snapshot-20230403-12776.tar.gz
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     458752 bytes
+  : [Fdownloading...     524288 bytes
+  : [Fdownloading...     589824 bytes
+  : [Fdownloading...     655360 bytes
+  : [Fdownloading...     720896 bytes
+  : [Fdownloading...     786432 bytes
+  : [Fdownloading...     851968 bytes
+  : [Fdownloading...     917504 bytes
+  : [Fdownloading...     983040 bytes
+  : [Fdownloading...    1048576 bytes
+  : [Fdownloading...    1114112 bytes
+  : [Fdownloading...    1179648 bytes
+  : [Fdownloading...    1245184 bytes
+  : [Fdownloading...    1310720 bytes
+  : [Fdownloading...    1376256 bytes
+  : [Fdownloading...    1441792 bytes
+  : [Fdownloading...    1507328 bytes
+  : [Fdownloading...    1572864 bytes
+  : [Fdownloading...    1622414 bytes
+  : [Fdownload total:   1622414 bytes
+  : sha256 (../download/x265-snapshot-20230403-12776.tar.gz) = 23898695c5520e9e971d12e88125d5ad03ad67f462fc8ecaa016b48adad7cb20 (pass)
+  : autoreconf: running: /usr/bin/autoconf --force
+  : configure.ac:36: warning: $as_echo is obsolete; use AS_ECHO(["message"]) instead
+  : lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+  : lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+  : ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+  : ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+  : m4/ax_pthread.m4:88: AX_PTHREAD is expanded from...
+  : configure.ac:36: the top level
+  : autoreconf: configure.ac: not using Autoheader
+  : autoreconf: running: automake --add-missing --copy --force-missing
+  : configure.ac:10: installing './compile'
+  : configure.ac:10: installing './config.guess'
+  : configure.ac:10: installing './config.sub'
+  : configure.ac:7: installing './install-sh'
+  : configure.ac:7: installing './missing'
+  : Makefile.am: installing './depcomp'
+  : parallel-tests: installing './test-driver'
+  : autoreconf: Leaving directory '.'
+  : checking for a BSD-compatible install... /usr/bin/install -c
+  : checking whether build environment is sane... yes
+  : checking for a race-free mkdir -p... /usr/bin/mkdir -p
+  : checking for gawk... gawk
+  : checking whether make sets $(MAKE)... yes
+  : checking whether make supports nested variables... yes
+  : checking whether make supports nested variables... (cached) yes
+  : checking build system type... x86_64-pc-linux-gnu
+  : checking host system type... x86_64-pc-linux-gnu
+  : checking how to print strings... printf
+  : checking whether make supports the include directive... yes (GNU style)
+  : checking for gcc... /usr/bin/gcc
+  : checking whether the C compiler works... no
+  : configure: error: in `/build/HandBrake/build/contrib/zimg/zimg-release-3.0.5':
+  : configure: error: C compiler cannot create executables
+  : See `config.log' for more details
+  : gmake: *** [../contrib/zimg/module.rules:2: contrib/zimg/.stamp.zimg.configure] Error 77
+-------------------------------------------------------------------------------
+time end: Thu Nov 23 15:10:11 2023
+duration: 11 seconds (11.67s)
+result: FAILURE (code 2)
+-------------------------------------------------------------------------------
+Build is finished!
+You may now cd into ./build and examine the output.

@@ -30,11 +30,11 @@ compute: project data...(pass) HandBrake (developer)
 version probe: autoconf 2.69.0...(pass) 2.71
 version probe: automake 1.13.0...(pass) 1.16.5
 version probe: pkg-config 0.27.0...(pass) 1.8.0
-version probe: meson 0.51.0...(pass) 1.0.1
+version probe: meson 0.51.0...(pass) 0.62.2
 version probe: nasm 2.13.0...(pass) 2.15.05
 compute: host tuple...(pass) x86_64-pc-linux-gnu
 find: cmake...(pass) /usr/bin/cmake
-version probe: cmake 3.16.3...(pass) 3.27.7
+version probe: cmake 3.16.3...(pass) 3.26.3
 probe: numa...(pass) 
 probe: strerror_r...(pass) 
 probe: checking for -Wno-format-truncation...(pass) end
@@ -66,7 +66,7 @@ Note: exported variables: LDFLAGS=-static
 -------------------------------------------------------------------------------
 mkdir: log
 write: log/build.txt
-time begin: Thu Nov 23 15:09:59 2023
+time begin: Thu Nov 23 15:19:01 2023
 launch: /usr/bin/gmake -j4
 -------------------------------------------------------------------------------
   : /usr/bin/mkdir -p libhb/handbrake/
@@ -87,25 +87,11 @@ launch: /usr/bin/gmake -j4
   : [Fdownload total:    326694 bytes
   : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
   : /usr/bin/mkdir -p contrib/libdvdread/
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/dav1d-1.3.0.tar.bz2 to ../download/dav1d-1.3.0.tar.bz2
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/nv-codec-headers-12.1.14.0.tar.gz to ../download/nv-codec-headers-12.1.14.0.tar.gz
   : downloading...      65536 bytes
-  : [Fdownloading...     131072 bytes
-  : [Fdownloading...     196608 bytes
-  : [Fdownloading...     262144 bytes
-  : [Fdownloading...     327680 bytes
-  : [Fdownloading...     393216 bytes
-  : [Fdownloading...     458752 bytes
-  : [Fdownloading...     524288 bytes
-  : [Fdownloading...     589824 bytes
-  : [Fdownloading...     655360 bytes
-  : [Fdownloading...     720896 bytes
-  : [Fdownloading...     786432 bytes
-  : [Fdownloading...     851968 bytes
-  : [Fdownloading...     917504 bytes
-  : [Fdownloading...     983040 bytes
-  : [Fdownloading...    1033699 bytes
-  : [Fdownload total:   1033699 bytes
-  : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
+  : [Fdownloading...      77418 bytes
+  : [Fdownload total:     77418 bytes
+  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
   : /usr/bin/mkdir -p contrib/libdvdnav/
   : /usr/bin/mkdir -p contrib/x265/
   : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libdvdread-6.1.3.tar.bz2 to ../download/libdvdread-6.1.3.tar.bz2
@@ -118,11 +104,15 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...     395439 bytes
   : [Fdownload total:    395439 bytes
   : sha256 (../download/libdvdread-6.1.3.tar.bz2) = ce35454997a208cbe50e91232f0e73fb1ac3471965813a13b8730a8f18a15369 (pass)
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/nv-codec-headers-12.1.14.0.tar.gz to ../download/nv-codec-headers-12.1.14.0.tar.gz
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libdvdnav-6.1.1.tar.bz2 to ../download/libdvdnav-6.1.1.tar.bz2
   : downloading...      65536 bytes
-  : [Fdownloading...      77418 bytes
-  : [Fdownload total:     77418 bytes
-  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     367606 bytes
+  : [Fdownload total:    367606 bytes
+  : sha256 (../download/libdvdnav-6.1.1.tar.bz2) = c191a7475947d323ff7680cf92c0fb1be8237701885f37656c64d04e98d18d48 (pass)
   : /usr/bin/mkdir -p contrib/libbluray/
   : /usr/bin/mkdir -p test/
   : /usr/bin/m4 -Iproject ../libhb/handbrake/project.h.m4 > libhb/handbrake/project.h
@@ -166,6 +156,25 @@ launch: /usr/bin/gmake -j4
   : /usr/bin/cp ../libhb/handbrake/ssautil.h libhb/handbrake/ssautil.h
   : /usr/bin/cp ../libhb/handbrake/taskset.h libhb/handbrake/taskset.h
   : /usr/bin/cp ../libhb/handbrake/vce_common.h libhb/handbrake/vce_common.h
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/dav1d-1.3.0.tar.bz2 to ../download/dav1d-1.3.0.tar.bz2
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     458752 bytes
+  : [Fdownloading...     524288 bytes
+  : [Fdownloading...     589824 bytes
+  : [Fdownloading...     655360 bytes
+  : [Fdownloading...     720896 bytes
+  : [Fdownloading...     786432 bytes
+  : [Fdownloading...     851968 bytes
+  : [Fdownloading...     917504 bytes
+  : [Fdownloading...     983040 bytes
+  : [Fdownloading...    1033699 bytes
+  : [Fdownload total:   1033699 bytes
+  : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
   : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libbluray-1.3.4.tar.bz2 to ../download/libbluray-1.3.4.tar.bz2
   : downloading...      65536 bytes
   : [Fdownloading...     131072 bytes
@@ -181,15 +190,6 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...     756323 bytes
   : [Fdownload total:    756323 bytes
   : sha256 (../download/libbluray-1.3.4.tar.bz2) = 478ffd68a0f5dde8ef6ca989b7f035b5a0a22c599142e5cd3ff7b03bbebe5f2b (pass)
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libdvdnav-6.1.1.tar.bz2 to ../download/libdvdnav-6.1.1.tar.bz2
-  : downloading...      65536 bytes
-  : [Fdownloading...     131072 bytes
-  : [Fdownloading...     196608 bytes
-  : [Fdownloading...     262144 bytes
-  : [Fdownloading...     327680 bytes
-  : [Fdownloading...     367606 bytes
-  : [Fdownload total:    367606 bytes
-  : sha256 (../download/libdvdnav-6.1.1.tar.bz2) = c191a7475947d323ff7680cf92c0fb1be8237701885f37656c64d04e98d18d48 (pass)
   : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
   : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
   : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
@@ -435,14 +435,14 @@ launch: /usr/bin/gmake -j4
   : autoreconf: Entering directory '.'
   : autoreconf: configure.ac: not using Gettext
   : The Meson build system
-  : Version: 1.0.1
+  : Version: 0.62.2
   : Source dir: /build/HandBrake/build/contrib/libdav1d/dav1d-1.3.0
   : Build dir: /build/HandBrake/build/contrib/libdav1d/dav1d-1.3.0/build
   : Build type: native build
   : Project name: dav1d
   : Project version: 1.3.0
-  : C compiler for the host machine: ccache cc (gcc 12.3.1 "cc (GCC) 12.3.1 20230508 (Red Hat 12.3.1-1)")
-  : C linker for the host machine: cc ld.bfd 2.38-27
+  : C compiler for the host machine: ccache cc (gcc 12.2.1 "cc (GCC) 12.2.1 20221121 (Red Hat 12.2.1-4)")
+  : C linker for the host machine: cc ld.bfd 2.37-37
   : Host machine cpu family: x86_64
   : Host machine cpu: x86_64
   : Fetching value of define "__ILP32__" :  
@@ -476,7 +476,7 @@ launch: /usr/bin/gmake -j4
   : Configuring config.asm using configuration
   : Configuring config.h using configuration
   : Configuring version.h using configuration
-  : Header "xxhash.h" has symbol "XXH3_createState" : NO 
+  : Header <xxhash.h> has symbol "XXH3_createState" : NO 
   : Build targets in project: 8
   : 
   : dav1d 1.3.0
@@ -674,17 +674,6 @@ launch: /usr/bin/gmake -j4
   : autoreconf: running: aclocal --force -I m4
   : autoreconf: configure.ac: tracing
   : autoreconf: running: libtoolize --copy --force
-  : libtoolize: putting auxiliary files in '.'.
-  : libtoolize: copying file './ltmain.sh'
-  : libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
-  : libtoolize: copying file 'm4/libtool.m4'
-  : libtoolize: copying file 'm4/ltoptions.m4'
-  : libtoolize: copying file 'm4/ltsugar.m4'
-  : libtoolize: copying file 'm4/ltversion.m4'
-  : libtoolize: copying file 'm4/lt~obsolete.m4'
-  : autoreconf: configure.ac: not using Intltool
-  : autoreconf: configure.ac: not using Gtkdoc
-  : autoreconf: running: aclocal --force -I m4
   : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/x265-snapshot-20230403-12776.tar.gz to ../download/x265-snapshot-20230403-12776.tar.gz
   : downloading...      65536 bytes
   : [Fdownloading...     131072 bytes
@@ -713,6 +702,17 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...    1622414 bytes
   : [Fdownload total:   1622414 bytes
   : sha256 (../download/x265-snapshot-20230403-12776.tar.gz) = 23898695c5520e9e971d12e88125d5ad03ad67f462fc8ecaa016b48adad7cb20 (pass)
+  : libtoolize: putting auxiliary files in '.'.
+  : libtoolize: copying file './ltmain.sh'
+  : libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+  : libtoolize: copying file 'm4/libtool.m4'
+  : libtoolize: copying file 'm4/ltoptions.m4'
+  : libtoolize: copying file 'm4/ltsugar.m4'
+  : libtoolize: copying file 'm4/ltversion.m4'
+  : libtoolize: copying file 'm4/lt~obsolete.m4'
+  : autoreconf: configure.ac: not using Intltool
+  : autoreconf: configure.ac: not using Gtkdoc
+  : autoreconf: running: aclocal --force -I m4
   : autoreconf: running: /usr/bin/autoconf --force
   : configure.ac:36: warning: $as_echo is obsolete; use AS_ECHO(["message"]) instead
   : lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
@@ -749,8 +749,8 @@ launch: /usr/bin/gmake -j4
   : See `config.log' for more details
   : gmake: *** [../contrib/zimg/module.rules:2: contrib/zimg/.stamp.zimg.configure] Error 77
 -------------------------------------------------------------------------------
-time end: Thu Nov 23 15:10:11 2023
-duration: 11 seconds (11.67s)
+time end: Thu Nov 23 15:19:12 2023
+duration: 10 seconds (10.20s)
 result: FAILURE (code 2)
 -------------------------------------------------------------------------------
 Build is finished!

@@ -22,19 +22,19 @@ find: ninja-build...(pass) /usr/bin/ninja-build
 find: cargo...(fail) not found
 find: cargo-cbuild...(fail) not found
 find: xcodebuild...(fail) not found
-probe: checking for -Oz...(fail) code 1
+probe: checking for -Oz...(pass) end
 compute: available architectures...(pass) x86_64
 probe: number of CPU cores...(pass) 4
 probe: repo info...(pass) https://github.com/HandBrake/HandBrake.git
 compute: project data...(pass) HandBrake (developer)
-version probe: autoconf 2.69.0...(pass) 2.69
-version probe: automake 1.13.0...(pass) 1.16.2
+version probe: autoconf 2.69.0...(pass) 2.71
+version probe: automake 1.13.0...(pass) 1.16.5
 version probe: pkg-config 0.27.0...(pass) 1.8.0
-version probe: meson 0.51.0...(pass) 0.62.2
+version probe: meson 0.51.0...(pass) 1.0.1
 version probe: nasm 2.13.0...(pass) 2.15.05
 compute: host tuple...(pass) x86_64-pc-linux-gnu
 find: cmake...(pass) /usr/bin/cmake
-version probe: cmake 3.16.3...(pass) 3.24.2
+version probe: cmake 3.16.3...(pass) 3.27.7
 probe: numa...(pass) 
 probe: strerror_r...(pass) 
 probe: checking for -Wno-format-truncation...(pass) end
@@ -66,7 +66,7 @@ Note: exported variables: LDFLAGS=-static
 -------------------------------------------------------------------------------
 mkdir: log
 write: log/build.txt
-time begin: Thu Nov 23 16:11:18 2023
+time begin: Thu Nov 23 16:23:07 2023
 launch: /usr/bin/gmake -j4
 -------------------------------------------------------------------------------
   : /usr/bin/mkdir -p libhb/handbrake/
@@ -78,6 +78,12 @@ launch: /usr/bin/gmake -j4
   : /usr/bin/mkdir -p contrib/libdav1d/
   : /usr/bin/mkdir -p contrib/zimg/
   : /usr/bin/mkdir -p contrib/nvenc/
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/nv-codec-headers-12.1.14.0.tar.gz to ../download/nv-codec-headers-12.1.14.0.tar.gz
+  : downloading...      65536 bytes
+  : [Fdownloading...      77418 bytes
+  : [Fdownload total:     77418 bytes
+  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
+  : /usr/bin/mkdir -p contrib/libdvdread/
   : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libdvdread-6.1.3.tar.bz2 to ../download/libdvdread-6.1.3.tar.bz2
   : downloading...      65536 bytes
   : [Fdownloading...     131072 bytes
@@ -88,15 +94,9 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...     395439 bytes
   : [Fdownload total:    395439 bytes
   : sha256 (../download/libdvdread-6.1.3.tar.bz2) = ce35454997a208cbe50e91232f0e73fb1ac3471965813a13b8730a8f18a15369 (pass)
-  : /usr/bin/mkdir -p contrib/libdvdread/
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/nv-codec-headers-12.1.14.0.tar.gz to ../download/nv-codec-headers-12.1.14.0.tar.gz
-  : downloading...      65536 bytes
-  : [Fdownloading...      77418 bytes
-  : [Fdownload total:     77418 bytes
-  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
   : /usr/bin/mkdir -p contrib/libdvdnav/
   : /usr/bin/mkdir -p contrib/x265/
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/x265-snapshot-20230403-12776.tar.gz to ../download/x265-snapshot-20230403-12776.tar.gz
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/dav1d-1.3.0.tar.bz2 to ../download/dav1d-1.3.0.tar.bz2
   : downloading...      65536 bytes
   : [Fdownloading...     131072 bytes
   : [Fdownloading...     196608 bytes
@@ -112,18 +112,9 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...     851968 bytes
   : [Fdownloading...     917504 bytes
   : [Fdownloading...     983040 bytes
-  : [Fdownloading...    1048576 bytes
-  : [Fdownloading...    1114112 bytes
-  : [Fdownloading...    1179648 bytes
-  : [Fdownloading...    1245184 bytes
-  : [Fdownloading...    1310720 bytes
-  : [Fdownloading...    1376256 bytes
-  : [Fdownloading...    1441792 bytes
-  : [Fdownloading...    1507328 bytes
-  : [Fdownloading...    1572864 bytes
-  : [Fdownloading...    1622414 bytes
-  : [Fdownload total:   1622414 bytes
-  : sha256 (../download/x265-snapshot-20230403-12776.tar.gz) = 23898695c5520e9e971d12e88125d5ad03ad67f462fc8ecaa016b48adad7cb20 (pass)
+  : [Fdownloading...    1033699 bytes
+  : [Fdownload total:   1033699 bytes
+  : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
   : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/libbluray-1.3.4.tar.bz2 to ../download/libbluray-1.3.4.tar.bz2
   : downloading...      65536 bytes
   : [Fdownloading...     131072 bytes
@@ -191,7 +182,7 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...     367606 bytes
   : [Fdownload total:    367606 bytes
   : sha256 (../download/libdvdnav-6.1.1.tar.bz2) = c191a7475947d323ff7680cf92c0fb1be8237701885f37656c64d04e98d18d48 (pass)
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/SVT-AV1-v1.7.0.tar.gz to ../download/SVT-AV1-v1.7.0.tar.gz
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/x265-snapshot-20230403-12776.tar.gz to ../download/x265-snapshot-20230403-12776.tar.gz
   : downloading...      65536 bytes
   : [Fdownloading...     131072 bytes
   : [Fdownloading...     196608 bytes
@@ -207,6 +198,142 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...     851968 bytes
   : [Fdownloading...     917504 bytes
   : [Fdownloading...     983040 bytes
+  : [Fdownloading...    1048576 bytes
+  : [Fdownloading...    1114112 bytes
+  : [Fdownloading...    1179648 bytes
+  : [Fdownloading...    1245184 bytes
+  : [Fdownloading...    1310720 bytes
+  : [Fdownloading...    1376256 bytes
+  : [Fdownloading...    1441792 bytes
+  : [Fdownloading...    1507328 bytes
+  : [Fdownloading...    1572864 bytes
+  : [Fdownloading...    1622414 bytes
+  : [Fdownload total:   1622414 bytes
+  : sha256 (../download/x265-snapshot-20230403-12776.tar.gz) = 23898695c5520e9e971d12e88125d5ad03ad67f462fc8ecaa016b48adad7cb20 (pass)
+  : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
+  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
+  : sha256 (../download/libdvdread-6.1.3.tar.bz2) = ce35454997a208cbe50e91232f0e73fb1ac3471965813a13b8730a8f18a15369 (pass)
+  : sha256 (../download/libdvdnav-6.1.1.tar.bz2) = c191a7475947d323ff7680cf92c0fb1be8237701885f37656c64d04e98d18d48 (pass)
+  : sha256 (../download/x265-snapshot-20230403-12776.tar.gz) = 23898695c5520e9e971d12e88125d5ad03ad67f462fc8ecaa016b48adad7cb20 (pass)
+  : touch contrib/x265/.stamp.x265_10.extract
+  : touch contrib/x265/.stamp.x265_12.extract
+  : sha256 (../download/libbluray-1.3.4.tar.bz2) = 478ffd68a0f5dde8ef6ca989b7f035b5a0a22c599142e5cd3ff7b03bbebe5f2b (pass)
+  : /usr/bin/rm -fr ./contrib/libdav1d/dav1d-1.3.0/
+  : /usr/bin/gtar xfC ../download/dav1d-1.3.0.tar.bz2 ./contrib/libdav1d/
+  : touch contrib/libdav1d/.stamp.libdav1d.extract
+  : /usr/bin/rm -fr ./contrib/nvenc/nv-codec-headers-12.1.14.0/
+  : /usr/bin/gtar xfC ../download/nv-codec-headers-12.1.14.0.tar.gz ./contrib/nvenc/
+  : touch contrib/nvenc/.stamp.nvenc.extract
+  : /usr/bin/rm -fr ./contrib/libdvdread/libdvdread-6.1.3/
+  : /usr/bin/gtar xfC ../download/libdvdread-6.1.3.tar.bz2 ./contrib/libdvdread/
+  : touch contrib/libdvdread/.stamp.libdvdread.extract
+  : /usr/bin/rm -fr ./contrib/libdvdnav/libdvdnav-6.1.1/
+  : /usr/bin/gtar xfC ../download/libdvdnav-6.1.1.tar.bz2 ./contrib/libdvdnav/
+  : touch contrib/libdvdnav/.stamp.libdvdnav.extract
+  : touch contrib/x265/.stamp.x265.extract
+  : /usr/bin/rm -fr ./contrib/x265/x265-snapshot-20230403-12776/
+  : /usr/bin/gtar xfC ../download/x265-snapshot-20230403-12776.tar.gz ./contrib/x265/
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/zimg-3.0.5.tar.gz to ../download/zimg-3.0.5.tar.gz
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     326694 bytes
+  : [Fdownload total:    326694 bytes
+  : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
+  : touch contrib/x265/.stamp.x265_10.patch
+  : touch contrib/x265/.stamp.x265_12.patch
+  : /usr/bin/rm -fr ./contrib/libbluray/libbluray-1.3.4/
+  : /usr/bin/gtar xfC ../download/libbluray-1.3.4.tar.bz2 ./contrib/libbluray/
+  : touch contrib/x265/.stamp.x265_8.extract
+  : /usr/bin/patch -t -N -p1 -d ./contrib/libdav1d/dav1d-1.3.0/ < ../contrib/libdav1d/A99-pkgconfig-location.patch
+  : patching file src/meson.build
+  : Hunk #1 succeeded at 343 (offset 55 lines).
+  : touch contrib/libdav1d/.stamp.libdav1d.patch
+  : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
+  : touch contrib/nvenc/.stamp.nvenc.patch
+  : /usr/bin/patch -t -N -p1 -d ./contrib/libdvdread/libdvdread-6.1.3/ < ../contrib/libdvdread/A01-macOS-hardened-runtime-dlopen.patch
+  : patching file src/dvd_input.c
+  : Hunk #1 succeeded at 342 (offset 23 lines).
+  : Hunk #2 succeeded at 354 with fuzz 2 (offset 25 lines).
+  : touch contrib/libdvdread/.stamp.libdvdread.patch
+  : touch contrib/libdvdnav/.stamp.libdvdnav.patch
+  : touch contrib/x265/.stamp.x265.patch
+  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A00-crosscompile-fix.patch
+  : patching file source/CMakeLists.txt
+  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A01-threads-priority.patch
+  : patching file source/common/threadpool.cpp
+  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A02-threads-pool-adjustments.patch
+  : patching file source/common/threadpool.cpp
+  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A03-sei-length-crash-fix.patch
+  : patching file source/encoder/encoder.cpp
+  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A04-ambient-viewing-enviroment-sei.patch
+  : patching file source/common/param.cpp
+  : patching file source/encoder/encoder.cpp
+  : Hunk #1 succeeded at 3282 (offset 6 lines).
+  : patching file source/encoder/sei.h
+  : patching file source/x265.h
+  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A05-memory-leaks.patch
+  : patching file source/common/frame.cpp
+  : patching file source/common/param.cpp
+  : Hunk #2 succeeded at 2569 (offset 2 lines).
+  : Hunk #3 succeeded at 2596 (offset 2 lines).
+  : Hunk #4 succeeded at 2645 (offset 2 lines).
+  : Hunk #5 succeeded at 2687 (offset 2 lines).
+  : Hunk #6 succeeded at 2716 (offset 2 lines).
+  : Hunk #9 succeeded at 2813 (offset 4 lines).
+  : Hunk #10 succeeded at 2835 (offset 4 lines).
+  : Hunk #11 succeeded at 2846 (offset 4 lines).
+  : Hunk #12 succeeded at 2872 (offset 4 lines).
+  : patching file source/encoder/api.cpp
+  : patching file source/encoder/encoder.cpp
+  : Hunk #2 succeeded at 1667 (offset 6 lines).
+  : Hunk #3 succeeded at 3520 (offset 10 lines).
+  : patching file source/encoder/framefilter.cpp
+  : patching file source/encoder/slicetype.cpp
+  : touch contrib/x265/.stamp.x265_8.patch
+  : set -e; /usr/bin/mkdir -p ./contrib/libdav1d/dav1d-1.3.0/build/; cd ./contrib/libdav1d/dav1d-1.3.0/build/; /usr/bin/meson setup --prefix=/build/HandBrake/build/contrib/ -Ddefault_library=static --libdir=/build/HandBrake/build/contrib/lib/ -Denable_tools=false -Denable_tests=false --buildtype=release
+  : touch contrib/libbluray/.stamp.libbluray.extract
+  : /usr/bin/rm -fr ./contrib/zimg/zimg-release-3.0.5/
+  : /usr/bin/gtar xfC ../download/zimg-3.0.5.tar.gz ./contrib/zimg/
+  : touch contrib/zimg/.stamp.zimg.extract
+  : touch contrib/nvenc/.stamp.nvenc.configure
+  : set -e; /usr/bin/mkdir -p ./contrib/libdvdread/libdvdread-6.1.3/; cd ./contrib/libdvdread/libdvdread-6.1.3/; CC=/usr/bin/gcc CFLAGS="-I/build/HandBrake/build/contrib/include -std=gnu99 -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CXX=/usr/bin/g++ CXXFLAGS="-I/build/HandBrake/build/contrib/include -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CPPFLAGS="-I/build/HandBrake/build/contrib/include " LDFLAGS="-L/build/HandBrake/build/contrib/lib -static -fstack-protector-strong" PKG_CONFIG_PATH="/build/HandBrake/build/contrib/lib/pkgconfig:" ./configure --prefix=/build/HandBrake/build/contrib/ --disable-dependency-tracking --disable-shared --enable-static
+  : checking build system type... x86_64-pc-linux-gnu
+  : checking host system type... x86_64-pc-linux-gnu
+  : checking for a BSD-compatible install... /usr/bin/install -c
+  : checking whether build environment is sane... yes
+  : checking for a race-free mkdir -p... /usr/bin/mkdir -p
+  : checking for gawk... gawk
+  : checking whether make sets $(MAKE)... yes
+  : checking whether make supports nested variables... yes
+  : checking whether to enable maintainer-specific portions of Makefiles... yes
+  : checking whether make supports nested variables... (cached) yes
+  : checking how to print strings... printf
+  : checking whether make supports the include directive... yes (GNU style)
+  : checking for gcc... /usr/bin/gcc
+  : checking whether the C compiler works... no
+  : configure: error: in `/build/HandBrake/build/contrib/libdvdread/libdvdread-6.1.3':
+  : configure: error: C compiler cannot create executables
+  : See `config.log' for more details
+  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/SVT-AV1-v1.7.0.tar.gz to ../download/SVT-AV1-v1.7.0.tar.gz
+  : downloading...      65536 bytes
+  : [Fdownloading...     131072 bytes
+  : [Fdownloading...     196608 bytes
+  : [Fdownloading...     262144 bytes
+  : [Fdownloading...     327680 bytes
+  : [Fdownloading...     393216 bytes
+  : [Fdownloading...     458752 bytes
+  : [Fdownloading...     524288 bytes
+  : [Fdownloading...     589824 bytes
+  : [Fdownloading...     655360 bytes
+  : [Fdownloading...     720896 bytes
+  : [Fdownloading...     786432 bytes
+  : [Fdownloading...     851968 bytes
+  : [Fdownloading...     917504 bytes
+  : [Fgmake: *** [../contrib/libdvdread/module.rules:2: contrib/libdvdread/.stamp.libdvdread.configure] Error 77
+  : gmake: *** Waiting for unfinished jobs....
+  : downloading...     983040 bytes
   : [Fdownloading...    1048576 bytes
   : [Fdownloading...    1114112 bytes
   : [Fdownloading...    1179648 bytes
@@ -350,196 +477,63 @@ launch: /usr/bin/gmake -j4
   : [Fdownloading...   10164910 bytes
   : [Fdownload total:  10164910 bytes
   : sha256 (../download/SVT-AV1-v1.7.0.tar.gz) = ce0973584f1a187aa4abf63f509ff8464397120878e322a3153f87e9c161fc4f (pass)
-  : sha256 (../download/nv-codec-headers-12.1.14.0.tar.gz) = 62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f (pass)
-  : sha256 (../download/libdvdread-6.1.3.tar.bz2) = ce35454997a208cbe50e91232f0e73fb1ac3471965813a13b8730a8f18a15369 (pass)
-  : sha256 (../download/libdvdnav-6.1.1.tar.bz2) = c191a7475947d323ff7680cf92c0fb1be8237701885f37656c64d04e98d18d48 (pass)
-  : sha256 (../download/x265-snapshot-20230403-12776.tar.gz) = 23898695c5520e9e971d12e88125d5ad03ad67f462fc8ecaa016b48adad7cb20 (pass)
-  : touch contrib/x265/.stamp.x265_10.extract
-  : touch contrib/x265/.stamp.x265_12.extract
-  : sha256 (../download/libbluray-1.3.4.tar.bz2) = 478ffd68a0f5dde8ef6ca989b7f035b5a0a22c599142e5cd3ff7b03bbebe5f2b (pass)
-  : sha256 (../download/SVT-AV1-v1.7.0.tar.gz) = ce0973584f1a187aa4abf63f509ff8464397120878e322a3153f87e9c161fc4f (pass)
-  : /usr/bin/rm -fr ./contrib/nvenc/nv-codec-headers-12.1.14.0/
-  : /usr/bin/gtar xfC ../download/nv-codec-headers-12.1.14.0.tar.gz ./contrib/nvenc/
-  : touch contrib/nvenc/.stamp.nvenc.extract
-  : /usr/bin/rm -fr ./contrib/libdvdread/libdvdread-6.1.3/
-  : /usr/bin/gtar xfC ../download/libdvdread-6.1.3.tar.bz2 ./contrib/libdvdread/
-  : touch contrib/libdvdread/.stamp.libdvdread.extract
-  : /usr/bin/rm -fr ./contrib/libdvdnav/libdvdnav-6.1.1/
-  : /usr/bin/gtar xfC ../download/libdvdnav-6.1.1.tar.bz2 ./contrib/libdvdnav/
-  : touch contrib/libdvdnav/.stamp.libdvdnav.extract
-  : touch contrib/x265/.stamp.x265.extract
-  : /usr/bin/rm -fr ./contrib/x265/x265-snapshot-20230403-12776/
-  : /usr/bin/gtar xfC ../download/x265-snapshot-20230403-12776.tar.gz ./contrib/x265/
-  : touch contrib/x265/.stamp.x265_8.extract
-  : touch contrib/x265/.stamp.x265_10.patch
-  : touch contrib/x265/.stamp.x265_12.patch
-  : /usr/bin/rm -fr ./contrib/libbluray/libbluray-1.3.4/
-  : /usr/bin/gtar xfC ../download/libbluray-1.3.4.tar.bz2 ./contrib/libbluray/
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/zimg-3.0.5.tar.gz to ../download/zimg-3.0.5.tar.gz
-  : downloading...      65536 bytes
-  : [Fdownloading...     131072 bytes
-  : [Fdownloading...     196608 bytes
-  : [Fdownloading...     262144 bytes
-  : [Fdownloading...     326694 bytes
-  : [Fdownload total:    326694 bytes
-  : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
-  : /usr/bin/rm -fr ./contrib/svt-av1/SVT-AV1-v1.7.0/
-  : /usr/bin/gtar xfC ../download/SVT-AV1-v1.7.0.tar.gz ./contrib/svt-av1/
-  : touch contrib/libbluray/.stamp.libbluray.extract
-  : sha256 (../download/zimg-3.0.5.tar.gz) = a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf (pass)
-  : touch contrib/nvenc/.stamp.nvenc.patch
-  : /usr/bin/patch -t -N -p1 -d ./contrib/libdvdread/libdvdread-6.1.3/ < ../contrib/libdvdread/A01-macOS-hardened-runtime-dlopen.patch
-  : patching file src/dvd_input.c
-  : Hunk #1 succeeded at 342 (offset 23 lines).
-  : Hunk #2 succeeded at 354 with fuzz 2 (offset 25 lines).
-  : touch contrib/libdvdread/.stamp.libdvdread.patch
-  : touch contrib/libdvdnav/.stamp.libdvdnav.patch
-  : touch contrib/x265/.stamp.x265.patch
-  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A00-crosscompile-fix.patch
-  : patching file source/CMakeLists.txt
-  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A01-threads-priority.patch
-  : patching file source/common/threadpool.cpp
-  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A02-threads-pool-adjustments.patch
-  : patching file source/common/threadpool.cpp
-  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A03-sei-length-crash-fix.patch
-  : patching file source/encoder/encoder.cpp
-  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A04-ambient-viewing-enviroment-sei.patch
-  : patching file source/common/param.cpp
-  : patching file source/encoder/encoder.cpp
-  : Hunk #1 succeeded at 3282 (offset 6 lines).
-  : patching file source/encoder/sei.h
-  : patching file source/x265.h
-  : /usr/bin/patch -t -N -p1 -d ./contrib/x265/x265-snapshot-20230403-12776/ < ../contrib/x265/A05-memory-leaks.patch
-  : patching file source/common/frame.cpp
-  : patching file source/common/param.cpp
-  : Hunk #2 succeeded at 2569 (offset 2 lines).
-  : Hunk #3 succeeded at 2596 (offset 2 lines).
-  : Hunk #4 succeeded at 2645 (offset 2 lines).
-  : Hunk #5 succeeded at 2687 (offset 2 lines).
-  : Hunk #6 succeeded at 2716 (offset 2 lines).
-  : Hunk #9 succeeded at 2813 (offset 4 lines).
-  : Hunk #10 succeeded at 2835 (offset 4 lines).
-  : Hunk #11 succeeded at 2846 (offset 4 lines).
-  : Hunk #12 succeeded at 2872 (offset 4 lines).
-  : patching file source/encoder/api.cpp
-  : patching file source/encoder/encoder.cpp
-  : Hunk #2 succeeded at 1667 (offset 6 lines).
-  : Hunk #3 succeeded at 3520 (offset 10 lines).
-  : patching file source/encoder/framefilter.cpp
-  : patching file source/encoder/slicetype.cpp
-  : touch contrib/x265/.stamp.x265_8.patch
-  : touch contrib/libbluray/.stamp.libbluray.patch
-  : /usr/bin/rm -fr ./contrib/zimg/zimg-release-3.0.5/
-  : /usr/bin/gtar xfC ../download/zimg-3.0.5.tar.gz ./contrib/zimg/
-  : touch contrib/zimg/.stamp.zimg.extract
-  : touch contrib/nvenc/.stamp.nvenc.configure
-  : set -e; /usr/bin/mkdir -p ./contrib/libdvdread/libdvdread-6.1.3/; cd ./contrib/libdvdread/libdvdread-6.1.3/; CC=/usr/bin/gcc CFLAGS="-I/build/HandBrake/build/contrib/include -std=gnu99 -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CXX=/usr/bin/g++ CXXFLAGS="-I/build/HandBrake/build/contrib/include -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CPPFLAGS="-I/build/HandBrake/build/contrib/include " LDFLAGS="-L/build/HandBrake/build/contrib/lib -static -fstack-protector-strong" PKG_CONFIG_PATH="/build/HandBrake/build/contrib/lib/pkgconfig:" ./configure --prefix=/build/HandBrake/build/contrib/ --disable-dependency-tracking --disable-shared --enable-static
-  : touch contrib/svt-av1/.stamp.svt-av1.extract
-  : set -e; /usr/bin/mkdir -p ./contrib/x265/x265-snapshot-20230403-12776/8bit; cd ./contrib/x265/x265-snapshot-20230403-12776/8bit; CC=/usr/bin/gcc CFLAGS="-I/build/HandBrake/build/contrib/include -std=gnu99 -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CXX=/usr/bin/g++ CXXFLAGS="-I/build/HandBrake/build/contrib/include -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2" CPPFLAGS="-I/build/HandBrake/build/contrib/include " LDFLAGS="-L/build/HandBrake/build/contrib/lib -static -fstack-protector-strong" PKG_CONFIG_PATH="/build/HandBrake/build/contrib/lib/pkgconfig:" cmake -DCMAKE_INSTALL_PREFIX="/build/HandBrake/build/contrib/" -DENABLE_SHARED=OFF -DENABLE_CLI=OFF -DHIGH_BIT_DEPTH=OFF -DEXTRA_LIB="x265_main10.a;x265_main12.a" -DEXTRA_LINK_FLAGS=-L. -DLINKED_10BIT=ON -DLINKED_12BIT=ON -DCMAKE_ASM_NASM_FLAGS=-w-macro-params-legacy -DCMAKE_BUILD_TYPE=Release "/build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/source/"
-  : -- cmake version 3.24.2
-  : CMake Deprecation Warning at CMakeLists.txt:10 (cmake_policy):
-  :   The OLD behavior for policy CMP0025 will be removed from a future version
-  :   of CMake.
+  : The Meson build system
+  : Version: 1.0.1
+  : Source dir: /build/HandBrake/build/contrib/libdav1d/dav1d-1.3.0
+  : Build dir: /build/HandBrake/build/contrib/libdav1d/dav1d-1.3.0/build
+  : Build type: native build
+  : Project name: dav1d
+  : Project version: 1.3.0
+  : C compiler for the host machine: ccache cc (gcc 12.3.1 "cc (GCC) 12.3.1 20230508 (Red Hat 12.3.1-1)")
+  : C linker for the host machine: cc ld.bfd 2.38-27
+  : Host machine cpu family: x86_64
+  : Host machine cpu: x86_64
+  : Fetching value of define "__ILP32__" :  
+  : Run-time dependency threads found: YES
+  : Checking for function "clock_gettime" : YES 
+  : Checking for function "posix_memalign" : YES 
+  : Library dl found: YES
+  : Checking for function "dlsym" with dependency -ldl: YES 
+  : Library m found: YES
+  : Check usable header "stdatomic.h" : YES 
+  : Check usable header "unistd.h" : YES 
+  : Check usable header "io.h" : NO 
+  : Check usable header "pthread_np.h" : NO 
+  : Checking for function "getopt_long" : YES 
+  : Checking for function "pthread_getaffinity_np" with dependency threads: YES 
+  : Checking for function "pthread_setaffinity_np" with dependency threads: YES 
+  : Checking if "_Generic" compiles: YES 
+  : Compiler for C supports arguments -fvisibility=hidden: YES 
+  : Compiler for C supports arguments -Wundef: YES 
+  : Compiler for C supports arguments -Werror=vla: YES 
+  : Compiler for C supports arguments -Wno-maybe-uninitialized: YES 
+  : Compiler for C supports arguments -Wno-missing-field-initializers: YES 
+  : Compiler for C supports arguments -Wno-unused-parameter: YES 
+  : Compiler for C supports arguments -Wstrict-prototypes: YES 
+  : Compiler for C supports arguments -Werror=missing-prototypes: YES 
+  : Compiler for C supports arguments -Wshorten-64-to-32: NO 
+  : Compiler for C supports arguments -fomit-frame-pointer: YES 
+  : Compiler for C supports arguments -ffast-math: YES 
+  : Fetching value of define "__AVX__" :  
+  : Program nasm found: YES (/usr/bin/nasm)
+  : Configuring config.asm using configuration
+  : Configuring config.h using configuration
+  : Configuring version.h using configuration
+  : Header "xxhash.h" has symbol "XXH3_createState" : NO 
+  : Build targets in project: 8
   : 
-  :   The cmake-policies(7) manual explains that the OLD behaviors of all
-  :   policies are deprecated and that a policy should be set to OLD only under
-  :   specific short-term circumstances.  Projects should be ported to the NEW
-  :   behavior and not rely on setting a policy to OLD.
+  : dav1d 1.3.0
   : 
+  :   User defined options
+  :     buildtype      : release
+  :     default_library: static
+  :     libdir         : /build/HandBrake/build/contrib/lib/
+  :     prefix         : /build/HandBrake/build/contrib/
+  :     enable_tests   : false
+  :     enable_tools   : false
   : 
-  : CMake Deprecation Warning at CMakeLists.txt:16 (cmake_policy):
-  :   The OLD behavior for policy CMP0054 will be removed from a future version
-  :   of CMake.
-  : 
-  :   The cmake-policies(7) manual explains that the OLD behaviors of all
-  :   policies are deprecated and that a policy should be set to OLD only under
-  :   specific short-term circumstances.  Projects should be ported to the NEW
-  :   behavior and not rely on setting a policy to OLD.
-  : 
-  : 
-  : checking build system type... -- The C compiler identification is GNU 11.3.1
-  : x86_64-pc-linux-gnu
-  : checking host system type... x86_64-pc-linux-gnu
-  : checking for a BSD-compatible install... /usr/bin/install -c
-  : checking whether build environment is sane... yes
-  : checking for a race-free mkdir -p... /usr/bin/mkdir -p
-  : checking for gawk... gawk
-  : checking whether make sets $(MAKE)... yes
-  : checking whether make supports nested variables... yes
-  : checking whether to enable maintainer-specific portions of Makefiles... yes
-  : checking whether make supports nested variables... (cached) yes
-  : checking how to print strings... printf
-  : checking whether make supports the include directive... yes (GNU style)
-  : -- The CXX compiler identification is GNU 11.3.1
-  : checking for gcc... /usr/bin/gcc
-  : -- Detecting C compiler ABI info
-  : checking whether the C compiler works... no
-  : configure: error: in `/build/HandBrake/build/contrib/libdvdread/libdvdread-6.1.3':
-  : configure: error: C compiler cannot create executables
-  : See `config.log' for more details
-  : -- Detecting C compiler ABI info - failed
-  : -- Check for working C compiler: /usr/bin/gcc
-  : gmake: *** [../contrib/libdvdread/module.rules:2: contrib/libdvdread/.stamp.libdvdread.configure] Error 77
-  : gmake: *** Waiting for unfinished jobs....
-  : -- Check for working C compiler: /usr/bin/gcc - broken
-  : CMake Error at /usr/share/cmake/Modules/CMakeTestCCompiler.cmake:69 (message):
-  :   The C compiler
-  : 
-  :     "/usr/bin/gcc"
-  : 
-  :   is not able to compile a simple test program.
-  : 
-  :   It fails with the following output:
-  : 
-  :     Change Dir: /build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeTmp
-  :     
-  :     Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_9adf8/fast && gmake[1]: Entering directory '/build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeTmp'
-  :     /usr/bin/gmake  -f CMakeFiles/cmTC_9adf8.dir/build.make CMakeFiles/cmTC_9adf8.dir/build
-  :     gmake[2]: Entering directory '/build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeTmp'
-  :     Building C object CMakeFiles/cmTC_9adf8.dir/testCCompiler.c.o
-  :     /usr/bin/gcc   -I/build/HandBrake/build/contrib/include -std=gnu99 -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2  -o CMakeFiles/cmTC_9adf8.dir/testCCompiler.c.o -c /build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeTmp/testCCompiler.c
-  :     Linking C executable cmTC_9adf8
-  :     /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9adf8.dir/link.txt --verbose=1
-  :     /usr/bin/gcc -I/build/HandBrake/build/contrib/include -std=gnu99 -mfpmath=sse -msse2 -fstack-protector-strong -D_FORTIFY_SOURCE=2  -L/build/HandBrake/build/contrib/lib -static -fstack-protector-strong  -rdynamic CMakeFiles/cmTC_9adf8.dir/testCCompiler.c.o -o cmTC_9adf8 
-  :     /usr/bin/ld: cannot find -lc
-  :     collect2: error: ld returned 1 exit status
-  :     gmake[2]: *** [CMakeFiles/cmTC_9adf8.dir/build.make:99: cmTC_9adf8] Error 1
-  :     gmake[2]: Leaving directory '/build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeTmp'
-  :     gmake[1]: *** [Makefile:127: cmTC_9adf8/fast] Error 2
-  :     gmake[1]: Leaving directory '/build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeTmp'
-  :     
-  :     
-  : 
-  :   
-  : 
-  :   CMake will not be able to correctly generate this project.
-  : Call Stack (most recent call first):
-  :   CMakeLists.txt:19 (project)
-  : 
-  : 
-  : -- Configuring incomplete, errors occurred!
-  : See also "/build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeOutput.log".
-  : See also "/build/HandBrake/build/contrib/x265/x265-snapshot-20230403-12776/8bit/CMakeFiles/CMakeError.log".
-  : gmake: *** [../contrib/x265_8bit/module.rules:2: contrib/x265/.stamp.x265_8.configure] Error 1
-  : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/dav1d-1.3.0.tar.bz2 to ../download/dav1d-1.3.0.tar.bz2
-  : downloading...      65536 bytes
-  : [Fdownloading...     131072 bytes
-  : [Fdownloading...     196608 bytes
-  : [Fdownloading...     262144 bytes
-  : [Fdownloading...     327680 bytes
-  : [Fdownloading...     393216 bytes
-  : [Fdownloading...     458752 bytes
-  : [Fdownloading...     524288 bytes
-  : [Fdownloading...     589824 bytes
-  : [Fdownloading...     655360 bytes
-  : [Fdownloading...     720896 bytes
-  : [Fdownloading...     786432 bytes
-  : [Fdownloading...     851968 bytes
-  : [Fdownloading...     917504 bytes
-  : [Fdownloading...     983040 bytes
-  : [Fdownloading...    1033699 bytes
-  : [Fdownload total:   1033699 bytes
-  : sha256 (../download/dav1d-1.3.0.tar.bz2) = bde8db3d0583a4f3733bb5a4ac525556ffd03ab7dcd8a6e7c091bee28d9466b1 (pass)
+  : Found ninja-1.10.2 at /usr/bin/ninja
+  : touch contrib/libdav1d/.stamp.libdav1d.configure
   : downloading https://github.com/HandBrake/HandBrake-contribs/releases/download/contribs/ffmpeg-6.1.tar.bz2 to ../download/ffmpeg-6.1.tar.bz2
   : downloading...      65536 bytes
   : [Fdownloading...     131072 bytes
@@ -737,8 +731,8 @@ launch: /usr/bin/gmake -j4
   : [Fdownload total:  12637240 bytes
   : sha256 (../download/ffmpeg-6.1.tar.bz2) = eb7da3de7dd3ce48a9946ab447a7346bd11a3a85e6efb8f2c2ce637e7f547611 (pass)
 -------------------------------------------------------------------------------
-time end: Thu Nov 23 16:11:26 2023
-duration: 8 seconds (8.60s)
+time end: Thu Nov 23 16:23:13 2023
+duration: 6 seconds (6.24s)
 result: FAILURE (code 2)
 -------------------------------------------------------------------------------
 Build is finished!

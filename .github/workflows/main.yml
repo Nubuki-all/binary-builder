@@ -62,8 +62,8 @@ jobs:
             #git tag --list | grep ^1\.6\.
             #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
-            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265 LDFLAGS="-static -static-libgcc -static-libstdc++" >> /artifacts/logs.txt 2>&1
-            ./configure --launch-jobs=$(nproc) --launch  --enable-fdk --enable-x265 LDFLAGS="-static-libass" >> /artifacts/logs.txt 2>&1
+            #./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265 LDFLAGS="-static -static-libgcc -static-libstdc++" >> /artifacts/logs.txt 2>&1
+            ./configure --launch-jobs=$(nproc) --launch  --disable-gtk --enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
             cd build
             cp HandBrakeCLI handbrake-cli
             #apt install binutils patchelf python3-pip -y

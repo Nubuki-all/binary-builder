@@ -8,101 +8,99 @@ on:
 #on: [push, pull_request]
 
 jobs:
-  build_job:
-    # The host should always be linux
-    runs-on: ubuntu-22.04
-    name: Build on arch (x86-64)
+  build:
+    name: Build on Ubuntu
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v2
-        name: Build artifact
-        id: build
-        with:
-          #arch: aarch64
-          #distro: ubuntu20.04
-          arch: none
-          distro: none
-          base_image: archlinux
+    - uses: actions/checkout@v4
 
-          # Not required, but speeds up builds
-          #githubToken: ${{ github.token }}
+    - name: Cargo-C Toolchain Cache
+      id: linux-cargo-c-toolchain
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/cargo-capi
+          ~/.cargo/bin/cargo-cbuild
+          ~/.cargo/bin/cargo-cinstall
+        key: linux-cargo-c-toolchain
 
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-            mkdir -p "/tmp/build"
+    - name: Setup Environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install autoconf automake build-essential libass-dev libbz2-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libturbojpeg0-dev libssl-dev
+        sudo apt-get install libogg-dev libopus-dev libsamplerate-dev libspeex-dev libtheora-dev libtool libtool-bin libvorbis-dev libx264-dev libxml2-dev libvpx-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream
+        sudo pip3 install meson
+        sudo apt-get install gstreamer1.0-libav libappindicator-dev libdbus-glib-1-dev libglib2.0-dev libgtk-3-dev libnotify-dev
+        sudo apt-get install libva-dev libdrm-dev llvm clang
+    - name: Setup Toolchain
+      run: |
+        wget https://github.com/HandBrake/HandBrake-toolchains/releases/download/1.0/cmake-3.16.3-Linux-x86_64.tar.gz
+        SHA=$(sha1sum cmake-3.16.3-Linux-x86_64.tar.gz)
+        EXPECTED="a0f48057d8ccb6d4e50e80c77796466315dd2bfb  cmake-3.16.3-Linux-x86_64.tar.gz"
+        if [ "$SHA" == "$EXPECTED" ];
+        then
+            echo "Extracting CMake"
+            tar xvf cmake-3.16.3-Linux-x86_64.tar.gz
+        else
+            echo "Toolchain Verification FAILED. Exiting!"
+            return -1
+        fi
+    - name: Setup Cargo-C Toolchain
+      if: steps.linux-cargo-c-toolchain.outputs.cache-hit != 'true'
+      run: |
+        cargo install cargo-c
+    - name: Build HandBrake Linux
+      run: |
+         mkdir /tmp/build artifacts
+         export ARTF=$PWD/artifacts
+         cd /tmp/build
+         git clone https://github.com/HandBrake/HandBrake.git
+         cd HandBrake
+         PWD=$(pwd)
+         export PATH=$PWD/cmake-3.16.3-Linux-x86_64/bin:$PATH
+         ./configure --enable-qsv  --disable-gtk --enable-vce --enable-nvenc --enable-nvdec --launch-jobs=0 --launch >> /artifacts/logs.txt 2>&1
+         #git tag --list | grep ^1\.6\.
+         #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
+         #./configure --launch-jobs=$(nproc) --launch --enable-x265 LDFLAGS="-static" 
+         cd build
+         cp HandBrakeCLI handbrake-cli
+         chmod +x handbrake-cli
+         ./handbrake-cli --version
+         chmod 777 handbrake-cli
+         cp handbrake-cli $ARTF/HandBrakeCLI
+         sha256sum ./handbrake-cli > $ARTF/HandBrakeCLI.sha256sum
+         md5sum ./handbrake-cli > $ARTF/HandBrakeCLI.md5sum
+         echo "Copied to /artifacts"
 
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-            --volume "/tmp/build:/build"
-
-          # Pass some environment variables to the container
-          env: | # YAML, but pipe character is necessary
-            artifact_name: handbrake-cli-x86-64
-
-          # The shell to run commands with in the container
-          shell: /bin/sh
-
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
-          install: |
-            pacman -S base-devel cmake flac fontconfig freetype2 fribidi git harfbuzz jansson lame libass libbluray libjpeg-turbo libogg libsamplerate libtheora libvorbis libvpx libxml2 meson nasm ninja numactl opus python2 speex x264 xz 
-          # Produce a binary artifact and place it in the mounted volume
-          run: |
-            cd /build
-            git clone https://github.com/HandBrake/HandBrake.git
-            cd HandBrake
-            #git tag --list | grep ^1\.6\.
-            #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
-
-            ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-x265 LDFLAGS="-static" >> /artifacts/logs.txt 2>&1
-            cd build
-            cp HandBrakeCLI handbrake-cli
-            #apt install binutils patchelf python3-pip -y
-            #pip3 install staticx
-            #staticx HandBrakeCLI handbrake-cli
-            chmod +x handbrake-cli
-            ./handbrake-cli --version
-            chmod 777 handbrake-cli
-            cp handbrake-cli /artifacts/HandBrakeCLI
-            sha256sum ./handbrake-cli > /artifacts/HandBrakeCLI.sha256sum
-            md5sum ./handbrake-cli > /artifacts/HandBrakeCLI.md5sum
-            echo "Copied to /artifacts"
-
-      - name: Show the artifact
+    - name: Show the artifact
         # Items placed in /artifacts in the container will be in
         # ${PWD}/artifacts on the host.
-        run: |
-          ls -al "${PWD}/artifacts"
+      run: |
+        ls -al "${PWD}/artifacts"
 
-      - name: move logs
-        if: always()
-        run: |
-          cp "${PWD}/artifacts/logs.txt" "${PWD}/"
+    - name: move logs
+      if: always()
+      run: |
+        cp "${PWD}/artifacts/logs.txt" "${PWD}/"
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: HandBrakeCLI_x86-64
-          path: artifacts
+    - uses: actions/upload-artifact@v3
+      with:
+        name: HandBrakeCLI_x86-64
+        path: artifacts
 
-      - name: cleanup
-        if: always()
-        run: |
-          rm -rf "${PWD}/artifacts/" "${PWD}/HandBrake/"
+    - name: cleanup
+      if: always()
+      run: |
+        rm -rf "${PWD}/artifacts/"
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        name: commit logs
-        if: always()
-        with:
-          commit_message: 'logging...'
-          commit_options: '--no-verify'
-          repository: .
-          commit_user_name: Nubuki-all
-          commit_user_email: 121189493+Nubuki-all@users.noreply.github.com
-          commit_author: Nubuki-all <121189493+Nubuki-all@users.noreply.github.com>
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      name: commit logs
+      if: always()
+      with:
+        commit_message: 'logging...'
+        commit_options: '--no-verify'
+        repository: .
+        commit_user_name: Nubuki-all
+        commit_user_email: 121189493+Nubuki-all@users.noreply.github.com
+        commit_author: Nubuki-all <121189493+Nubuki-all@users.noreply.github.com>
           

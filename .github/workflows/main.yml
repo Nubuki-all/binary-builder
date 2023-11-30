@@ -61,7 +61,7 @@ jobs:
          cd /config/build/HandBrake
          PWD=$(pwd)
          export PATH=$PWD/cmake-3.16.3-Linux-x86_64/bin:$PATH
-         ./configure --enable-qsv  --disable-gtk --enable-vce --enable-nvenc --enable-nvdec LDFLAGS="-static" --launch-jobs=0 --launch >> $ARTF/logs.txt 2>&1
+         ./configure --disable-gtk --launch-jobs=0 --launch LDFLAGS="-static" >> $ARTF/logs.txt 2>&1
          #git tag --list | grep ^1\.6\.
          #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
          #./configure --launch-jobs=$(nproc) --launch --enable-x265 LDFLAGS="-static" 

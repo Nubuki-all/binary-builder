@@ -10,7 +10,7 @@ sudo apt-get install libavcodec-dev libva-dev libdrm-dev llvm clang
 cd /config/build
 
 git clone https://github.com/GNOME/libxml2.git xml && cd xml
-./configure --without-python --disable-maintainer-mode --disable-shared --enable-static
+./autogen.sh --without-python --disable-maintainer-mode --disable-shared --enable-static
 make
 sudo make install && cd ..
 

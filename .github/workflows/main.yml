@@ -33,7 +33,9 @@ jobs:
         cd /config/build
         git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
         sh autogen.sh
-        ./configure --without-harfbuzz
+        ./configure --help
+        exit 1
+        #--without-harfbuzz
         make
         sudo make install
         sudo pip3 install meson

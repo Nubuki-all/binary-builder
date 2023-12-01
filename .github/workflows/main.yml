@@ -29,7 +29,7 @@ jobs:
         sudo mkdir -p /config/build artifacts
         sudo chmod 777 /config/build artifacts
         sudo apt-get update
-        sudo apt-get install autoconf automake libtool libtool-bin
+        sudo apt-get install autoconf automake libtool libtool-bin gperf
         sudo pip3 install meson
         sudo apt-get install build-essential libbz2-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libturbojpeg0-dev libssl-dev
         sudo apt-get install libogg-dev libopus-dev libpng-dev libsamplerate-dev libspeex-dev libtheora-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream
@@ -78,7 +78,8 @@ jobs:
          cd /config/build/HandBrake
          PWD=$(pwd)
          export PATH=$PWD/cmake-3.16.3-Linux-x86_64/bin:$PATH
-         ./configure --disable-gtk --launch-jobs=0 --launch >> $ARTF/logs.txt 2>&1
+         ./configure --help
+         #--disable-gtk --launch-jobs=0 --launch >> $ARTF/logs.txt 2>&1
          #git tag --list | grep ^1\.6\.
          #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
          #./configure --launch-jobs=$(nproc) --launch --enable-x265 LDFLAGS="-static" 

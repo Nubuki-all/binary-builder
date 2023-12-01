@@ -30,17 +30,22 @@ jobs:
         sudo chmod 777 /config/build artifacts
         sudo apt-get update
         sudo apt-get install autoconf automake libtool libtool-bin
-        cd /config/build
-        git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
-        sh autogen.sh
-        LDFLAGS="-static" ./configure --without-harfbuzz --enable-static
-        make
-        sudo make install
         sudo pip3 install meson
         sudo apt-get install build-essential libass-dev libbz2-dev libfontconfig1-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libturbojpeg0-dev libssl-dev
         sudo apt-get install libogg-dev libopus-dev libpng-dev libsamplerate-dev libspeex-dev libtheora-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream
         sudo apt-get install gstreamer1.0-libav libappindicator-dev libdbus-glib-1-dev libglib2.0-dev libgtk-3-dev libnotify-dev
-        sudo apt-get install libavcodec-dev libva-dev libdrm-dev llvm clang autoconf automake autopoint appstream build-essential cmake git libass-dev libbz2-dev libfontconfig1-dev  libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libogg-dev libopus-dev libsamplerate-dev libspeex-dev libtheora-dev libturbojpeg0-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev m4 make meson nasm ninja-build patch pkg-config tar zlib1g-dev clang
+        sudo apt-get install libavcodec-dev libva-dev libdrm-dev llvm clang
+        cd /config/build
+        git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
+        sh autogen.sh
+        ./configure --without-harfbuzz  --disable-shared --enable-static
+        make
+        sudo make install && cd ..
+        git clone https://github.com/libass/libass.git ass && cd ass
+        ./autogen.sh
+        ./configure --disable-shared --enable-static --with-pic
+        make
+        sudo make install
     - name: Setup Toolchain & repo
       run: |
         rm -rf cmake-3.16.3-Linux-x86_64.tar.gz* cmake-3.16.3-Linux-x86_64

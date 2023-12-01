@@ -1,6 +1,6 @@
 TARGET=x86_64-linux-gcc
 sudo apt-get update
-sudo apt-get install autoconf automake libtool libtool-bin gperf svn
+sudo apt-get install autoconf automake libtool libtool-bin gperf subversion
 sudo pip3 install meson
 sudo apt-get install build-essential liblzma-dev libnuma-dev libturbojpeg0-dev libssl-dev
 sudo apt-get install libsamplerate-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream
@@ -20,8 +20,8 @@ make
 sudo make install && cd ..
 
 git clone https://github.com/libarchive/bzip2 bzip && cd bzip
-#mkdir builddir
-meson -Ddefault_library=static --prefix=/usr
+mkdir build && cd build 
+meson -Ddefault_library=static --prefix=/usr ..
 ninja
 sudo ninja install && cd ..
 
@@ -39,7 +39,8 @@ make
 sudo make install && cd ..
 
 git clone https://github.com/fribidi/fribidi.git frib && cd frib
-meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false ..
 ninja
 sudo ninja install && cd ..
 
@@ -96,7 +97,7 @@ git clone https://github.com/mstorsjo/fdk-aac.git fdk && cd fdk
 ./configure --disable-shared --enable-static --with-pic --disable-example
 make
 sudo make install && cd ..
-
+echo "cloning into lame"
 SCRIPT_REPO="https://svn.code.sf.net/p/lame/svn/trunk/lame"
 SCRIPT_REV="6525"
 svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame\ && cd lame

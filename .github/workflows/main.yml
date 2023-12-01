@@ -28,6 +28,7 @@ jobs:
       run: |
         sudo mkdir -p /config/build artifacts
         sudo chmod 777 /config/build artifacts
+        bash build.sh
        
     - name: Setup Toolchain & repo
       run: |

@@ -32,9 +32,10 @@ jobs:
         sudo apt-get install autoconf automake libtool libtool-bin
         cd /config/build
         git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
-        make setup ansi
+        sh autogen.sh
+        ./configure --without-harfbuzz
         make
-        make install
+        sudo make install
         sudo pip3 install meson
         sudo apt-get install build-essential libass-dev libbz2-dev libfontconfig1-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libturbojpeg0-dev libssl-dev
         sudo apt-get install libogg-dev libopus-dev libsamplerate-dev libspeex-dev libtheora-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream

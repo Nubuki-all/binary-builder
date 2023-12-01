@@ -33,9 +33,7 @@ jobs:
         cd /config/build
         git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
         sh autogen.sh
-        ./configure --help
-        exit 1
-        #--without-harfbuzz
+        LDFLAGS="-static" ./configure --without-harfbuzz --enable-static
         make
         sudo make install
         sudo pip3 install meson
@@ -70,7 +68,7 @@ jobs:
          cd /config/build/HandBrake
          PWD=$(pwd)
          export PATH=$PWD/cmake-3.16.3-Linux-x86_64/bin:$PATH
-         LDFLAGS="-Wl,-Bstatic -lass -Wl,-Bdynamic" ./configure --disable-gtk --launch-jobs=0 --launch >> $ARTF/logs.txt 2>&1
+         LDFLAGS="-static" ./configure --disable-gtk --launch-jobs=0 --launch >> $ARTF/logs.txt 2>&1
          #git tag --list | grep ^1\.6\.
          #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
          #./configure --launch-jobs=$(nproc) --launch --enable-x265 LDFLAGS="-static" 

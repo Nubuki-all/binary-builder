@@ -28,29 +28,7 @@ jobs:
       run: |
         sudo mkdir -p /config/build artifacts
         sudo chmod 777 /config/build artifacts
-        sudo apt-get update
-        sudo apt-get install autoconf automake libtool libtool-bin gperf
-        sudo pip3 install meson
-        sudo apt-get install build-essential libbz2-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libturbojpeg0-dev libssl-dev
-        sudo apt-get install libogg-dev libopus-dev libpng-dev libsamplerate-dev libspeex-dev libtheora-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream
-        sudo apt-get install gstreamer1.0-libav libappindicator-dev libdbus-glib-1-dev libglib2.0-dev libgtk-3-dev libnotify-dev
-        sudo apt-get install libavcodec-dev libva-dev libdrm-dev llvm clang
-        cd /config/build
-        git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
-        ./autogen.sh  --noconf
-        ./configure --disable-docs --enable-libxml2 --enable-iconv --disable-shared --enable-static --sysconfdir=/etc --localstatedir=/var
-        make
-        sudo make install && cd ..
-        git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
-        sh autogen.sh
-        ./configure --without-harfbuzz  --disable-shared --enable-static
-        make
-        sudo make install && cd ..
-        git clone https://github.com/libass/libass.git ass && cd ass
-        ./autogen.sh
-        ./configure --disable-shared --enable-static --with-pic
-        make
-        sudo make install && cd ..
+       
     - name: Setup Toolchain & repo
       run: |
         rm -rf cmake-3.16.3-Linux-x86_64.tar.gz* cmake-3.16.3-Linux-x86_64
@@ -78,7 +56,8 @@ jobs:
          cd /config/build/HandBrake
          PWD=$(pwd)
          export PATH=$PWD/cmake-3.16.3-Linux-x86_64/bin:$PATH
-         ./configure --disable-gtk --launch-jobs=0 --launch >> $ARTF/logs.txt 2>&1
+         ./configure --help
+         #--disable-gtk --launch-jobs=0 --launch >> $ARTF/logs.txt 2>&1
          #git tag --list | grep ^1\.6\.
          #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
          #./configure --launch-jobs=$(nproc) --launch --enable-x265 LDFLAGS="-static" 

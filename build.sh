@@ -58,14 +58,14 @@ sh autogen.sh --no-po4a --no-doxygen
 make
 sudo make install && cd $DIR
 
-git clone https://github.com/libass/libass.git ass && cd ass
-./autogen.sh
-./configure --disable-shared --enable-static --with-pic
+git clone https://github.com/harfbuzz/harfbuzz.git buzz && cd buzz
+./autogen.sh --disable-shared --enable-static --with-pic
 make
 sudo make install && cd $DIR
 
-git clone https://github.com/harfbuzz/harfbuzz.git buzz && cd buzz
-./autogen.sh --disable-shared --enable-static --with-pic
+git clone https://github.com/libass/libass.git ass && cd ass
+./autogen.sh
+./configure --disable-shared --enable-static --with-pic
 make
 sudo make install && cd $DIR
 
@@ -127,7 +127,7 @@ make
 sudo make install && cd $DIR
 
 git clone https://github.com/libjpeg-turbo/libjpeg-turbo/ turbo && cd turbo
-cmake -G"Unix Makefiles"
+cmake -G"Unix Makefiles" CMAKE_INSTALL_PREFIX=/usr
 make
 sudo make install && cd $DIR
 

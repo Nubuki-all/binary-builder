@@ -36,7 +36,7 @@ sudo make install && cd $DIR
 git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
 sh autogen.sh
 #./configure --without-harfbuzz  --disable-shared --enable-static
-./configure --disable-shared --enable-static
+./configure --prefix=/usr --disable-shared --enable-static
 make
 sudo make install && cd $DIR
 

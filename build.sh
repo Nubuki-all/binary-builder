@@ -100,7 +100,7 @@ sudo make install && cd ..
 echo "cloning into lame"
 SCRIPT_REPO="https://svn.code.sf.net/p/lame/svn/trunk/lame"
 SCRIPT_REV="6525"
-svn checkout "${SCRIPT_REPO}@${SCRIPT_REV}" lame\ && cd lame
+svn checkout "${SCRIPT_REPO}@${SCRIPT_REV}" lame && cd lame
 autoreconf -i
 ./configure --disable-shared --enable-static --enable-nasm --disable-gtktest --disable-cpml --disable-frontend --disable-decoder
 make

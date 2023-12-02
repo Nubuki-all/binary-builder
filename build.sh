@@ -2,9 +2,9 @@ TARGET=x86_64-linux-gcc
 sudo apt-get update
 sudo apt-get install autoconf automake libtool libtool-bin gperf subversion
 sudo pip3 install meson
-sudo apt-get install build-essential liblzma-dev libnuma-dev libturbojpeg0-dev libssl-dev
+sudo apt-get install build-essential liblzma-dev libnuma-dev libssl-dev
 sudo apt-get install libsamplerate-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream
-sudo apt-get install gstreamer1.0-libav libappindicator-dev libdbus-glib-1-dev libglib2.0-dev libgtk-3-dev libnotify-dev
+#sudo apt-get install gstreamer1.0-libav libappindicator-dev libdbus-glib-1-dev libglib2.0-dev libgtk-3-dev libnotify-dev
 sudo apt-get install libavcodec-dev libva-dev libdrm-dev llvm clang
 
 cd /config/build
@@ -100,7 +100,7 @@ sudo make install && cd ..
 echo "cloning into lame"
 SCRIPT_REPO="https://svn.code.sf.net/p/lame/svn/trunk/lame"
 SCRIPT_REV="6525"
-svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame\ && cd lame
+svn checkout "${SCRIPT_REPO}@${SCRIPT_REV}" lame\ && cd lame
 autoreconf -i
 ./configure --disable-shared --enable-static --enable-nasm --disable-gtktest --disable-cpml --disable-frontend --disable-decoder
 make

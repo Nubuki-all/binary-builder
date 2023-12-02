@@ -126,7 +126,7 @@ make
 sudo make install && cd $DIR
 
 git clone https://github.com/libjpeg-turbo/libjpeg-turbo/ turbo && cd turbo
-cmake -G"Unix Makefiles" CMAKE_INSTALL_PREFIX=/usr
+CMAKE_INSTALL_PREFIX="/usr" cmake -G"Unix Makefiles"
 make
 sudo make install && cd $DIR
 

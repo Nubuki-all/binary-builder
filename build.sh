@@ -109,7 +109,6 @@ make
 sudo make install && cd $DIR
 
 git clone https://github.com/mirror/x264.git x264 && cd x264
-./autogen.sh
 ./configure --disable-cli --enable-static --enable-pic --disable-lavf --disable-swscale
 make
 sudo make install && cd $DIR

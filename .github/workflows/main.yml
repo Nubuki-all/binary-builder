@@ -62,7 +62,8 @@ jobs:
 
             ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265
             cd build
-            apt install binutils patchelf python3-pip -y
+            apt install binutils patchelf gcc python3-devel python3-pip -y
+            pip3 install scons 
             pip3 install staticx
             staticx HandBrakeCLI handbrake-cli
             chmod +x handbrake-cli

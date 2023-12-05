@@ -62,10 +62,15 @@ jobs:
 
             ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265
             cd build
-            ls
-            cp HandBrakeCLI /artifacts/
-            sha256sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.sha256sum
-            md5sum ./HandBrakeCLI > /artifacts/HandBrakeCLI.md5sum
+            apt install binutils patchelf python3-pip -y
+            pip3 install staticx
+            staticx HandBrakeCLI handbrake-cli
+            chmod +x handbrake-cli
+            ./handbrake-cli --version
+            chmod 777 handbrake-cli
+            cp handbrake-cli /artifacts/HandBrakeCLI
+            sha256sum ./handbrake-cli > /artifacts/HandBrakeCLI.sha256sum
+            md5sum ./handbrake-cli > /artifacts/HandBrakeCLI.md5sum
             echo "Copied to /artifacts"
 
       - name: Show the artifact

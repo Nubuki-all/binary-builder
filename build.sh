@@ -27,7 +27,7 @@ meson -Ddefault_library=static --prefix=/usr ..
 ninja
 sudo ninja install && cd $DIR
 
-git clone https://github.com/numactl/numactl && cd numa
+git clone https://github.com/numactl/numactl numa && cd numa
 ./autogen.sh
 ./configure --help
 exit 1

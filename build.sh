@@ -29,14 +29,7 @@ sudo ninja install && cd $DIR
 
 git clone https://github.com/numactl/numactl numa && cd numa
 ./autogen.sh
-./configure --help
-exit 1
-make
-sudo make install && cd $DIR
-
-git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
-./autogen.sh  --noconf
-./configure --disable-docs --enable-libxml2 --disable-shared --enable-static --sysconfdir=/etc --localstatedir=/var
+./configure --disable-shared --enable-static
 make
 sudo make install && cd $DIR
 
@@ -52,6 +45,12 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false ..
 ninja
 sudo ninja install && cd $DIR
+
+git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
+./autogen.sh  --noconf
+./configure --disable-docs --enable-libxml2 --disable-shared --enable-static --sysconfdir=/etc --localstatedir=/var
+make
+sudo make install && cd $DIR
 
 git clone https://github.com/xiph/ogg.git ogg && cd ogg
 ./autogen.sh

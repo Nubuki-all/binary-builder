@@ -29,7 +29,7 @@ sudo ninja install && cd $DIR
 
 git clone https://github.com/numactl/numactl numa && cd numa
 ./autogen.sh
-./configure --disable-shared --enable-static
+./configure --prefix=/usr --disable-shared --enable-static
 make
 sudo make install && cd $DIR
 
@@ -48,7 +48,7 @@ sudo ninja install && cd $DIR
 
 git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
 ./autogen.sh  --noconf
-./configure --disable-docs --enable-libxml2 --disable-shared --enable-static --sysconfdir=/etc --localstatedir=/var
+./configure --prefix=/usr --disable-docs --enable-libxml2 --disable-shared --enable-static --sysconfdir=/etc --localstatedir=/var
 make
 sudo make install && cd $DIR
 

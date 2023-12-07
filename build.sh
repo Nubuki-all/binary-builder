@@ -51,6 +51,8 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release --default-library=static -Ddoc=disabled ..
 ninja
 sudo ninja install && cd $DIR
+sudo ls /usr/lib/libfontconfig*
+exit 1
 
 git clone https://github.com/xiph/ogg.git ogg && cd ogg
 ./autogen.sh

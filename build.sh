@@ -4,10 +4,10 @@ set -e
 sudo apt-get update
 sudo apt-get install autoconf automake autopoint gettext libtool libtool-bin gperf subversion
 sudo pip3 install meson
-sudo apt-get install build-essential liblzma-dev libnuma-dev libssl-dev
+sudo apt-get install build-essential liblzma-dev libssl-dev
 sudo apt-get install libsamplerate-dev make nasm ninja-build patch tar yasm zlib1g-dev appstream
 #sudo apt-get install gstreamer1.0-libav libappindicator-dev libdbus-glib-1-dev libglib2.0-dev libgtk-3-dev libnotify-dev
-sudo apt-get install libavcodec-dev libva-dev libdrm-dev llvm clang
+#sudo apt-get install libavcodec-dev libva-dev libdrm-dev llvm clang
 
 cd /config/build
 

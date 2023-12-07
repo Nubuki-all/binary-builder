@@ -64,7 +64,7 @@ jobs:
             mkdir build && cd build
             meson --prefix=/usr --buildtype=release --prefer_static=true --default-library=static -Ddoc=disabled ..
             ninja
-            sudo ninja install && cd $DIR
+            ninja install && cd $DIR
 
           # Produce a binary artifact and place it in the mounted volume
           run: |

@@ -55,7 +55,7 @@ jobs:
             apt-get -y -qq install build-essential liblzma-dev libssl-dev
             apt-get -y -qq install libsamplerate-dev cmake make nasm ninja-build patch tar yasm appstream
             mkdir build && cd build && export DIR=$PWD
-            git clone https://github.com/libexpat/libexpat exp cd exp
+            git clone https://github.com/libexpat/libexpat exp && cd exp
             ./buildconf.sh
             ./configure --prefix=/usr
             make

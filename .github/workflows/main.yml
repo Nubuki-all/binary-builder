@@ -55,6 +55,11 @@ jobs:
             apt-get -y -qq install build-essential liblzma-dev libssl-dev
             apt-get -y -qq install libsamplerate-dev cmake make nasm ninja-build patch tar yasm appstream
             mkdir build && cd build && export DIR=$PWD
+            git https://github.com/libexpat/libexpat exp cd exp
+            ./buildconf.sh
+            ./configure --prefix=/usr
+            make
+            make install && cd $DIR
             git clone https://github.com/GNOME/libxml2.git xml && cd xml
             ./autogen.sh --without-python --disable-maintainer-mode --disable-shared --enable-static
             make

@@ -49,23 +49,33 @@ jobs:
           # publicly in your project's package repository, so it is vital that
           # no secrets are present in the container state or logs.
           install: |
-            apt-get update -q -y
-            apt-get install libfdk-aac-dev -y
-            apt-get install -q -y autoconf automake autopoint appstream build-essential cmake git libass-dev libbz2-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjansson-dev liblzma-dev libmp3lame-dev libnuma-dev libogg-dev libopus-dev libsamplerate-dev libspeex-dev libtheora-dev libtool libtool-bin libturbojpeg0-dev libvorbis-dev libx264-dev libxml2-dev libvpx-dev m4 make meson nasm ninja-build patch pkg-config tar zlib1g-dev clang
+            apt-get update
+            apt-get install autoconf automake autopoint gettext libtool libtool-bin gperf python3-dev python3-pip subversion
+            pip3 install meson
+            apt-get install build-essential liblzma-dev libssl-dev
+            apt-get install libsamplerate-dev make nasm ninja-build patch tar yasm appstream
+            mkdir build && cd build && export DIR=$PWD
+            git clone https://github.com/numactl/numactl numa && cd numa
+            ./autogen.sh
+            ./configure --prefix=/usr --disable-shared --enable-static
+            make
+            sudo make install && cd $DIR
+            git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
+            mkdir build && cd build
+            meson --prefix=/usr --buildtype=release --default-library=static -Ddoc=disabled ..
+            ninja
+            sudo ninja install && cd $DIR
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://github.com/HandBrake/HandBrake.git && cd HandBrake
+            git clone -b patch-1 https://github.com/Nubuki-all/HandBrake.git && cd HandBrake
             apt autoremove -y
-            git tag --list | grep ^1\.6\.
-            git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
+            #git tag --list | grep ^1\.6\.
+            #git checkout refs/tags/$(git tag -l | grep -E '^1\.6\.[0-9]+$' | tail -n 1)
 
             ./configure --launch-jobs=$(nproc) --launch --disable-gtk --enable-fdk --enable-x265
             cd build
-            apt install binutils patchelf gcc python3-dev python3-pip -y
-            pip3 install scons 
-            pip3 install staticx
-            staticx HandBrakeCLI handbrake-cli
+            mv HandBrakeCLI handbrake-cli
             chmod +x handbrake-cli
             ./handbrake-cli --version
             chmod 777 handbrake-cli

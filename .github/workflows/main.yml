@@ -55,6 +55,10 @@ jobs:
             apt-get -y -qq install build-essential liblzma-dev libssl-dev
             apt-get -y -qq install libsamplerate-dev cmake make nasm ninja-build patch tar yasm appstream
             mkdir build && cd build && export DIR=$PWD
+            git clone https://github.com/GNOME/libxml2.git xml && cd xml
+            ./autogen.sh --without-python --disable-maintainer-mode --disable-shared --enable-static
+            make
+            make install && cd $DIR
             git clone https://github.com/numactl/numactl numa && cd numa
             ./autogen.sh
             ./configure --prefix=/usr --disable-shared --enable-static

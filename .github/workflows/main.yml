@@ -50,7 +50,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -y
-            apt-get -y -qq install autoconf automake autopoint gettext libtool libtool-bin gperf python3-dev python3-pip subversion
+            apt-get -y -qq install autoconf automake autopoint gettext git libtool libtool-bin gperf python3-pip subversion
             pip3 install meson
             apt-get -y -qq install build-essential liblzma-dev libssl-dev
             apt-get -y -qq install libsamplerate-dev make nasm ninja-build patch tar yasm appstream

@@ -11,7 +11,7 @@ jobs:
   build_job:
     # The host should always be linux
     runs-on: ubuntu-22.04
-    name: Build on ubuntu20.04 (aarch64)
+    name: Build on ubuntu22.04 (aarch64)
     steps:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: --platform=linux/arm64/v8 ubuntu:20.04
+          base_image: --platform=linux/arm64/v8 ubuntu:22.04
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}

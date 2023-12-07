@@ -53,7 +53,7 @@ jobs:
             apt-get -y -qq install autoconf automake autopoint gettext git libtool libtool-bin gperf python3-pip subversion
             pip3 install meson
             apt-get -y -qq install build-essential liblzma-dev libssl-dev
-            apt-get -y -qq install libsamplerate-dev make nasm ninja-build patch tar yasm appstream
+            apt-get -y -qq install libsamplerate-dev cmake make nasm ninja-build patch tar yasm appstream
             mkdir build && cd build && export DIR=$PWD
             git clone https://github.com/numactl/numactl numa && cd numa
             ./autogen.sh

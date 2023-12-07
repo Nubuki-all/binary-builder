@@ -48,7 +48,7 @@ sudo ninja install && cd $DIR
 
 git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release --default-library=static -Ddoc=false ..
+meson --prefix=/usr --buildtype=release --default-library=static -Ddoc=disabled ..
 ninja
 sudo ninja install && cd $DIR
 

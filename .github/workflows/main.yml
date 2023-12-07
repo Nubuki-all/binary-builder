@@ -49,11 +49,11 @@ jobs:
           # publicly in your project's package repository, so it is vital that
           # no secrets are present in the container state or logs.
           install: |
-            apt-get update
-            apt-get install autoconf automake autopoint gettext libtool libtool-bin gperf python3-dev python3-pip subversion
+            apt-get update -y
+            apt-get -y -qq install autoconf automake autopoint gettext libtool libtool-bin gperf python3-dev python3-pip subversion
             pip3 install meson
-            apt-get install build-essential liblzma-dev libssl-dev
-            apt-get install libsamplerate-dev make nasm ninja-build patch tar yasm appstream
+            apt-get -y -qq install build-essential liblzma-dev libssl-dev
+            apt-get -y -qq install libsamplerate-dev make nasm ninja-build patch tar yasm appstream
             mkdir build && cd build && export DIR=$PWD
             git clone https://github.com/numactl/numactl numa && cd numa
             ./autogen.sh

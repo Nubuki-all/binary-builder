@@ -60,11 +60,13 @@ jobs:
             ./configure --prefix=/usr
             make
             make install && cd $DIR
+            
             git clone https://github.com/GNOME/libxml2.git xml && cd xml
             ./autogen.sh --without-python --disable-maintainer-mode --disable-shared --enable-static
             make
             make install && cd $DIR
-                    git clone https://github.com/libarchive/bzip2 bzip && cd bzip
+            
+            git clone https://github.com/libarchive/bzip2 bzip && cd bzip
             mkdir build && cd build 
             meson -Ddefault_library=static --prefix=/usr ..
             ninja
@@ -88,11 +90,15 @@ jobs:
             meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false ..
             ninja
             ninja install && cd $DIR
+            
             git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
-            mkdir build && cd build
-            meson --prefix=/usr --buildtype=release -Dprefer_static=true --default-library=static -Ddoc=disabled ..
-            ninja
-            ninja install && cd $DIR
+            #mkdir build && cd build
+            #meson --prefix=/usr --buildtype=release -Dprefer_static=true --default-library=static -Ddoc=disabled ..
+            #ninja
+            #ninja install && cd $DIR
+            ./autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man
+            make
+            make install && cd $DIR
 
           # Produce a binary artifact and place it in the mounted volume
           run: |

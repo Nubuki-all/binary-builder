@@ -41,10 +41,13 @@ make
 sudo make install && cd $DIR
 
 git clone https://github.com/fribidi/fribidi.git frib && cd frib
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false ..
-ninja
-sudo ninja install && cd $DIR
+#mkdir build && cd build
+#meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false ..
+#ninja
+#sudo ninja install && cd $DIR
+./autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man --host=aarch64-unknown-linux-gnu --enable-libxml2 --enable-iconv --localstatedir=/var --enable-static --disable-shared
+make
+sudo make install && cd $DIR
 
 git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
 mkdir build && cd build

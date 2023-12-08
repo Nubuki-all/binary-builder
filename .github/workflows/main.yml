@@ -64,11 +64,30 @@ jobs:
             ./autogen.sh --without-python --disable-maintainer-mode --disable-shared --enable-static
             make
             make install && cd $DIR
+                    git clone https://github.com/libarchive/bzip2 bzip && cd bzip
+            mkdir build && cd build 
+            meson -Ddefault_library=static --prefix=/usr ..
+            ninja
+            ninja install && cd $DIR
+            
             git clone https://github.com/numactl/numactl numa && cd numa
             ./autogen.sh
             ./configure --prefix=/usr --disable-shared --enable-static
             make
             make install && cd $DIR
+            
+            git clone https://gitlab.freedesktop.org/freetype/freetype free && cd free
+            sh autogen.sh
+            #./configure --without-harfbuzz  --disable-shared --enable-static
+            ./configure --prefix=/usr --disable-shared --enable-static
+            make
+            make install && cd $DIR
+            
+            git clone https://github.com/fribidi/fribidi.git frib && cd frib
+            mkdir build && cd build
+            meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false ..
+            ninja
+            ninja install && cd $DIR
             git clone https://gitlab.freedesktop.org/fontconfig/fontconfig.git font && cd font
             mkdir build && cd build
             meson --prefix=/usr --buildtype=release -Dprefer_static=true --default-library=static -Ddoc=disabled ..

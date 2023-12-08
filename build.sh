@@ -45,7 +45,7 @@ git clone https://github.com/fribidi/fribidi.git frib && cd frib
 #meson --prefix=/usr --buildtype=release --default-library=static -Dbin=false -Ddocs=false -Dtests=false ..
 #ninja
 #sudo ninja install && cd $DIR
-./autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man --host=aarch64-unknown-linux-gnu --enable-libxml2 --enable-iconv --localstatedir=/var --enable-static --disable-shared
+./autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man --host=x86_64-unknown-linux-gnu --enable-libxml2 --enable-iconv --localstatedir=/var --enable-static --disable-shared
 make
 sudo make install && cd $DIR
 

@@ -28,9 +28,8 @@ jobs:
       run: |
         sudo mkdir -p /config/build artifacts
         sudo chmod 777 /config/build artifacts
-        bash build.sh >/dev/null 2>&1
-        sudo ls /usr/lib/x86_64-linux-gnu/libfontconfig*
-        exit 1
+        bash build.sh
+        #bash build.sh >/dev/null 2>&1
        
     - name: Setup Toolchain & repo
       run: |

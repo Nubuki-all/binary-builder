@@ -96,7 +96,7 @@ jobs:
             #meson --prefix=/usr --buildtype=release -Dprefer_static=true --default-library=static -Ddoc=disabled ..
             #ninja
             #ninja install && cd $DIR
-            ./autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man
+            ./autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man --host=aarch64-unknown-linux-gnu --enable-libxml2 --enable-iconv --localstatedir=/var --enable-static --disable-shared
             make
             make install && cd $DIR
 

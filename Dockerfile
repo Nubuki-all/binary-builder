@@ -18,5 +18,5 @@ COPY . .
 # Install python3 requirements
 RUN pip3 install -r requirements.txt
 
-#cleanup
+# cleanup
 RUN rm requirements.txt Dockerfile && if [[ $(arch) == 'aarch64' ]]; then   dnf -qq -y history undo last; fi && dnf clean all

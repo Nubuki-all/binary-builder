@@ -70,7 +70,7 @@ jobs:
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
-        # ${PWD}/artifacts on the host.
+        # ${PWD}/artifacts on the host..
         run: |
           ls -al "${PWD}/artifacts"
       - uses: actions/upload-artifact@v3

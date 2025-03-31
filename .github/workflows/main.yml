@@ -50,7 +50,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install git gcc g++ clang wget libgnutls28-dev libssl-dev -y
+            apt-get install git gcc g++ clang wget libgnutls28-dev cmake build-essential libssl-dev -y
 
           # Produce a binary artifact and place it in the mounted volume
           run: |

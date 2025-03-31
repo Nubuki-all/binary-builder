@@ -60,13 +60,14 @@ jobs:
             ./configure --with-openssl
             make
             make install
+            ls
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
         # ${PWD}/artifacts on the host..
         run: |
           ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: build_a
           path: artifacts
@@ -84,8 +85,10 @@ jobs:
         tar xvzf wget-1.25.0.tar.gz
         cd wget-1.25.0
         ./configure --with-openssl
-        make
-        make install
+        sudo make
+        sudo make install
+        ls
+        
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4

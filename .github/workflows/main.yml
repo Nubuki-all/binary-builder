@@ -91,7 +91,7 @@ jobs:
     - name: install dev package & deps
       run: |
         sudo apt-get update -q -y
-        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libssl-dev -y
+        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libcurl4-openssl-dev libssl-dev uuid-dev zlib1g-dev libpulse-dev -y
     - name: build
       run: |
         mkdir artifacts

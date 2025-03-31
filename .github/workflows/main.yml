@@ -55,7 +55,7 @@ jobs:
           # Produce a binary artifact and place it in the mounted volume
           run: |
             git clone https://github.com/openssl/openssl.git && cd openssl
-            ./Configure --disable-shared --enable-static
+            ./Configure no-shared
             make
             make test
             cd ..
@@ -101,7 +101,7 @@ jobs:
       run: |
         mkdir artifacts
         git clone https://github.com/openssl/openssl.git && cd openssl
-        ./Configure --disable-shared --enable-static
+        ./Configure no-shared
         sudo make
         sudo make test
         cd ..

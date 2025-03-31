@@ -57,10 +57,23 @@ jobs:
             wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
             tar xvzf wget-1.25.0.tar.gz
             cd wget-1.25.0
-            ./configure --with-openssl
+            export ROOTDIR="${PWD}"
+            export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+            ./configure \
+              	--prefix=${ROOTDIR}/build \
+              	--with-ssl=openssl --with-zlib \
+              	--without-included-regex \
+              	--enable-nls \
+              	--enable-dependency-tracking \
+              	--with-metalink \
+              	--sysconfdir=${ROOTDIR}/build/etc \
+              	--localedir=${ROOTDIR}/build/usr/share/locale \
+              	--mandir=${ROOTDIR}/build/usr/share/man \
+              	--infodir=${ROOTDIR}/build/usr/share/info \
+              	--bindir=${ROOTDIR}/build/usr/bin
             make
             make install
-            ls
+            cp ${ROOTDIR}/build/usr/bin /artifacts
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
@@ -81,13 +94,27 @@ jobs:
         sudo apt-get install gcc g++ git clang wget libgnutls28-dev libssl-dev -y
     - name: build
       run: |
+        mkdir artifacts
         wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
         tar xvzf wget-1.25.0.tar.gz
         cd wget-1.25.0
-        ./configure --with-openssl
-        sudo make
-        sudo make install
-        ls
+        export ROOTDIR="${PWD}"
+        export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+        ./configure \
+              	--prefix=${ROOTDIR}/build \
+              	--with-ssl=openssl --with-zlib \
+              	--without-included-regex \
+              	--enable-nls \
+              	--enable-dependency-tracking \
+              	--with-metalink \
+              	--sysconfdir=${ROOTDIR}/build/etc \
+              	--localedir=${ROOTDIR}/build/usr/share/locale \
+              	--mandir=${ROOTDIR}/build/usr/share/man \
+              	--infodir=${ROOTDIR}/build/usr/share/info \
+              	--bindir=${ROOTDIR}/build/usr/bin
+        make
+        make install
+        cp ${ROOTDIR}/build/usr/bin ../artifacts
         
 
     - name: Upload Artifact

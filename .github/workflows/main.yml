@@ -50,15 +50,20 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install git gcc g++ clang wget libgnutls28-dev cmake build-essential libssl-dev -y
+            apt-get install gcc g++ git clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libpulse-dev -y
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
+            git clone https://github.com/openssl/openssl.git && cd openssl
+            ./Configure --disable-shared --enable-static
+            make
+            make test
+            cd ..
             wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
             tar xvzf wget-1.25.0.tar.gz
             cd wget-1.25.0
             export ROOTDIR="${PWD}"
-            export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+            # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
             ./configure \
               	--prefix=${ROOTDIR}/build \
               	--with-ssl=openssl --with-zlib \
@@ -96,7 +101,7 @@ jobs:
       run: |
         mkdir artifacts
         git clone https://github.com/openssl/openssl.git && cd openssl
-        ./Configure
+        ./Configure --disable-shared --enable-static
         sudo make
         sudo make test
         cd ..
@@ -104,7 +109,7 @@ jobs:
         tar xvzf wget-1.25.0.tar.gz
         cd wget-1.25.0
         export ROOTDIR="${PWD}"
-        export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+        # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
         ./configure \
               	--prefix=${ROOTDIR}/build \
               	--with-ssl=openssl --with-zlib \

@@ -91,10 +91,15 @@ jobs:
     - name: install dev package & deps
       run: |
         sudo apt-get update -q -y
-        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libcurl4-openssl-dev libssl-dev uuid-dev zlib1g-dev libpulse-dev -y
+        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libpulse-dev -y
     - name: build
       run: |
         mkdir artifacts
+        git clone https://github.com/openssl/openssl.git && cd openssl
+        ./Configure
+        sudo make
+        sudo make test
+        cd ..
         wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
         tar xvzf wget-1.25.0.tar.gz
         cd wget-1.25.0

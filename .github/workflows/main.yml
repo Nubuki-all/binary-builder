@@ -3,12 +3,12 @@ name: ci
 on:
   push:
     branches:
-      - 'main'
+      - 'wget'
 
 #on: [push, pull_request]
 
 jobs:
-  build_job:
+  build_job_a:
     # The host should always be linux
     runs-on: ubuntu-22.04
     name: Build on ubuntu20.04 (aarch64)
@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: --platform=linux/arm64/v8 gcc:7.4.0
+          base_image: --platform=linux/arm64/v8 ubuntu:20.04
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -37,7 +37,7 @@ jobs:
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
-            artifact_name: git-proot
+            artifact_name: wget
 
           # The shell to run commands with in the container
           shell: /bin/sh
@@ -50,23 +50,16 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -qq git clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
+            apt-get install git gcc g++ clang wget libgnutls28-dev libssl-dev -y
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://gitlab.com/proot/proot/
-            apt purge git -y
-            apt autoremove -y
-            cd proot
-            LDFLAGS=" -static" make -C src proot GIT=false
-            mkdir -p dist
-            cp src/proot dist/
-            cd dist
-            sha256sum ./proot > proot.sha256sum
-            md5sum ./proot > proot.md5sum
-            cd ..
-            cp dist/* /artifacts/
-            echo "Copied to /artifacts"
+            wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
+            tar xvzf wget-1.25.0.tar.gz
+            cd wget-1.25.0
+            ./configure --with-openssl
+            make
+            make install
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
@@ -75,5 +68,27 @@ jobs:
           ls -al "${PWD}/artifacts"
       - uses: actions/upload-artifact@v3
         with:
-          name: proot
+          name: build_a
           path: artifacts
+  build_job_b:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v4
+    - name: install dev package & deps
+      run: |
+        sudo apt-get update -q -y
+        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libssl-dev -y
+    - name: build
+      run: |
+        wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
+        tar xvzf wget-1.25.0.tar.gz
+        cd wget-1.25.0
+        ./configure --with-openssl
+        make
+        make install
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with: 
+        name: build_b
+        path: artifacts

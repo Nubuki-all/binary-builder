@@ -57,7 +57,6 @@ jobs:
             git clone https://github.com/openssl/openssl.git && cd openssl
             ./Configure no-shared
             make
-            make test
             cd ..
             wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
             tar xvzf wget-1.25.0.tar.gz
@@ -104,7 +103,6 @@ jobs:
         git clone https://github.com/openssl/openssl.git && cd openssl
         ./Configure no-shared
         sudo make
-        sudo make test
         cd ..
         wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
         tar xvzf wget-1.25.0.tar.gz

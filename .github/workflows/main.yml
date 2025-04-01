@@ -63,7 +63,7 @@ jobs:
             tar xvzf wget-1.25.0.tar.gz
             cd wget-1.25.0
             export ROOTDIR="${PWD}"
-            export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+            # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
             ./configure \
               	--prefix=${ROOTDIR}/build \
               	--with-ssl=openssl --with-zlib \
@@ -110,7 +110,7 @@ jobs:
         tar xvzf wget-1.25.0.tar.gz
         cd wget-1.25.0
         export ROOTDIR="${PWD}"
-        export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+        # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
         ./configure \
               	--prefix=${ROOTDIR}/build \
               	--with-ssl=openssl --with-zlib \

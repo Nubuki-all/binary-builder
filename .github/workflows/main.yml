@@ -54,11 +54,11 @@ jobs:
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://github.com/openssl/openssl.git && cd openssl
-            ./Configure no-shared
-            make
-            make install
-            cd ..
+            #git clone https://github.com/openssl/openssl.git && cd openssl
+            #./Configure no-shared
+            #make
+            #make install
+            #cd ..
             wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
             tar xvzf wget-1.25.0.tar.gz
             cd wget-1.25.0
@@ -101,11 +101,11 @@ jobs:
     - name: build
       run: |
         mkdir artifacts
-        git clone https://github.com/openssl/openssl.git && cd openssl
-        ./Configure no-shared
-        sudo make
-        sudo make install
-        cd ..
+        #git clone https://github.com/openssl/openssl.git && cd openssl
+        #./Configure no-shared
+        #sudo make
+        #sudo make install
+        #cd ..
         wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
         tar xvzf wget-1.25.0.tar.gz
         cd wget-1.25.0

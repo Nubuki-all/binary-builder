@@ -57,12 +57,13 @@ jobs:
             git clone https://github.com/openssl/openssl.git && cd openssl
             ./Configure no-shared
             make
+            make install
             cd ..
             wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
             tar xvzf wget-1.25.0.tar.gz
             cd wget-1.25.0
             export ROOTDIR="${PWD}"
-            # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+            export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
             ./configure \
               	--prefix=${ROOTDIR}/build \
               	--with-ssl=openssl --with-zlib \
@@ -103,12 +104,13 @@ jobs:
         git clone https://github.com/openssl/openssl.git && cd openssl
         ./Configure no-shared
         sudo make
+        sudo make install
         cd ..
         wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
         tar xvzf wget-1.25.0.tar.gz
         cd wget-1.25.0
         export ROOTDIR="${PWD}"
-        # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+        export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
         ./configure \
               	--prefix=${ROOTDIR}/build \
               	--with-ssl=openssl --with-zlib \

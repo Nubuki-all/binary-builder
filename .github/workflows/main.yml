@@ -37,7 +37,7 @@ jobs:
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
-            artifact_name: wget
+            artifact_name: proot
 
           # The shell to run commands with in the container
           shell: /bin/sh
@@ -62,7 +62,7 @@ jobs:
             mkdir -p dist
             cp src/proot dist/
             cd dist
-            sha256sum ./proot > proot.sha256sum
+            sha256sum ./proot > proot-x86_64.sha256sum
             md5sum ./proot > proot-x86_64.md5sum
             mv proot proot-x86_64
             cd ..
@@ -107,7 +107,7 @@ jobs:
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
-            artifact_name: wget
+            artifact_name: proot
 
           # The shell to run commands with in the container
           shell: /bin/sh
@@ -132,7 +132,7 @@ jobs:
             mkdir -p dist
             cp src/proot dist/
             cd dist
-            sha256sum ./proot > proot.sha256sum
+            sha256sum ./proot > proot-aarch64.sha256sum
             md5sum ./proot > proot-aarch64.md5sum
             mv proot proot-aarch64
             cd ..

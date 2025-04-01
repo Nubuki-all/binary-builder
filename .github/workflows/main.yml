@@ -8,13 +8,13 @@ on:
 #on: [push, pull_request]
 
 jobs:
-  build_job:
+  build_job_a:
     # The host should always be linux
     runs-on: ubuntu-22.04
-    name: Build on ubuntu20.04 (aarch64)
+    name: Build on docker (aarch64)
     steps:
       - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v2
+      - uses: uraimo/run-on-arch-action@v3
         name: Build artifact
         id: build
         with:
@@ -37,7 +37,7 @@ jobs:
 
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
-            artifact_name: git-proot
+            artifact_name: wget
 
           # The shell to run commands with in the container
           shell: /bin/sh
@@ -63,9 +63,10 @@ jobs:
             cp src/proot dist/
             cd dist
             sha256sum ./proot > proot.sha256sum
-            md5sum ./proot > proot.md5sum
+            md5sum ./proot > proot-x86_64.md5sum
+            mv proot proot-x86_64
             cd ..
-            cp dist/* /artifacts/
+            cp dist/*-x86_64* /artifacts/
             echo "Copied to /artifacts"
 
       - name: Show the artifact
@@ -73,7 +74,99 @@ jobs:
         # ${PWD}/artifacts on the host..
         run: |
           ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: proot
+          name: build_a
           path: artifacts
+  build_job_b:
+    # The host should always be linux
+    runs-on: ubuntu-22.04
+    name: Build on docker (x86_64)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: uraimo/run-on-arch-action@v3
+        name: Build artifact
+        id: build
+        with:
+          #arch: aarch64
+          #distro: ubuntu20.04
+          arch: none
+          distro: none
+          base_image: --platform=linux/amd64 gcc:7.4.0
+
+          # Not required, but speeds up builds
+          #githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+
+          # Pass some environment variables to the container
+          env: | # YAML, but pipe character is necessary
+            artifact_name: wget
+
+          # The shell to run commands with in the container
+          shell: /bin/sh
+
+          # Install some dependencies in the container. This speeds up builds if
+          # you are also using githubToken. Any dependencies installed here will
+          # be part of the container image that gets cached, so subsequent
+          # builds don't have to re-install them. The image layer is cached
+          # publicly in your project's package repository, so it is vital that
+          # no secrets are present in the container state or logs.
+          install: |
+            apt-get update -q -y
+            apt-get install -qq git clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
+
+          # Produce a binary artifact and place it in the mounted volume
+          run: |
+            git clone https://gitlab.com/proot/proot/
+            apt purge git -y
+            apt autoremove -y
+            cd proot
+            LDFLAGS=" -static" make -C src proot GIT=false
+            mkdir -p dist
+            cp src/proot dist/
+            cd dist
+            sha256sum ./proot > proot.sha256sum
+            md5sum ./proot > proot-aarch64.md5sum
+            mv proot proot-aarch64
+            cd ..
+            cp dist/*-aarch64* /artifacts/
+            echo "Copied to /artifacts"
+
+      - name: Show the artifact
+        # Items placed in /artifacts in the container will be in
+        # ${PWD}/artifacts on the host..
+        run: |
+          ls -al "${PWD}/artifacts"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build_b
+          path: artifacts
+  
+  release:
+    runs-on: ubuntu-latest
+    needs: [build_job_a, build_job_b]
+    steps:
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        merge-multiple: true
+        path: binaries
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+    - name: Upload binaries to releases 
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: false
+        files: |
+          binaries/*x86_64*
+          binaries/*aarch64*
+        generate_release_notes: true
+        tag_name: proot-${{ steps.date.outputs.date }}

@@ -78,7 +78,7 @@ jobs:
               	--bindir=${ROOTDIR}/build/usr/bin
             make
             make install
-            cp -r ${ROOTDIR}/build/usr/bin /artifacts
+            cp -r ${ROOTDIR}/build/usr/bin/wget /artifacts/wget-arm64
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
@@ -125,7 +125,7 @@ jobs:
               	--bindir=${ROOTDIR}/build/usr/bin
         make
         make install
-        cp -r ${ROOTDIR}/build/usr/bin ../artifacts
+        cp -r ${ROOTDIR}/build/usr/bin/wget ../artifacts/wget-x86_64
         ls ../artifacts
         
 

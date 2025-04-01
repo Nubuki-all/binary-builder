@@ -138,7 +138,7 @@ jobs:
           ls -al "${PWD}/artifacts"
       - uses: actions/upload-artifact@v4
         with:
-          name: build_a
+          name: build_b
           path: artifacts
   
   release:
@@ -161,4 +161,4 @@ jobs:
           binaries/*x86_64
           binaries/*aarch64
         generate_release_notes: true
-        tag_name: ${{ steps.date.outputs.date }}
+        tag_name: wget-${{ steps.date.outputs.date }}

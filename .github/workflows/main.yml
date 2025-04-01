@@ -50,7 +50,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install gcc g++ git make clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libpulse-dev -y
+            apt-get install gcc g++ git make clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev libssl-dev zlib1g-dev libidn2-dev libpcre3-dev libpulse-dev -y
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
@@ -75,7 +75,8 @@ jobs:
               	--localedir=${ROOTDIR}/build/usr/share/locale \
               	--mandir=${ROOTDIR}/build/usr/share/man \
               	--infodir=${ROOTDIR}/build/usr/share/info \
-              	--bindir=${ROOTDIR}/build/usr/bin
+              	--bindir=${ROOTDIR}/build/usr/bin \
+                LDFLAGS="-static" --disable-shared
             make
             make install
             cp -r ${ROOTDIR}/build/usr/bin/wget /artifacts/wget-arm64
@@ -97,7 +98,7 @@ jobs:
     - name: install dev package & deps
       run: |
         sudo apt-get update -q -y
-        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libpulse-dev -y
+        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev libssl-dev zlib1g-dev libidn2-dev libpcre3-dev libpulse-dev -y
     - name: build
       run: |
         mkdir artifacts
@@ -122,11 +123,13 @@ jobs:
               	--localedir=${ROOTDIR}/build/usr/share/locale \
               	--mandir=${ROOTDIR}/build/usr/share/man \
               	--infodir=${ROOTDIR}/build/usr/share/info \
-              	--bindir=${ROOTDIR}/build/usr/bin
+              	--bindir=${ROOTDIR}/build/usr/bin \
+                LDFLAGS="-static" --disable-shared
         make
         make install
         cp -r ${ROOTDIR}/build/usr/bin/wget ../artifacts/wget-x86_64
         ls ../artifacts
+        file ../artifacts/*
         
 
     - name: Upload Artifact

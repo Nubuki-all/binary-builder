@@ -11,7 +11,7 @@ jobs:
   build_job_a:
     # The host should always be linux
     runs-on: ubuntu-22.04
-    name: Build on ubuntu20.04 (aarch64)
+    name: Build on alpine (aarch64)
     steps:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v3
@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: --platform=linux/arm64/v8 ubuntu:20.04
+          base_image: --platform=linux/arm64/v8 alpine:latest
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -49,37 +49,21 @@ jobs:
           # publicly in your project's package repository, so it is vital that
           # no secrets are present in the container state or logs.
           install: |
-            apt-get update -q -y
-            apt-get install gcc g++ git make clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev libssl-dev zlib1g-dev libidn2-dev libpcre3-dev libpulse-dev -y
-
+            apk add build-base openssl openssl-dev openssl-libs-static zlib-static zlib-dev wget
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            #git clone https://github.com/openssl/openssl.git && cd openssl
-            #./Configure no-shared
-            #make
-            #make install
-            #cd ..
-            wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
-            tar xvzf wget-1.25.0.tar.gz
-            cd wget-1.25.0
-            export ROOTDIR="${PWD}"
-            # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
+            wget https://ftp.gnu.org/gnu/wget/wget-latest.tar.gz
+            tar -xf wget-latest.tar.gz
+            cd wget-*/
+            export PKG_CONFIG_PATH=/usr/lib/pkgconfig
             ./configure \
-              	--prefix=${ROOTDIR}/build \
-              	--with-ssl=openssl --with-zlib \
-              	--without-included-regex \
-              	--enable-nls \
-              	--enable-dependency-tracking \
-              	--with-metalink \
-              	--sysconfdir=${ROOTDIR}/build/etc \
-              	--localedir=${ROOTDIR}/build/usr/share/locale \
-              	--mandir=${ROOTDIR}/build/usr/share/man \
-              	--infodir=${ROOTDIR}/build/usr/share/info \
-              	--bindir=${ROOTDIR}/build/usr/bin \
-                #
-            make
-            make install
-            cp -r ${ROOTDIR}/build/usr/bin/wget /artifacts/wget-arm64
+              --without-gnutls \
+              --with-ssl=openssl \
+              LDFLAGS="-static" \
+              CFLAGS="-static"
+            make -j$(nproc)
+            file src/wget
+            cp -r src/wget /artifacts/wget-aarch64
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
@@ -91,52 +75,71 @@ jobs:
           name: build_a
           path: artifacts
   build_job_b:
-    runs-on: ubuntu-20.04
-    name: Build on ubuntu20.04 (x86_64)
+    # The host should always be linux
+    runs-on: ubuntu-22.04
+    name: Build on alpine (x86_64)
     steps:
-    - uses: actions/checkout@v4
-    - name: install dev package & deps
-      run: |
-        sudo apt-get update -q -y
-        sudo apt-get install gcc g++ git clang wget libgnutls28-dev libcurl4-openssl-dev uuid-dev libssl-dev zlib1g-dev libidn2-dev libpcre3-dev libpulse-dev -y
-    - name: build
-      run: |
-        mkdir artifacts
-        #git clone https://github.com/openssl/openssl.git && cd openssl
-        #./Configure no-shared
-        #sudo make
-        #sudo make install
-        #cd ..
-        wget https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz
-        tar xvzf wget-1.25.0.tar.gz
-        cd wget-1.25.0
-        export ROOTDIR="${PWD}"
-        # export LIBS="-static -lc -lssl -lcrypto -lz -ldl"
-        ./configure \
-              	--prefix=${ROOTDIR}/build \
-              	--with-ssl=openssl --with-zlib \
-              	--without-included-regex \
-              	--enable-nls \
-              	--enable-dependency-tracking \
-              	--with-metalink \
-              	--sysconfdir=${ROOTDIR}/build/etc \
-              	--localedir=${ROOTDIR}/build/usr/share/locale \
-              	--mandir=${ROOTDIR}/build/usr/share/man \
-              	--infodir=${ROOTDIR}/build/usr/share/info \
-              	--bindir=${ROOTDIR}/build/usr/bin \
-                #
-        make
-        make install
-        cp -r ${ROOTDIR}/build/usr/bin/wget ../artifacts/wget-x86_64
-        ls ../artifacts
-        file ../artifacts/*
-        
+      - uses: actions/checkout@v4
+      - uses: uraimo/run-on-arch-action@v3
+        name: Build artifact
+        id: build
+        with:
+          #arch: aarch64
+          #distro: ubuntu20.04
+          arch: none
+          distro: none
+          base_image: --platform=linux/amd64 alpine:latest
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with: 
-        name: build_b
-        path: artifacts
+          # Not required, but speeds up builds
+          #githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+
+          # Pass some environment variables to the container
+          env: | # YAML, but pipe character is necessary
+            artifact_name: wget
+
+          # The shell to run commands with in the container
+          shell: /bin/sh
+
+          # Install some dependencies in the container. This speeds up builds if
+          # you are also using githubToken. Any dependencies installed here will
+          # be part of the container image that gets cached, so subsequent
+          # builds don't have to re-install them. The image layer is cached
+          # publicly in your project's package repository, so it is vital that
+          # no secrets are present in the container state or logs.
+          install: |
+            apk add build-base openssl openssl-dev openssl-libs-static zlib-static zlib-dev wget
+          # Produce a binary artifact and place it in the mounted volume
+          run: |
+            wget https://ftp.gnu.org/gnu/wget/wget-latest.tar.gz
+            tar -xf wget-latest.tar.gz
+            cd wget-*/
+            export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+            ./configure \
+              --without-gnutls \
+              --with-ssl=openssl \
+              LDFLAGS="-static" \
+              CFLAGS="-static"
+            make -j$(nproc)
+            file src/wget
+            cp -r src/wget /artifacts/wget-x86_64
+
+      - name: Show the artifact
+        # Items placed in /artifacts in the container will be in
+        # ${PWD}/artifacts on the host..
+        run: |
+          ls -al "${PWD}/artifacts"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build_a
+          path: artifacts
   
   release:
     runs-on: ubuntu-latest
@@ -145,7 +148,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        merge-multiple: false
+        merge-multiple: true
         path: binaries
     - name: Get current date
       id: date
@@ -155,6 +158,7 @@ jobs:
       with:
         draft: false
         files: |
-          binaries/*
+          binaries/*x86_64
+          binaries/*aarch64
         generate_release_notes: true
         tag_name: ${{ steps.date.outputs.date }}

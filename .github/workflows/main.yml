@@ -76,7 +76,7 @@ jobs:
               	--mandir=${ROOTDIR}/build/usr/share/man \
               	--infodir=${ROOTDIR}/build/usr/share/info \
               	--bindir=${ROOTDIR}/build/usr/bin \
-                LDFLAGS="-static" --disable-shared
+                #
             make
             make install
             cp -r ${ROOTDIR}/build/usr/bin/wget /artifacts/wget-arm64
@@ -124,7 +124,7 @@ jobs:
               	--mandir=${ROOTDIR}/build/usr/share/man \
               	--infodir=${ROOTDIR}/build/usr/share/info \
               	--bindir=${ROOTDIR}/build/usr/bin \
-                LDFLAGS="-static" --disable-shared
+                #
         make
         make install
         cp -r ${ROOTDIR}/build/usr/bin/wget ../artifacts/wget-x86_64

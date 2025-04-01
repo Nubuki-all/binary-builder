@@ -62,11 +62,11 @@ jobs:
             mkdir -p dist
             cp src/proot dist/
             cd dist
-            sha256sum ./proot > proot-x86_64.sha256sum
-            md5sum ./proot > proot-x86_64.md5sum
-            mv proot proot-x86_64
+            sha256sum ./proot > proot-aarch64.sha256sum
+            md5sum ./proot > proot-aarch64.md5sum
+            mv proot proot-aarch64
             cd ..
-            cp dist/*-x86_64* /artifacts/
+            cp dist/*-aarch64* /artifacts/
             echo "Copied to /artifacts"
 
       - name: Show the artifact
@@ -132,11 +132,11 @@ jobs:
             mkdir -p dist
             cp src/proot dist/
             cd dist
-            sha256sum ./proot > proot-aarch64.sha256sum
-            md5sum ./proot > proot-aarch64.md5sum
-            mv proot proot-aarch64
+            sha256sum ./proot > proot-x86_64.sha256sum
+            md5sum ./proot > proot-x86_64.md5sum
+            mv proot proot-x86_64
             cd ..
-            cp dist/*-aarch64* /artifacts/
+            cp dist/*-x86_64* /artifacts/
             echo "Copied to /artifacts"
 
       - name: Show the artifact

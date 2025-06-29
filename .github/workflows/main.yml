@@ -63,7 +63,7 @@ jobs:
             export CFLAGS="-I/usr/include/libxml2"
             export LDFLAGS="-Wl,--no-as-needed -static -lz -lexpat -ltalloc"
             #export LDLIBS +="-lpython3.10 -lexpat -lz"
-            make -C src loader.elf loader-m32.elf build.h
+            make -C src loader.elf build.h
             make -C src proot            
             cp src/proot dist/
             cd dist

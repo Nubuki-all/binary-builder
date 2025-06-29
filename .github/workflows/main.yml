@@ -50,7 +50,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt install -y zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
+            apt install -y git zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
@@ -125,7 +125,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt install -y zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
+            apt install -y git zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
 
           # Produce a binary artifact and place it in the mounted volume
           run: |

@@ -22,7 +22,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: --platform=linux/arm64/v8 gcc:7.4.0
+          base_image: --platform=linux/arm64/v8 ubuntu:latest
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -50,16 +50,21 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -qq git clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
+            apt install -y zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://gitlab.com/proot/proot/
-            apt purge git -y
-            apt autoremove -y
-            cd proot
-            LDFLAGS=" -static" make -C src proot GIT=false
+            set -eux
+            pkg-config --libs --cflags python3
+            git clone https://github.com/proot-me/proot.git
+            cd proot/
             mkdir -p dist
+            export CC=musl-gcc
+            export CFLAGS="-I/usr/include/libxml2"
+            export LDFLAGS="-Wl,--no-as-needed -static -lz -lexpat -ltalloc"
+            #export LDLIBS +="-lpython3.10 -lexpat -lz"
+            make -C src loader.elf loader-m32.elf build.h
+            make -C src proot            
             cp src/proot dist/
             cd dist
             sha256sum ./proot > proot-aarch64.sha256sum
@@ -92,7 +97,7 @@ jobs:
           #distro: ubuntu20.04
           arch: none
           distro: none
-          base_image: --platform=linux/amd64 gcc:7.4.0
+          base_image: --platform=linux/amd64 ubuntu:latest
 
           # Not required, but speeds up builds
           #githubToken: ${{ github.token }}
@@ -120,16 +125,21 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
             apt-get update -q -y
-            apt-get install -qq git clang-tools-6.0 curl docutils-common gdb lcov libarchive-dev libtalloc-dev strace swig uthash-dev xsltproc
+            apt install -y zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            git clone https://gitlab.com/proot/proot/
-            apt purge git -y
-            apt autoremove -y
-            cd proot
-            LDFLAGS=" -static" make -C src proot GIT=false
+            set -eux
+            pkg-config --libs --cflags python3
+            git clone https://github.com/proot-me/proot.git
+            cd proot/
             mkdir -p dist
+            export CC=musl-gcc
+            export CFLAGS="-I/usr/include/libxml2"
+            export LDFLAGS="-Wl,--no-as-needed -static -lz -lexpat -ltalloc"
+            #export LDLIBS +="-lpython3.10 -lexpat -lz"
+            make -C src loader.elf loader-m32.elf build.h
+            make -C src proot            
             cp src/proot dist/
             cd dist
             sha256sum ./proot > proot-x86_64.sha256sum

@@ -42,7 +42,7 @@ jobs:
         run: |
           mkdir libshout
           export OUTDIR=$PWD/libshout
-          git clone --recursive https://gitlab.xiph.org/xiph/icecast-libshout-build libshout && cd libshout-build 
+          git clone --recursive https://gitlab.xiph.org/xiph/icecast-libshout libshout-build && cd libshout-build 
           git submodule update --remote /src/common
           ./autogen.sh
           ./configure --prefix=$OUTDIR --host=x86_64-w64-mingw32

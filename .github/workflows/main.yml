@@ -1,182 +1,63 @@
-name: ci
+name: Build Windows Release with MSYS2
 
 on:
   push:
-    branches:
-      - 'main'
+    branches: [ libshout-win ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
-#on: [push, pull_request]
+env:
+  ARTIFACT_NAME: libshout.zip
 
 jobs:
-  build_job_a:
-    # The host should always be linux
-    runs-on: ubuntu-22.04
-    name: Build on docker (aarch64)
+  build-and-release:
+    runs-on: windows-latest # Runs on a Windows runner
+    defaults:
+      run:
+        shell: msys2 {0} # All `run` steps will execute in the MSYS2 shell
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v3
-        name: Build artifact
-        id: build
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSYS2 and install dependencies
+        uses: msys2/setup-msys2@v2
         with:
-          #arch: aarch64
-          #distro: ubuntu20.04
-          arch: none
-          distro: none
-          base_image: --platform=linux/arm64/v8 ubuntu:latest
-
-          # Not required, but speeds up builds
-          #githubToken: ${{ github.token }}
-
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-
-          # Pass some environment variables to the container
-          env: | # YAML, but pipe character is necessary
-            artifact_name: proot
-
-          # The shell to run commands with in the container
-          shell: /bin/sh
-
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
+          msystem: UCRT64
+          update: true
           install: |
-            apt-get update -q -y
-            apt install -y git zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
+            pkg-config
+            mingw-w64-ucrt-x86_64-autotools
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-libogg
+            mingw-w64-ucrt-x86_64-libvorbis
+            zip
+            git
 
-          # Produce a binary artifact and place it in the mounted volume
-          run: |
-            set -eux
-            pkg-config --libs --cflags python3
-            git clone https://github.com/proot-me/proot.git
-            cd proot/
-            mkdir -p dist
-            export CC=musl-gcc
-            export CFLAGS="-I/usr/include/libxml2"
-            export LDFLAGS="-Wl,--no-as-needed -static -lz -lexpat -ltalloc"
-            #export LDLIBS +="-lpython3.10 -lexpat -lz"
-            make -C src loader.elf build.h
-            make -C src proot            
-            cp src/proot dist/
-            cd dist
-            sha256sum ./proot > proot-aarch64.sha256sum
-            md5sum ./proot > proot-aarch64.md5sum
-            mv proot proot-aarch64
-            cd ..
-            cp dist/*-aarch64* /artifacts/
-            echo "Copied to /artifacts"
-
-      - name: Show the artifact
-        # Items placed in /artifacts in the container will be in
-        # ${PWD}/artifacts on the host..
+      - name: Build libshout 
         run: |
-          ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v4
+          mkdir libshout
+          export OUTDIR=$PWD/libshout
+          git clone --recursive https://gitlab.xiph.org/xiph/icecast-libshout-build libshout && cd libshout-build 
+          git submodule update --remote /src/common
+          ./autogen.sh
+          ./configure --prefix=$OUTDIR --host=x86_64-w64-mingw32
+          make -j$(nproc)
+          make install
+          cd ..
+          zip -r $ARTIFACT_NAME $ARTIFACT_NAME
+          ls -ash
+          echo "CURRENT_TIME=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
+
+      - name: Upload timestamped release artifact
+        uses: ncipollo/release-action@v1
         with:
-          name: build_a
-          path: artifacts
-  build_job_b:
-    # The host should always be linux
-    runs-on: ubuntu-22.04
-    name: Build on docker (x86_64)
-    steps:
-      - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v3
-        name: Build artifact
-        id: build
-        with:
-          #arch: aarch64
-          #distro: ubuntu20.04
-          arch: none
-          distro: none
-          base_image: --platform=linux/amd64 ubuntu:latest
-
-          # Not required, but speeds up builds
-          #githubToken: ${{ github.token }}
-
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-
-          # Pass some environment variables to the container
-          env: | # YAML, but pipe character is necessary
-            artifact_name: proot
-
-          # The shell to run commands with in the container
-          shell: /bin/sh
-
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
-          install: |
-            apt-get update -q -y
-            apt install -y git zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
-
-          # Produce a binary artifact and place it in the mounted volume
-          run: |
-            set -eux
-            pkg-config --libs --cflags python3
-            git clone https://github.com/proot-me/proot.git
-            cd proot/
-            mkdir -p dist
-            export CC=musl-gcc
-            export CFLAGS="-I/usr/include/libxml2"
-            export LDFLAGS="-Wl,--no-as-needed -static -lz -lexpat -ltalloc"
-            #export LDLIBS +="-lpython3.10 -lexpat -lz"
-            make -C src loader.elf loader-m32.elf build.h
-            make -C src proot            
-            cp src/proot dist/
-            cd dist
-            sha256sum ./proot > proot-x86_64.sha256sum
-            md5sum ./proot > proot-x86_64.md5sum
-            mv proot proot-x86_64
-            cd ..
-            cp dist/*-x86_64* /artifacts/
-            echo "Copied to /artifacts"
-
-      - name: Show the artifact
-        # Items placed in /artifacts in the container will be in
-        # ${PWD}/artifacts on the host..
-        run: |
-          ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: build_b
-          path: artifacts
-  
-  release:
-    runs-on: ubuntu-latest
-    needs: [build_job_a, build_job_b]
-    steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-        merge-multiple: true
-        path: binaries
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-    - name: Upload binaries to releases 
-      uses: softprops/action-gh-release@v1
-      with:
-        draft: false
-        files: |
-          binaries/*x86_64*
-          binaries/*aarch64*
-        generate_release_notes: true
-        tag_name: proot-${{ steps.date.outputs.date }}
+          tag: libshout-win-${{ env.CURRENT_TIME }}
+          artifacts: ${{ env.ARTIFACT_NAME }}
+          name: libshout-win-${{ env.CURRENT_TIME }}
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}

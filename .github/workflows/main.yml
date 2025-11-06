@@ -49,7 +49,7 @@ jobs:
           git clone --recursive https://gitlab.xiph.org/xiph/icecast-libshout libshout-build && cd libshout-build 
           git submodule update --remote src/common
           ./autogen.sh
-          CFLAGS='-DDISABLE_IPV6' ./configure --prefix=$OUTDIR --host=x86_64-w64-mingw32
+          CFLAGS='-DDISABLE_IPV6' ./configure --prefix=$OUTDIR --host=x86_64-w64-mingw32 --enable-shared --enable-static
           make -j$(nproc)
           make install
           cd "$OUTDIR"

@@ -35,6 +35,7 @@ jobs:
             mingw-w64-ucrt-x86_64-toolchain
             mingw-w64-ucrt-x86_64-libogg
             mingw-w64-ucrt-x86_64-libvorbis
+            mingw-w64-ucrt-x86_64-libtheora
             zip
             git
 

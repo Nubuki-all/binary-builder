@@ -65,3 +65,29 @@ jobs:
           name: libshout-win-${{ env.CURRENT_TIME }}
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Check if latest release exists and delete if so
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export RELEASE_TAG="libshout-win-latest" # Replace with your target release tag
+          
+          # Check if the release exists
+          if gh release view "$RELEASE_TAG" &>/dev/null; then
+            echo "Release $RELEASE_TAG exists. Deleting..."
+            gh release delete --cleanup-tag --yes "$RELEASE_TAG"
+            echo "Release $RELEASE_TAG deleted."
+          else
+            echo "Release $RELEASE_TAG does not exist. No action needed."
+          fi
+
+      - name: Upload 'latest' release artifact
+        uses: ncipollo/release-action@v1
+        with:
+          tag: libshout-win-latest
+          artifacts: ${{ env.ARTIFACT_NAME }}
+          name: libshout-win-latest
+          allowUpdates: true
+          removeArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          

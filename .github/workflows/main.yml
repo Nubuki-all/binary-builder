@@ -41,6 +41,7 @@ jobs:
             mingw-w64-ucrt-x86_64-libwinpthread
             zip
             git
+            mingw-w64-ucrt-x86_64-github-cli
 
       - name: Build libshout 
         run: |

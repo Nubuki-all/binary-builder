@@ -64,7 +64,8 @@ jobs:
           git submodule update --remote src/common || true
           ./autogen.sh
 
-          export OUTDIR="$GITHUB_WORKSPACE/out-${{ matrix.arch }}"
+          # Use the shell's POSIX path ($PWD) so libtool/install get valid paths
+          export OUTDIR="$PWD/../out-${{ matrix.arch }}"
           mkdir -p "$OUTDIR"
 
           # Configure and build for this host triplet

@@ -54,7 +54,6 @@ jobs:
             ${{ matrix.pkg_prefix }}-libwinpthread
             zip
             git
-            ${{ matrix.pkg_prefix }}-github-cli
 
       - name: Build libshout (matrix; ${{ matrix.arch }})
         run: |

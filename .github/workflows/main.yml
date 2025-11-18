@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download all built artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           # no name -> downloads all artifacts from the workflow run
           path: ./downloads

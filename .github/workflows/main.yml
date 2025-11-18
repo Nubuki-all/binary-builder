@@ -95,6 +95,7 @@ jobs:
         with:
           # no name -> downloads all artifacts from the workflow run
           path: ./downloads
+          merge-multiple: true
 
       - name: Show downloaded files
         run: |

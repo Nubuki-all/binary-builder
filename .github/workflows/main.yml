@@ -1,4 +1,4 @@
-name: Build Windows Release with MSYS2
+name: Build libshout (x64 + x86) and publish combined release
 
 on:
   push:
@@ -10,14 +10,27 @@ on:
   workflow_dispatch:
 
 env:
-  ARTIFACT_NAME: libshout.zip
+  BASE_ARTIFACT_NAME: libshout.zip
 
 jobs:
-  build-and-release:
-    runs-on: windows-latest # Runs on a Windows runner
+  build-libshout:
+    runs-on: windows-latest
     defaults:
       run:
-        shell: msys2 {0} # All `run` steps will execute in the MSYS2 shell
+        shell: msys2 {0}
+    strategy:
+      matrix:
+        include:
+          - arch: x64
+            msystem: UCRT64
+            pkg_prefix: mingw-w64-ucrt-x86_64
+            gosysroot: /ucrt64
+            host_triplet: x86_64-w64-mingw32
+          - arch: x86
+            msystem: MINGW32
+            pkg_prefix: mingw-w64-i686
+            gosysroot: /mingw32
+            host_triplet: i686-w64-mingw32
 
     steps:
       - name: Checkout code
@@ -26,69 +39,89 @@ jobs:
       - name: Setup MSYS2 and install dependencies
         uses: msys2/setup-msys2@v2
         with:
-          msystem: UCRT64
+          msystem: ${{ matrix.msystem }}
           update: true
           install: |
             pkg-config
-            mingw-w64-ucrt-x86_64-autotools
-            mingw-w64-ucrt-x86_64-gcc
-            mingw-w64-ucrt-x86_64-toolchain
-            mingw-w64-ucrt-x86_64-libogg
-            mingw-w64-ucrt-x86_64-libvorbis
-            mingw-w64-ucrt-x86_64-libtheora
-            mingw-w64-ucrt-x86_64-openssl
-            mingw-w64-ucrt-x86_64-speex
-            mingw-w64-ucrt-x86_64-libwinpthread
+            ${{ matrix.pkg_prefix }}-autotools
+            ${{ matrix.pkg_prefix }}-gcc
+            ${{ matrix.pkg_prefix }}-toolchain
+            ${{ matrix.pkg_prefix }}-libogg
+            ${{ matrix.pkg_prefix }}-libvorbis
+            ${{ matrix.pkg_prefix }}-libtheora
+            ${{ matrix.pkg_prefix }}-openssl
+            ${{ matrix.pkg_prefix }}-speex
+            ${{ matrix.pkg_prefix }}-libwinpthread
             zip
             git
-            mingw-w64-ucrt-x86_64-github-cli
+            ${{ matrix.pkg_prefix }}-github-cli
 
-      - name: Build libshout 
+      - name: Build libshout (matrix; ${{ matrix.arch }})
         run: |
-          mkdir libshout
-          export OUTDIR=$PWD/libshout
-          git clone --recursive https://gitlab.xiph.org/xiph/icecast-libshout libshout-build && cd libshout-build 
-          git submodule update --remote src/common
+          set -ex
+          mkdir -p libshout-build
+          git clone --recursive https://gitlab.xiph.org/xiph/icecast-libshout libshout-build
+          cd libshout-build
+          git submodule update --remote src/common || true
           ./autogen.sh
-          CFLAGS='-DDISABLE_IPV6' ./configure --prefix=$OUTDIR --host=x86_64-w64-mingw32 --enable-shared --enable-static
-          make -j$(nproc)
-          make install
-          cd "$OUTDIR"
-          zip -r ../$ARTIFACT_NAME .
-          ls -ash
-          echo "CURRENT_TIME=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
 
-      - name: Upload timestamped release artifact
+          export OUTDIR="$GITHUB_WORKSPACE/out-${{ matrix.arch }}"
+          mkdir -p "$OUTDIR"
+
+          # Configure and build for this host triplet
+          CFLAGS='-DDISABLE_IPV6' ./configure --prefix="$OUTDIR" --host=${{ matrix.host_triplet }} --enable-shared --enable-static
+          make -j$(nproc) || make -j1
+          make install
+
+          # Pack the installed tree into a zip named per-arch
+          cd "$OUTDIR"
+          ZIPNAME="libshout-${{ matrix.arch }}.zip"
+          zip -r "../$ZIPNAME" .
+          ls -lash "../$ZIPNAME"
+          echo "ARTIFACT_FILE=$ZIPNAME" >> $GITHUB_ENV
+
+      - name: Upload artifact (libshout-${{ matrix.arch }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: libshout-${{ matrix.arch }}.zip
+          path: ${{ env.ARTIFACT_FILE }}
+
+  publish-release:
+    needs: build-libshout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all built artifacts
+        uses: actions/download-artifact@v3
+        with:
+          # no name -> downloads all artifacts from the workflow run
+          path: ./downloads
+
+      - name: Show downloaded files
+        run: |
+          ls -lah ./downloads
+
+      - name: Set CURRENT_TIME
+        run: echo "CURRENT_TIME=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
+
+      - name: Create timestamped release with both zips
         uses: ncipollo/release-action@v1
         with:
           tag: libshout-win-${{ env.CURRENT_TIME }}
-          artifacts: ${{ env.ARTIFACT_NAME }}
+          artifacts: |
+            downloads/libshout-x64.zip
+            downloads/libshout-x86.zip
           name: libshout-win-${{ env.CURRENT_TIME }}
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Check if latest release exists and delete if so
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export RELEASE_TAG="libshout-win-latest" # Replace with your target release tag
-          
-          # Check if the release exists
-          if gh release view "$RELEASE_TAG" &>/dev/null; then
-            echo "Release $RELEASE_TAG exists. Deleting..."
-            gh release delete --cleanup-tag --yes "$RELEASE_TAG"
-            echo "Release $RELEASE_TAG deleted."
-          else
-            echo "Release $RELEASE_TAG does not exist. No action needed."
-          fi
 
-      - name: Upload 'latest' release artifact
+      - name: Create/Update 'libshout-win-latest' release with both zips
         uses: ncipollo/release-action@v1
         with:
           tag: libshout-win-latest
-          artifacts: ${{ env.ARTIFACT_NAME }}
+          artifacts: |
+            downloads/libshout-x64.zip
+            downloads/libshout-x86.zip
           name: libshout-win-latest
           allowUpdates: true
           removeArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          

@@ -40,6 +40,9 @@ jobs:
           install: |
             pkg-config
             autoconf-wrapper
+            autoconf
+            automake
+            libtool
             ${{ matrix.pkg_prefix }}-autotools
             ${{ matrix.pkg_prefix }}-gcc
             ${{ matrix.pkg_prefix }}-toolchain

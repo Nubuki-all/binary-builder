@@ -49,7 +49,7 @@ jobs:
             ${{ matrix.pkg_prefix }}-autotools
             ${{ matrix.pkg_prefix }}-gcc
             ${{ matrix.pkg_prefix }}-toolchain
-            git unzip wget
+            git zip
 
 
       - name: Clone fdk-aac

@@ -9,6 +9,9 @@ on:
 jobs:
   build-windows-fdk-aac:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
     strategy:
       matrix:
         include:
@@ -48,31 +51,23 @@ jobs:
             ${{ matrix.pkg_prefix }}-toolchain
             git unzip wget
 
-      - name: Add MSYS2 to PATH
-        shell: bash
-        run: |
-          export PATH="/c/msys64${{ matrix.gosysroot }}/bin:$PATH"
-          echo "PATH=$PATH" >> $GITHUB_ENV
 
       - name: Clone fdk-aac
-        shell: bash
         run: |
           git clone https://github.com/mstorsjo/fdk-aac.git
           cd fdk-aac
           git checkout $FDK_VERSION
 
       - name: Build & install fdk-aac
-        shell: bash
         run: |
           cd fdk-aac
-          /usr/bin/autoreconf -fiv
+          autoreconf -fiv
           PREFIX="$PWD/fdk-aac-prefix"
           ./configure --prefix="$PREFIX" --enable-static --enable-shared
           make -j$(nproc)
           make install
 
       - name: Zip fdk-aac
-        shell: bash
         run: |
           cd fdk-aac
           mv fdk-aac-prefix ../fdk-build

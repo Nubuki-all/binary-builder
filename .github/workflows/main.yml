@@ -39,6 +39,7 @@ jobs:
           update: true
           install: |
             pkg-config
+            autoconf-wrapper
             ${{ matrix.pkg_prefix }}-autotools
             ${{ matrix.pkg_prefix }}-gcc
             ${{ matrix.pkg_prefix }}-toolchain
@@ -61,7 +62,7 @@ jobs:
         shell: bash
         run: |
           cd fdk-aac
-          autoreconf -fiv
+          /usr/bin/autoreconf -fiv
           PREFIX="$PWD/fdk-aac-prefix"
           ./configure --prefix="$PREFIX" --enable-static --enable-shared
           make -j$(nproc)

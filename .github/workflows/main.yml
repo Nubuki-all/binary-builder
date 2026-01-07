@@ -25,6 +25,9 @@ jobs:
           update: true
           install: >
             base-devel
+            autoconf
+            automake
+            libtool
             mingw-w64-i686-toolchain
             mingw-w64-x86_64-toolchain
             mingw-w64-i686-autotools

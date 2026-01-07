@@ -27,6 +27,7 @@ jobs:
             base-devel
             autoconf
             automake
+            autotools
             libtool
             autoconf-wrapper
             mingw-w64-i686-toolchain

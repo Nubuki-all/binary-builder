@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install MSYS2
-        uses: msys2/setup-msys2@v3
+        uses: msys2/setup-msys2@v2
         with:
           update: true
           install: >
@@ -70,7 +70,7 @@ jobs:
           zip -r "fdk-aac-windows-${{ matrix.arch }}.zip" fdk-build
 
       - name: Upload ZIP artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fdk-aac-windows-${{ matrix.arch }}
           path: fdk-aac-windows-${{ matrix.arch }}.zip

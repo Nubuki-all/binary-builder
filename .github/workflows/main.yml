@@ -76,7 +76,7 @@ jobs:
           zip -r "fdk-aac-windows-${{ matrix.arch_suffix }}.zip" fdk-build 
 
       - name: Upload ZIP artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fdk-aac-windows-${{ matrix.arch_suffix }}
           path: fdk-aac-windows-${{ matrix.arch_suffix }}.zip

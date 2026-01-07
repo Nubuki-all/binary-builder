@@ -11,43 +11,44 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        arch: [x86, x64]  # two architectures
+        include:
+          - arch: x64
+            msystem: UCRT64
+            pkg_prefix: mingw-w64-ucrt-x86_64
+            gosysroot: /ucrt64
+            cc: x86_64-w64-mingw32-gcc
+            arch_suffix: x64
+
+          - arch: x86
+            msystem: MINGW32
+            pkg_prefix: mingw-w64-i686
+            gosysroot: /mingw32
+            cc: i686-w64-mingw32-gcc
+            arch_suffix: x86
+
     env:
       FDK_VERSION: master
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Install MSYS2
+      - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
         with:
+          msystem: ${{ matrix.msystem }}
           update: true
-          install: >
-            base-devel
-            autoconf
-            automake
-            autotools
-            libtool
-            autoconf-wrapper
-            mingw-w64-i686-toolchain
-            mingw-w64-x86_64-toolchain
-            mingw-w64-i686-autotools
-            mingw-w64-x86_64-autotools
-            mingw-w64-i686-pkg-config
-            mingw-w64-x86_64-pkg-config
-            git
+          install: |
+            pkg-config
+            ${{ matrix.pkg_prefix }}-autotools
+            ${{ matrix.pkg_prefix }}-gcc
+            ${{ matrix.pkg_prefix }}-toolchain
+            git unzip wget
 
-      - name: Set MSYS2 environment
+      - name: Add MSYS2 to PATH
         shell: bash
         run: |
-          if [ "${{ matrix.arch }}" == "x64" ]; then
-            export MSYS_PREFIX="/c/msys64/mingw64"
-          else
-            export MSYS_PREFIX="/c/msys64/mingw32"
-          fi
-          echo "MSYS_PREFIX=$MSYS_PREFIX" >> $GITHUB_ENV
-          export PATH="$MSYS_PREFIX/bin:$PATH"
+          export PATH="/c/msys64${{ matrix.gosysroot }}/bin:$PATH"
+          echo "PATH=$PATH" >> $GITHUB_ENV
 
       - name: Clone fdk-aac
         shell: bash
@@ -72,11 +73,11 @@ jobs:
           cd fdk-aac
           mv fdk-aac-prefix ../fdk-build
           cd ..
-          zip -r "fdk-aac-windows-${{ matrix.arch }}.zip" fdk-build
+          zip -r "fdk-aac-windows-${{ matrix.arch_suffix }}.zip" fdk-build 
 
       - name: Upload ZIP artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: fdk-aac-windows-${{ matrix.arch }}
-          path: fdk-aac-windows-${{ matrix.arch }}.zip
+          name: fdk-aac-windows-${{ matrix.arch_suffix }}
+          path: fdk-aac-windows-${{ matrix.arch_suffix }}.zip
           retention-days: 1

@@ -40,10 +40,12 @@ jobs:
             ARTIFACT_NAME: ${{ matrix.artifact_name }}
           # Alpine package installation
           install: |
-            apk update
-            apk add --no-cache git cmake build-base gcc musl-dev
+            #apk update
+            #apk add --no-cache git cmake build-base gcc musl-dev
           # Build commands
           run: |
+            apk update
+            apk add --no-cache git cmake build-base gcc musl-dev
             set -e
             echo "Building for ${{ matrix.arch }}..."
             

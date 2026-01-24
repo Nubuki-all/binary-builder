@@ -1,164 +1,198 @@
-name: ci
+name: build-anitomy-matrix
 
 on:
   push:
-    branches:
-      - 'wget'
+    branches: [ anitomy ]
+  workflow_dispatch: 
 
-#on: [push, pull_request]
+env:
+  OUTDIR: prebuilt
 
 jobs:
-  build_job_a:
-    # The host should always be linux
-    runs-on: ubuntu-22.04
-    name: Build on alpine (aarch64)
+  build-linux:
+    name: Build Linux (matrix)
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ amd64, arm64, arm ]    # amd64, aarch64, armv7
     steps:
-      - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v3
-        name: Build artifact
-        id: build
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          #arch: aarch64
-          #distro: ubuntu20.04
-          arch: none
-          distro: none
-          base_image: --platform=linux/arm64/v8 alpine:latest
+          submodules: true
 
-          # Not required, but speeds up builds
-          #githubToken: ${{ github.token }}
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
 
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-
-          # Pass some environment variables to the container
-          env: | # YAML, but pipe character is necessary
-            artifact_name: wget
-
-          # The shell to run commands with in the container
-          shell: /bin/sh
-
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
-          install: |
-            apk add build-base openssl openssl-dev openssl-libs-static zlib-static zlib-dev wget
-          # Produce a binary artifact and place it in the mounted volume
-          run: |
-            wget https://ftp.gnu.org/gnu/wget/wget-latest.tar.gz
-            tar -xf wget-latest.tar.gz
-            cd wget-*/
-            export PKG_CONFIG_PATH=/usr/lib/pkgconfig
-            ./configure \
-              --without-gnutls \
-              --with-ssl=openssl \
-              LDFLAGS="-static" \
-              CFLAGS="-static"
-            make -j$(nproc)
-            file src/wget
-            cp -r src/wget /artifacts/wget-aarch64
-
-      - name: Show the artifact
-        # Items placed in /artifacts in the container will be in
-        # ${PWD}/artifacts on the host..
+      - name: Install dependencies
         run: |
-          ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: build_a
-          path: artifacts
-  build_job_b:
-    # The host should always be linux
-    runs-on: ubuntu-22.04
-    name: Build on alpine (x86_64)
-    steps:
-      - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v3
-        name: Build artifact
-        id: build
-        with:
-          #arch: aarch64
-          #distro: ubuntu20.04
-          arch: none
-          distro: none
-          base_image: --platform=linux/amd64 alpine:latest
-
-          # Not required, but speeds up builds
-          #githubToken: ${{ github.token }}
-
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-
-          # Pass some environment variables to the container
-          env: | # YAML, but pipe character is necessary
-            artifact_name: wget
-
-          # The shell to run commands with in the container
-          shell: /bin/sh
-
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
-          install: |
-            apk add build-base openssl openssl-dev openssl-libs-static zlib-static zlib-dev wget
-          # Produce a binary artifact and place it in the mounted volume
-          run: |
-            wget https://ftp.gnu.org/gnu/wget/wget-latest.tar.gz
-            tar -xf wget-latest.tar.gz
-            cd wget-*/
-            export PKG_CONFIG_PATH=/usr/lib/pkgconfig
-            ./configure \
-              --without-gnutls \
-              --with-ssl=openssl \
-              LDFLAGS="-static" \
-              CFLAGS="-static"
-            make -j$(nproc)
-            file src/wget
-            cp -r src/wget /artifacts/wget-x86_64
-
-      - name: Show the artifact
-        # Items placed in /artifacts in the container will be in
-        # ${PWD}/artifacts on the host..
-        run: |
-          ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: build_b
-          path: artifacts
+          sudo apt-get update -y
+          sudo apt-get install -y wget git clang lld cmake ninja-build build-essential \
+          gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
   
-  release:
-    runs-on: ubuntu-latest
-    needs: [build_job_a, build_job_b]
+
+      - name: Print tool versions
+        run: |
+          clang --version || true
+          lld --version || true
+          cmake --version
+
+      - name: Prepare output dir
+        run: |
+          OUT=${GITHUB_WORKSPACE}/${{ env.OUTDIR }}/linux_${{ matrix.arch }}
+          mkdir -p "$OUT"
+    
+      - name: Clone anitomy
+        run : |
+          sudo mkdir /me && sudo chmod -R 777 /me
+          cd /me
+          git clone https://github.com/YUKI2eN3e/anitomy .
+          
+
+      - name: Configure & build (native or cross)
+        run: |
+          cd /me
+          set -eux
+          OUT=${GITHUB_WORKSPACE}/${{ env.OUTDIR }}/linux_${{ matrix.arch }}
+          BUILD_DIR=build_linux_${{ matrix.arch }}
+          mkdir -p "$BUILD_DIR"
+          if [ "${{ matrix.arch }}" = "amd64" ]; then
+            CXX=clang++
+            cmake -S . -B "$BUILD_DIR" \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DCMAKE_CXX_COMPILER=${CXX} \
+              -DCMAKE_CXX_STANDARD=23 \
+              -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${OUT}
+            cmake --build "$BUILD_DIR" --parallel
+          else
+            # Cross-compile attempt for arm64/arm using cross gcc toolchains installed above.
+            # You may want to replace this with clang --target=... + proper sysroot if you prefer.
+            if [ "${{ matrix.arch }}" = "arm64" ]; then
+              TRIPLET="aarch64-linux-gnu"
+            else
+              TRIPLET="arm-linux-gnueabihf"
+            fi
+            
+            # Set common Clang variables
+            # export CC="clang --target=$TRIPLET"
+            export CXX="clang++ --target=$TRIPLET"
+
+            cmake -S . -B "$BUILD_DIR" \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DCMAKE_CXX_COMPILER=clang++ \
+              -DCMAKE_CXX_STANDARD=23 \
+              -DCMAKE_CXX_COMPILER_TARGET=${TRIPLET} \
+              -DCMAKE_SYSTEM_NAME=Linux \
+              -DCMAKE_SYSTEM_PROCESSOR=${{ matrix.arch }} \
+              -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${OUT}
+            cmake --build "$BUILD_DIR" --parallel
+          fi
+
+      - name: Upload linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anitomy-linux-${{ matrix.arch }}
+          path: prebuilt/linux_${{ matrix.arch }}/
+
+  build-windows:
+    name: Build Windows (matrix)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    needs: build-linux
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ amd64, 386, arm64 ]            # windows x64, x86, arm64
     steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-        merge-multiple: true
-        path: binaries
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-    - name: Upload binaries to releases 
-      uses: softprops/action-gh-release@v1
-      with:
-        draft: false
-        files: |
-          binaries/*x86_64
-          binaries/*aarch64
-        generate_release_notes: true
-        tag_name: wget-${{ steps.date.outputs.date }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup MSYS2 (for mingw / unix tools)
+        uses: msys2/setup-msys2@v1
+        with:
+          msystem: MINGW64
+          update: true
+          install: git
+
+      - name: Choose LLVM tarball by arch
+        id: choose
+        run: |
+          echo "ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
+          if [ "${{ matrix.arch }}" = "arm64" ]; then
+            TARURL="https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0-rc1/clang+llvm-22.1.0-rc1-aarch64-pc-windows-msvc.tar.xz"
+          else
+            # for amd64 and 386 use x86_64 binary tarball
+            TARURL="https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0-rc1/clang+llvm-22.1.0-rc1-x86_64-pc-windows-msvc.tar.xz"
+          fi
+          echo "TARURL=${TARURL}" >> $GITHUB_ENV
+          echo "Selected TAR: $TARURL"
+
+      - name: Download LLVM 22 tarball
+        run: |
+          cd $GITHUB_WORKSPACE
+          curl -L -o llvm.tar.xz "${TARURL}"
+
+      - name: Unpack LLVM into MSYS2 root
+        run: |
+          :: Note: msys2 root is usually C:\msys64 for windows-latest
+          powershell -Command " \
+            $msys = 'C:\\msys64'; \
+            Write-Host \"MSYS root: $msys\"; \
+            mkdir -Force $msys\\usr\\local; \
+            tar -xJf llvm.tar.xz -C $msys\\usr\\local --strip-components=1; \
+            Write-Host 'Extracted LLVM into' $msys\\usr\\local; \
+            "
+      - name: Verify clang
+        shell: bash
+        run: |
+          echo "PATH before: $PATH"
+          export PATH="/c/msys64/usr/local/bin:${PATH}"
+          which clang || true
+          clang --version
+
+      - name: Prepare output dir
+        run: |
+          mkdir -p prebuilt/windows_${{ matrix.arch }}
+
+      - name: Clone anitomy
+        run : |
+          mkdir /c/me
+          cd /c/me
+          git clone https://github.com/erengy/anitomy .
+
+      - name: Configure & build with Clang on Windows
+        shell: bash
+        env:
+          PATH: /c/msys64/usr/local/bin:/c/msys64/usr/bin:${PATH}
+        run: |
+          cd /c/me
+          set -eux
+          OUT=${GITHUB_WORKSPACE}/prebuilt/windows_${{ matrix.arch }}
+          BUILD_DIR=build_windows_${{ matrix.arch }}
+          mkdir -p "$BUILD_DIR"
+          # Use Ninja + clang from unpacked LLVM
+          cmake -S . -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+            -DCMAKE_C_COMPILER=/c/msys64/usr/local/bin/clang \
+            -DCMAKE_CXX_COMPILER=/c/msys64/usr/local/bin/clang++ \
+            -DCMAKE_CXX_STANDARD=23 \
+            -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${OUT}
+          cmake --build "$BUILD_DIR" --parallel
+
+          # Create .a with llvm-ar if present (prefer .a for cgo portability)
+          if [ -f /c/msys64/usr/local/bin/llvm-ar ]; then
+            /c/msys64/usr/local/bin/llvm-ar rcs ${OUT}/libanitomy.a ${BUILD_DIR}/*.o || true
+          fi
+
+      - name: Upload windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anitomy-windows-${{ matrix.arch }}
+          path: prebuilt/windows_${{ matrix.arch }}/

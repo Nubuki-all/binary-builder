@@ -95,11 +95,17 @@ jobs:
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
+        with:
+          path: ./downloads
+          merge-multiple: true
+
+      - name: Show downloaded files
+        run: |
+          ls -lah ./downloads
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            anitomy-*
+          files: downloads/anitomy-*
           tag_name: anitomy
           generate_release_notes: true
         env:

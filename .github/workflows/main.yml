@@ -38,6 +38,7 @@ jobs:
             --volume "${{ github.workspace }}/artifacts:/artifacts"
           env: |
             ARTIFACT_NAME: ${{ matrix.artifact_name }}
+          shell: /bin/sh
           # Alpine package installation
           install: |
             #apk update

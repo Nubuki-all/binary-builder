@@ -41,7 +41,7 @@ jobs:
           # Alpine package installation
           install: |
             apk update
-            apk add --no-cache git cmake make build-base gcc g++ musl-dev
+            apk add --no-cache git cmake build-base gcc musl-dev
           # Build commands
           run: |
             set -e

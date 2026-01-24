@@ -12,13 +12,13 @@ jobs:
       matrix:
         include:
           - arch: armv7
-            runner_arch: arm32
+            runner_arch: linux/arm/v7
             artifact_name: anitomy-arm32
           - arch: aarch64
-            runner_arch: arm64
+            runner_arch: linux/arm64/v8
             artifact_name: anitomy-arm64
           - arch: x86_64
-            runner_arch: amd64
+            runner_arch: linux/amd64
             artifact_name: anitomy-amd64
     steps:
       - name: Checkout repository
@@ -28,9 +28,9 @@ jobs:
         uses: uraimo/run-on-arch-action@v3
         id: build
         with:
-          arch: ${{ matrix.runner_arch }}
+          arch: none
           distro: none
-          base_image: alpine:latest
+          base_image: --platform=${{ matrix.runner_arch }} alpine:latest
           githubToken: ${{ github.token }}
           setup: |
             mkdir -p "${{ github.workspace }}/artifacts"

@@ -62,7 +62,7 @@ jobs:
           BUILD_DIR=build_linux_${{ matrix.arch }}
           mkdir -p "$BUILD_DIR"
           if [ "${{ matrix.arch }}" = "amd64" ]; then
-            CXX=clang++
+            CXX=clang-21++
             cmake -S . -B "$BUILD_DIR" \
               -DBUILD_SHARED_LIBS=OFF \
               -DCMAKE_CXX_COMPILER=${CXX} \
@@ -79,12 +79,12 @@ jobs:
             fi
             
             # Set common Clang variables
-            # export CC="clang --target=$TRIPLET"
-            export CXX="clang++ --target=$TRIPLET"
+            # export CC="clang-21 --target=$TRIPLET"
+            export CXX="clang-21++ --target=$TRIPLET"
 
             cmake -S . -B "$BUILD_DIR" \
               -DBUILD_SHARED_LIBS=OFF \
-              -DCMAKE_CXX_COMPILER=clang++ \
+              -DCMAKE_CXX_COMPILER=clang-21++ \
               -DCMAKE_CXX_STANDARD=23 \
               -DCMAKE_CXX_COMPILER_TARGET=${TRIPLET} \
               -DCMAKE_SYSTEM_NAME=Linux \

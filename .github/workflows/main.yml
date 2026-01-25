@@ -117,9 +117,8 @@ jobs:
       - name: Build anitomy
         run: |
             export PATH="/opt/bin:$PATH"
-            which aarch64-w64-mingw32-g++
+
             cd anitomy
-            
             # Create build directory
             BUILD_DIR="build"
             mkdir -p "$BUILD_DIR"
@@ -154,7 +153,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: anitomy/${{ matrix.artifact_name }}
+          path: anitomy/${ARTIFACT_NAME}
 
   build_win:
     runs-on: windows-latest

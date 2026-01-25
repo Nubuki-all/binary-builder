@@ -89,6 +89,70 @@ jobs:
           name: ${{ matrix.artifact_name }}
           path: artifacts/${{ matrix.artifact_name }}
 
+  build-win_arm64:
+    runs-on: windows-11-arm
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      ARCH: arm64
+      ARTIFACT_NAME: anitomy-arm64.exe
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANGARM64
+          update: true
+          # Install the ARM64-specific Clang toolchain and CMake
+          install: >-
+            mingw-w64-clang-aarch64-clang
+            mingw-w64-clang-aarch64-cmake
+            git
+
+      - name: Clone Repository
+        run:  git clone https://github.com/YUKI2eN3e/anitomy.git anitomy
+      - name: Build anitomy
+        run: |
+            cd anitomy
+            
+            # Create build directory
+            BUILD_DIR="build"
+            mkdir -p "$BUILD_DIR"
+            cd "$BUILD_DIR"
+            
+            # Configure with static linking
+            cmake .. \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DCMAKE_CXX_COMPILER=clang++ \
+              -DCMAKE_CXX_STANDARD=23 \
+              -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++"
+            
+            # Build
+            cmake --build . --parallel
+            cd ..
+            
+            # Copy executable from bin directory
+            if [ -f "bin/anitomy.exe" ]; then
+              cp "bin/anitomy.exe" "$ARTIFACT_NAME"            
+              echo "Build successful!"
+              
+              # Verify static linking
+              file "${ARTIFACT_NAME}"
+            else
+              echo "ERROR: Executable not found in bin/anitomy.exe"
+              find . -name "anitomy.exe" -type f
+              exit 1
+            fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: anitomy/${{ matrix.artifact_name }}
+
   build_win:
     runs-on: windows-latest
     defaults:
@@ -142,14 +206,15 @@ jobs:
             
             # Build
             cmake --build . --parallel
+            cd ..
             
             # Copy executable from bin directory
             if [ -f "bin/anitomy.exe" ]; then
-              cp "bin/anitomy.exe" "${ARTIFACT_NAME}"            
+              cp "bin/anitomy.exe" "${{ matrix.artifact_name }}"            
               echo "Build successful!"
               
               # Verify static linking
-              file "${ARTIFACT_NAME}"
+              file "${{ matrix.artifact_name }}"
             else
               echo "ERROR: Executable not found in bin/anitomy.exe"
               find . -name "anitomy.exe" -type f
@@ -165,7 +230,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [ build, build_win ]
+    needs: [ build, build-win_arm64, build_win ]
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4

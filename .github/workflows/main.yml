@@ -66,7 +66,7 @@ jobs:
               -DCMAKE_CXX_COMPILER=g++ \
               -DCMAKE_CXX_STANDARD=23 \
               -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++"
-            j
+            
             # Build
             cmake --build . --parallel
             

@@ -116,6 +116,8 @@ jobs:
         run:  git clone https://github.com/YUKI2eN3e/anitomy.git anitomy
       - name: Build anitomy
         run: |
+            export PATH="/opt/bin:$PATH"
+            which aarch64-w64-mingw32-g++
             cd anitomy
             
             # Create build directory
@@ -127,7 +129,7 @@ jobs:
             cmake .. \
               -DCMAKE_BUILD_TYPE=Release \
               -DBUILD_SHARED_LIBS=OFF \
-              -DCMAKE_CXX_COMPILER=/opt/bin/aarch64-w64-mingw32-g++ \
+              -DCMAKE_CXX_COMPILER=aarch64-w64-mingw32-g++ \
               -DCMAKE_CXX_STANDARD=23 \
               -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++"
             

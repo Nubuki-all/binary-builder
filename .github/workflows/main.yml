@@ -61,11 +61,12 @@ jobs:
             
             # Configure with static linking
             cmake .. \
-              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_BUILD_TYPE=MinSizeRel \
               -DBUILD_SHARED_LIBS=OFF \
               -DCMAKE_CXX_COMPILER=g++ \
               -DCMAKE_CXX_STANDARD=23 \
-              -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++"
+              -DCMAKE_CXX_FLAGS="-Os -ffunction-sections -fdata-sections" \
+              -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++ -Wl,--gc-sections -s"
             
             # Build
             cmake --build . --parallel
@@ -201,11 +202,12 @@ jobs:
             
             # Configure with static linking
             cmake .. \
-              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_BUILD_TYPE=MinSizeRel \
               -DBUILD_SHARED_LIBS=OFF \
               -DCMAKE_CXX_COMPILER=${{ matrix.cc }} \
               -DCMAKE_CXX_STANDARD=23 \
-              -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++"
+              -DCMAKE_CXX_FLAGS="-Os -ffunction-sections -fdata-sections" \
+              -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++ -Wl,--gc-sections -s"
             
             # Build
             cmake --build . --parallel

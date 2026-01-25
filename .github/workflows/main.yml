@@ -90,7 +90,7 @@ jobs:
           path: artifacts/${{ matrix.artifact_name }}
 
   build-win_arm64:
-    runs-on: windows-11-arm
+    runs-on: windows-latest
     defaults:
       run:
         shell: msys2 {0}
@@ -103,13 +103,13 @@ jobs:
       - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
         with:
-          msystem: CLANGARM64
+          msystem: MINGW64
           update: true
           # Install the ARM64-specific Clang toolchain and CMake
           install: >-
-            mingw-w64-clang-aarch64-clang
-            mingw-w64-clang-aarch64-cmake
-            mingw-w64-clang-aarch64-libc++
+            mingw-w64-cross-mingwarm64-gcc
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
             git
 
       - name: Clone Repository
@@ -127,7 +127,7 @@ jobs:
             cmake .. \
               -DCMAKE_BUILD_TYPE=Release \
               -DBUILD_SHARED_LIBS=OFF \
-              -DCMAKE_CXX_COMPILER=clang++ \
+              -DCMAKE_CXX_COMPILER=aarch64-w64-mingw32-g++ \
               -DCMAKE_CXX_STANDARD=23 \
               -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++"
             

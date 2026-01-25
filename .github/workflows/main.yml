@@ -66,7 +66,7 @@ jobs:
               -DCMAKE_CXX_COMPILER=g++ \
               -DCMAKE_CXX_STANDARD=23 \
               -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -static-libgcc -static-libstdc++"
-            
+            j
             # Build
             cmake --build . --parallel
             
@@ -144,15 +144,15 @@ jobs:
             cmake --build . --parallel
             
             # Copy executable from bin directory
-            if [ -f "anitomy/bin/anitomy" ]; then
-              cp "anitomy/bin/anitomy" "anitomy/${ARTIFACT_NAME}"            
+            if [ -f "bin/anitomy.exe" ]; then
+              cp "bin/anitomy.exe" "${ARTIFACT_NAME}"            
               echo "Build successful!"
               
               # Verify static linking
-              file "anitomy/${ARTIFACT_NAME}"
+              file "${ARTIFACT_NAME}"
             else
-              echo "ERROR: Executable not found in anitomy/bin/anitomy"
-              find . -name "anitomy" -type f
+              echo "ERROR: Executable not found in bin/anitomy.exe"
+              find . -name "anitomy.exe" -type f
               exit 1
             fi
 

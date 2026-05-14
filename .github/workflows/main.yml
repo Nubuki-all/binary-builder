@@ -37,8 +37,12 @@ jobs:
                   -DTD_ENABLE_LTO=ON \
                   ..
             cmake --build . --target install -j$(nproc)
-            cp /workspace/src/bin/telegram-bot-api /workspace/telegram-bot-api
+            cp /usr/local/bin/telegram-bot-api /workspace/telegram-bot-api
             '
+      - name: check executable
+        run: |
+          ldd /tmp/tdlight-build/telegram-bot-api
+          file /tmp/tdlight-build/telegram-bot-api
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

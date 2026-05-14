@@ -1,6 +1,8 @@
 name: Build TDLight Bot API
 
 on:
+  push:
+    branches: [ tg-bot-api ]
   workflow_dispatch:
 
 jobs:

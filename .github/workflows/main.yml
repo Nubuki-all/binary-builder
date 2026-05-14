@@ -1,182 +1,42 @@
-name: ci
+name: Build TDLight Bot API
 
 on:
-  push:
-    branches:
-      - 'main'
-
-#on: [push, pull_request]
+  workflow_dispatch:
 
 jobs:
-  build_job_a:
-    # The host should always be linux
-    runs-on: ubuntu-22.04
-    name: Build on docker (aarch64)
-    steps:
-      - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v3
-        name: Build artifact
-        id: build
-        with:
-          #arch: aarch64
-          #distro: ubuntu20.04
-          arch: none
-          distro: none
-          base_image: --platform=linux/arm64/v8 ubuntu:latest
-
-          # Not required, but speeds up builds
-          #githubToken: ${{ github.token }}
-
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-
-          # Pass some environment variables to the container
-          env: | # YAML, but pipe character is necessary
-            artifact_name: proot
-
-          # The shell to run commands with in the container
-          shell: /bin/sh
-
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
-          install: |
-            apt-get update -q -y
-            apt install -y git zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
-
-          # Produce a binary artifact and place it in the mounted volume
-          run: |
-            set -eux
-            pkg-config --libs --cflags python3
-            git clone https://github.com/proot-me/proot.git
-            cd proot/
-            mkdir -p dist
-            export CC=musl-gcc
-            export CFLAGS="-I/usr/include/libxml2"
-            export LDFLAGS="-Wl,--no-as-needed -static -lz -lexpat -ltalloc"
-            #export LDLIBS +="-lpython3.10 -lexpat -lz"
-            make -C src loader.elf build.h
-            make -C src proot            
-            cp src/proot dist/
-            cd dist
-            sha256sum ./proot > proot-aarch64.sha256sum
-            md5sum ./proot > proot-aarch64.md5sum
-            mv proot proot-aarch64
-            cd ..
-            cp dist/*-aarch64* /artifacts/
-            echo "Copied to /artifacts"
-
-      - name: Show the artifact
-        # Items placed in /artifacts in the container will be in
-        # ${PWD}/artifacts on the host..
-        run: |
-          ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: build_a
-          path: artifacts
-  build_job_b:
-    # The host should always be linux
-    runs-on: ubuntu-22.04
-    name: Build on docker (x86_64)
-    steps:
-      - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v3
-        name: Build artifact
-        id: build
-        with:
-          #arch: aarch64
-          #distro: ubuntu20.04
-          arch: none
-          distro: none
-          base_image: --platform=linux/amd64 ubuntu:latest
-
-          # Not required, but speeds up builds
-          #githubToken: ${{ github.token }}
-
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-
-          # Pass some environment variables to the container
-          env: | # YAML, but pipe character is necessary
-            artifact_name: proot
-
-          # The shell to run commands with in the container
-          shell: /bin/sh
-
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
-          install: |
-            apt-get update -q -y
-            apt install -y git zlib1g-dev musl-tools libtalloc-dev libexpat-dev libxml2-dev libc6 libc6-dev libz-dev libexpat1-dev python3-dev build-essential pkg-config
-
-          # Produce a binary artifact and place it in the mounted volume
-          run: |
-            set -eux
-            pkg-config --libs --cflags python3
-            git clone https://github.com/proot-me/proot.git
-            cd proot/
-            mkdir -p dist
-            export CC=musl-gcc
-            export CFLAGS="-I/usr/include/libxml2"
-            export LDFLAGS="-Wl,--no-as-needed -static -lz -lexpat -ltalloc"
-            #export LDLIBS +="-lpython3.10 -lexpat -lz"
-            make -C src loader.elf loader-m32.elf build.h
-            make -C src proot            
-            cp src/proot dist/
-            cd dist
-            sha256sum ./proot > proot-x86_64.sha256sum
-            md5sum ./proot > proot-x86_64.md5sum
-            mv proot proot-x86_64
-            cd ..
-            cp dist/*-x86_64* /artifacts/
-            echo "Copied to /artifacts"
-
-      - name: Show the artifact
-        # Items placed in /artifacts in the container will be in
-        # ${PWD}/artifacts on the host..
-        run: |
-          ls -al "${PWD}/artifacts"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: build_b
-          path: artifacts
-  
-  release:
+  build:
     runs-on: ubuntu-latest
-    needs: [build_job_a, build_job_b]
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
     steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-        merge-multiple: true
-        path: binaries
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-    - name: Upload binaries to releases 
-      uses: softprops/action-gh-release@v1
-      with:
-        draft: false
-        files: |
-          binaries/*x86_64*
-          binaries/*aarch64*
-        generate_release_notes: true
-        tag_name: proot-${{ steps.date.outputs.date }}
+      - name: Set up QEMU (for arm64)
+        if: matrix.arch == 'arm64'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Build static binary inside Alpine container
+        run: |
+          docker run --rm \
+            -v /tmp/tdlight-build:/workspace \
+            -w /workspace \
+            --platform linux/${{ matrix.arch }} \
+            alpine:latest /bin/sh -c '
+            apk add --no-cache alpine-sdk cmake git gperf openssl-libs-static zlib-static
+            git clone --recursive https://github.com/tdlight-team/tdlight-telegram-bot-api.git src
+            cd src
+            mkdir build && cd build
+            cmake -DCMAKE_BUILD_TYPE=Release \
+                  -DCMAKE_EXE_LINKER_FLAGS="-static" \
+                  -DOPENSSL_USE_STATIC_LIBS=ON \
+                  -DZLIB_USE_STATIC_LIBS=ON \
+                  -DTD_ENABLE_LTO=ON \
+                  ..
+            cmake --build . --target install -j$(nproc)
+            cp /workspace/src/bin/telegram-bot-api /workspace/telegram-bot-api
+            '
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tdlight-botapi-static-${{ matrix.arch }}
+          path: /tmp/tdlight-build/telegram-bot-api

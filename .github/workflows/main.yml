@@ -23,7 +23,10 @@ jobs:
             -w /workspace \
             --platform linux/${{ matrix.arch }} \
             alpine:latest /bin/sh -c '
-            apk add --no-cache alpine-sdk cmake git gperf openssl-libs-static zlib-static
+            apk add --no-cache alpine-sdk cmake git gperf \
+              openssl-dev openssl-libs-static \
+              zlib-dev zlib-static \
+              linux-headers
             git clone --recursive https://github.com/tdlight-team/tdlight-telegram-bot-api.git src
             cd src
             mkdir build && cd build
@@ -36,7 +39,6 @@ jobs:
             cmake --build . --target install -j$(nproc)
             cp /workspace/src/bin/telegram-bot-api /workspace/telegram-bot-api
             '
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

@@ -31,20 +31,47 @@ jobs:
             cd src
             mkdir build && cd build
             cmake -DCMAKE_BUILD_TYPE=Release \
-                  -DCMAKE_EXE_LINKER_FLAGS="-static" \
+                  -DCMAKE_EXE_LINKER_FLAGS="-static -s" \
                   -DOPENSSL_USE_STATIC_LIBS=ON \
                   -DZLIB_USE_STATIC_LIBS=ON \
                   -DTD_ENABLE_LTO=ON \
                   ..
             cmake --build . --target install -j$(nproc)
-            cp /usr/local/bin/telegram-bot-api /workspace/telegram-bot-api
+            cp /usr/local/bin/telegram-bot-api /workspace/telegram-bot-api-${{ matrix.arch }}
             '
-      - name: check executable
+
+      - name: Check executable
         run: |
-          ldd /tmp/tdlight-build/telegram-bot-api
-          file /tmp/tdlight-build/telegram-bot-api
+          ldd /tmp/tdlight-build/telegram-bot-api-${{ matrix.arch }} || true
+          file /tmp/tdlight-build/telegram-bot-api-${{ matrix.arch }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: tdlight-botapi-static-${{ matrix.arch }}
-          path: /tmp/tdlight-build/telegram-bot-api
+          path: /tmp/tdlight-build/telegram-bot-api-${{ matrix.arch }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: List artifacts
+        run: ls -lh dist/
+
+      - name: Create or update rolling release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: tg-bot-api-latest
+          name: "TDLight Bot API (latest)"
+          body: "Static builds for amd64 and arm64. Updated on every push to `tg-bot-api`."
+          prerelease: false
+          make_latest: true
+          files: dist/*
